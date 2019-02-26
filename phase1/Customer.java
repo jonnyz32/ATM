@@ -1,6 +1,6 @@
 
 // TODO replace Object with Account after it is created
-public class User {
+public class Customer {
 	private ArrayList<Object> accounts;
 	private String login;
 	private String password;
@@ -25,5 +25,5 @@ public class User {
 	public void setPassword(String password){}
 	public void undoMostRecentTransaction(Object acc){}
 	//
-	
+
 }
