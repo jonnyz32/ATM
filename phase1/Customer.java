@@ -1,14 +1,41 @@
 
+// needs from account
+/*
+* has method
+* double for amount
+* last transaction variable
+* revert transaction method
+* getSummary()
+* mostRecentTransaction()
+* getDateOfCreation()
+* ALSO - need getDeposits() and storeOutgoingMoney() in the text class
+* */
+
+
 // TODO replace Object with Account after it is created
 public class Customer {
 	private ArrayList<Object> accounts;
 	private String login;
 	private String password;
 
-	public String getFullSummary(){}
-	public String getMostRecentTransaction(Object acc){}
-	public String getDateOfCreation(Object acc){}
-	public double getNetTotal(){}
+	public String getFullSummary(){
+		String summary = "";
+		for (Account acc : accounts){
+			summary += acc.getSummary();
+		}
+		return summary;
+	}
+
+	public String getMostRecentTransaction(Object acc){
+		return acc.mostRecentTransaction();
+	}
+
+	public String getDateOfCreation(Object acc){
+		return acc.getDateOfCreation();
+	}
+	public double getNetTotal(){
+		// TODO
+	}
 
 
 	public String getLogin(){
@@ -58,7 +85,10 @@ public class Customer {
 			acc.transfer_in(cheque);
 		}
 	}
-	public void requestAccountCreation(){}
+
+	public void requestAccountCreation(){
+		// TODO use Observer strategy with bank manager
+	}
 
 	// the following methods are avaliable only for BankManager
 	public void setLogin(String login)(){
