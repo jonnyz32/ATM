@@ -1,6 +1,6 @@
 // A class for the credit line
 
-public class CreditLineAcc {
+public class CreditLineAcc implements AccountInterface {
     private int balance;
     private boolean owes;
 

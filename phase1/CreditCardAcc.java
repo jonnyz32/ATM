@@ -1,6 +1,6 @@
 // A super class for debt accounts.
 
-public class CreditCardAcc {
+public class CreditCardAcc implements AccountInterface {
     private int balance;
     private boolean owes;
 
@@ -28,4 +28,7 @@ public class CreditCardAcc {
     public void transfer_in(int amount) {
         this.balance += amount;
     }
+
+    public void transfer_out(int amount) {}
+
 }
