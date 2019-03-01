@@ -18,14 +18,10 @@ public class ATM_machine extends TextInterface{
         for (int i = 0; i < users.size(); i++){
             if(users.get(i).getUsername() == user && users.get(i).getPassword() == pass){
                 System.out.println("Success!");
-                user.get(i).showMenu();
+                users.get(i).showMenu();
             }
         }
     }
-
-
-
-
 
     public void sendAlert(){} // stores a warning that the amount of a certain bill is too low in a text file, alerts.txt
 
