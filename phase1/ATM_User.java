@@ -15,7 +15,7 @@ public class ATM_User{
     /**
      *  Initializes ATM_User.
      */
-    public void ATM_User(String username, String password){
+    public ATM_User(String username, String password){
         this.username = username;
         this.password = password;
     }
