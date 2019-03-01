@@ -13,6 +13,14 @@ public class ATM_User{
     private String password;
 
     /**
+     *  Initializes ATM_User.
+     */
+    public void ATM_User(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
      * Changes the user's password.
      */
     public void setPassword(String password){
