@@ -47,8 +47,12 @@ public class Customer extends ATM_User {
 		for (AccountInterface acc : accounts) {
 			if (acc.getOwes()) {
 				// TODO
+				totalDebt += acc.getBalance();
+			} else {
+				totalAsset += acc.getBalance();
 			}
 		}
+		return totalAsset - totalDebt;
 	}
 
 
@@ -57,7 +61,7 @@ public class Customer extends ATM_User {
 	}
 	public boolean transferBetweenAccounts(AccountInterface from, AccountInterface to, double amount){
 		// Returns true if transfer went through, false otherwise.
-		if (from.has(amount)) {
+		if (has(from, amount)) {
 			to.transfer_in(amount);
 			return true;
 		}
@@ -71,7 +75,7 @@ public class Customer extends ATM_User {
 
 	public boolean withdrawFromAccount(AccountInterface acc, double amount){
 		// Returns true if withdraw was succesful, false otherwise/
-		if (acc.has(amount)){
+		if (has(acc, amount)){
 			acc.transfer_out(amount);
 			return true;
 		}
@@ -79,7 +83,7 @@ public class Customer extends ATM_User {
 	}
 
 	public boolean payBill(AccountInterface acc, double amount){
-		if (acc.has(amount)){
+		if (has(acc, amount)){
 			acc.transfer_out(amount);
 			// TODO add in the save to text file functionality
 			textFilemanager.storeOutgoingMoney(amount);
@@ -107,4 +111,9 @@ public class Customer extends ATM_User {
 	}
 	//
 
+
+	// Helper Method
+	public boolean has(AccountInterface acc, double amount) {
+		return acc.getBalance() - amount >= 0;
+	}
 }
