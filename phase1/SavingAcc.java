@@ -1,6 +1,7 @@
 // A class for savings accounts
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SavingAcc implements AccountInterface {
     private ArrayList<double[]> past_trans;
@@ -41,8 +42,25 @@ public class SavingAcc implements AccountInterface {
         latest_trans = curr_trans;
     }
 
-
     public double[] getLatestTrans() {
         return latest_trans;
     }
+
+    public void revertTransaction() {
+        double[] revert_trans = past_trans.get(past_trans.size() - 1);
+        this.setBalance(revert_trans[0]);
+        latest_trans = past_trans.get(past_trans.size() - 2);
+        past_trans.remove(past_trans.size() - 1);
+    }
+
+    public String getSummary() {
+        String lt = Arrays.toString(latest_trans);
+        return "Latest Transaction: " + lt + "\r\n" +
+                "Balance:" + balance;
+    }
+
+    public boolean checkAmount(double amount) {
+        return amount == balance;
+    }
+
 }

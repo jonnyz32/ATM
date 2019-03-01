@@ -19,6 +19,15 @@ public interface AccountInterface {
     // Subtract from the balance
     void transfer_out(double amount);
 
+    // Returns the latest transaction.
     double[] getLatestTrans();
 
+    // Revert last transaction.
+    void revertTransaction();
+
+    //Get a string representation
+    String getSummary();
+
+    // Check if balance is equal to amount
+    boolean checkAmount(double amount);
 }
