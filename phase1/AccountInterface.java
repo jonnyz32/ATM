@@ -1,5 +1,8 @@
 // An abstract Class for Acounts
 
+
+import java.util.Date;
+
 public interface AccountInterface {
 
 
@@ -30,4 +33,7 @@ public interface AccountInterface {
 
     // Check if balance is equal to amount
     boolean checkAmount(double amount);
+
+    // Get date account was created.
+    Date getCreation_date();
 }

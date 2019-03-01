@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class CreditLineAcc implements AccountInterface {
 
@@ -9,11 +10,13 @@ public class CreditLineAcc implements AccountInterface {
     private double[] latest_trans;
     private double balance;
     private boolean owes;
+    private Date creation_date;
 
     public CreditLineAcc() {
         past_trans = new ArrayList<>();
         balance = 0;
         owes = false;
+        creation_date = new Date();
     }
 
     public void setBalance(double balance) {
@@ -71,4 +74,7 @@ public class CreditLineAcc implements AccountInterface {
         return amount == balance;
     }
 
+    public Date getCreation_date() {
+        return creation_date;
+    }
 }
