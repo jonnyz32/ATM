@@ -2,9 +2,8 @@
 
 public class BankManager extends ATM_User{
 
-    public BankManager(String username, String password, ATM_machine machine){
+    public BankManager(String username, String password){
         super(username, password);
-        this.machine = machine;
     }
 
     /**
