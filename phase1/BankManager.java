@@ -1,5 +1,7 @@
 //The bank manager class
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class BankManager extends ATM_User{
 
@@ -8,10 +10,11 @@ public class BankManager extends ATM_User{
     }
 
     /**
-     * Sets the ATM's date to the one specified.
+     * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
     public void setSystemDate(int year, int month, int day){
-        Date temp = ATM_machine.getTime();
+        Calendar time = new GregorianCalendar(year, month-1, day);
+        ATM_machine.setTime(time);
     }
 
     /**
