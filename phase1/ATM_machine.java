@@ -1,24 +1,47 @@
 import javax.xml.soap.Text;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+
+
 import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+
 public class ATM_machine extends TextInterface{
 
-    public static ArrayList<ATM_User> users = new ArrayList<ATM_User>();
-    private int numFifties = 100;
-    private int numTwenties = 250;
-    private int numTens = 500;
-    private int numFives = 1000;
+    static ArrayList<ATM_User> users = new ArrayList<ATM_User>();
+    private static int numFifties = 100;
+    private static int numTwenties = 250;
+    private static int numTens = 500;
+    private static int numFives = 1000;
+    private static File userFile;
 
-    public Date date = new Date();
+    private static Date date = new Date();
 
-    //protected file_manager FileManager;
     public static void main (String[] args){
+        userFile = new File("group_0331\\phase1\\users.txt");
+        try {
+            FileOutputStream file = new FileOutputStream(userFile);
+            ObjectOutputStream objectStream = new ObjectOutputStream(file);
+            ATM_User default_user = new ATM_User("lilvlad", "1234");
+            users.add(default_user);
+            objectStream.writeObject(users);
+            objectStream.close();
+        }
+        catch (IOException x){
+            x.printStackTrace();
+        }
+        try {
+            FileInputStream file = new FileInputStream(userFile);
+            ObjectInputStream objectStream = new ObjectInputStream(file);
+
+            users = (ArrayList) objectStream.readObject();
+            objectStream.close();
+        }
+        catch (IOException | ClassNotFoundException x){
+            x.printStackTrace();
+        }
         Scanner s = new Scanner(System.in);
         System.out.println("Input your username");
         String user = s.nextLine();
@@ -32,7 +55,7 @@ public class ATM_machine extends TextInterface{
         }
     }
 
-    public void checkForAlert(){
+    static void checkForAlert(){
         try{
             FileWriter writer = new FileWriter("alerts.txt");
 
@@ -54,31 +77,31 @@ public class ATM_machine extends TextInterface{
         }
     }
 
-    public Date getTime(){return date;}
+    static Date getTime(){return date;}
 
-    public void setTime(Date newDate){this.date = newDate;}
+    static void setTime(Date newDate){date = newDate;}
 
-    public int getNumFifties(){return numFifties;}
+    static int getNumFifties(){return numFifties;}
 
-    public int getNumTwenties(){return numTwenties;}
+    static int getNumTwenties(){return numTwenties;}
 
-    public int getNumTens(){return numTens;}
+    static int getNumTens(){return numTens;}
 
-    public int getNumFives(){return numFives;}
+    static int getNumFives(){return numFives;}
 
-    public void setFifties(int numBills){
+    static void setFifties(int numBills){
         numFifties = numBills;
     }
 
-    public void setTwenties(int numBills){
+    static void setTwenties(int numBills){
         numTwenties = numBills;
     }
 
-    public void setTens(int numBills){
+    static void setTens(int numBills){
         numTens = numBills;
     }
 
-    public void setFives(int numBills){
+    static void setFives(int numBills){
         numFives = numBills;
     }
 }
