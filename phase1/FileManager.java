@@ -1,6 +1,7 @@
 import java.io.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class FileManager {
@@ -45,6 +46,28 @@ public class FileManager {
         }
     }
 
+     ArrayList<Double> readDeposits(File depositFile){
+         ArrayList<Double> depositList = new ArrayList<>();
+
+         try {
+            FileReader file = new FileReader(depositFile);
+            BufferedReader reader = new BufferedReader(file);
+            double depositAmount = 0.0;
+            String temp = "0.0";
+            while (temp != null){
+                depositList.add(Double.parseDouble(temp));
+                temp = reader.readLine();
+            }
+
+        } catch (IOException e) {
+            System.out.println("File could not be found");
+
+            return null;
+        }
+        depositList.remove(0);
+        return depositList;
+    }
+
     private double getLatestTransactions(){
         try {
             FileReader file = new FileReader(allTransactions);
@@ -82,6 +105,7 @@ public class FileManager {
         f.withdrawMoney(123.45, d);
         System.out.println("Ending balance is " + f.getBalance());
         System.out.println(f.getLatestTransactions());
+        System.out.println(f.readDeposits(f.balanceHistory));
 
     }
 
