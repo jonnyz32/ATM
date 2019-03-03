@@ -2,6 +2,11 @@
 
 public class BankManager extends ATM_User{
 
+    public BankManager(String username, String password, ATM_machine machine){
+        super(username, password);
+        this.machine = machine;
+    }
+
     /**
      * Sets the ATM's date to the one specified.
      */
