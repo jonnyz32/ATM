@@ -1,22 +1,34 @@
 
-
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer extends ATM_User {
 	private ArrayList<AccountInterface> accounts;
-	private FileManager textFileManager;
+	private ArrayList<FileManager> textFileManagers;
 
-	public Customer(String username, String password, FileManager textFileManager){
+	// Initialize new customer
+	public Customer(String username, String password){
 		super(username, password);
-		this.textFileManager = textFileManager;
+		accounts = new ArrayList<>();
+		textFileManagers = new ArrayList<>();
+	}
+
+	// Add an account and corresponding FileManager
+	public void addAccount(AccountInterface account, String accountType) {
+		accounts.add(account);
+		textFileManagers.add(new FileManager(getUsername(), accountType));
+	}
+
+	public boolean checkIfAccountExists(AccountInterface account) {
+		return (accounts.indexOf(account) != -1);
 	}
 
 	public String getFullSummary(){
 		String summary = "";
 		for (AccountInterface acc : accounts){
 			summary += acc.getSummary();
+			summary += "\n";
 		}
 		return summary;
 	}
@@ -48,8 +60,12 @@ public class Customer extends ATM_User {
 	public double viewAccountBalance(AccountInterface acc){
 		return acc.getBalance();
 	}
+
 	public boolean transferBetweenAccounts(AccountInterface from, AccountInterface to, double amount){
 		// Returns true if transfer went through, false otherwise.
+		int index = accounts.indexOf(from);
+		if (index == -1){ return false; }
+
 		if (has(from, amount)) {
 			to.transfer_in(amount);
 			return true;
@@ -63,7 +79,10 @@ public class Customer extends ATM_User {
 	}
 
 	public boolean withdrawFromAccount(AccountInterface acc, double amount){
-		// Returns true if withdraw was succesful, false otherwise/
+		// Returns true if withdraw was successful, false otherwise.
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+
 		if (has(acc, amount)){
 			acc.transfer_out(amount);
 			return true;
@@ -71,22 +90,36 @@ public class Customer extends ATM_User {
 		return false;
 	}
 
-	public boolean payBill(AccountInterface acc, double amount){
+	public boolean payBill(AccountInterface acc, double amount, Date date){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+
 		if (has(acc, amount)){
 			acc.transfer_out(amount);
-			// TODO add in the save to text file functionality
-			textFilemanager.storeOutgoingMoney(amount);
+			textFileManagers.get(index).withdrawMoney(amount, date);
 			return true;
 		}
 		return false;
 	}
 
-	public void depositMoney(AccountInterface acc, double money){
-		// TODO add in the text file parser to bool
-		ArrayList<Double> moneyIn = textFileManager.getDeposits('deposits.txt');
+	public boolean depositMoney(AccountInterface acc, double money){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+		else {
+			acc.transfer_in(money);
+			return true;
+		}
+	}
+
+	public boolean depositFromFile(AccountInterface acc){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+
+		ArrayList<Double> moneyIn = textFileManagers.get(index).getDeposits('deposits.txt');
 		for (double cheque : moneyIn){
 			acc.transfer_in(cheque);
 		}
+		return true;
 	}
 
 	public void requestAccountCreation(){
@@ -95,10 +128,15 @@ public class Customer extends ATM_User {
 
 	}
 
-	public void undoMostRecentTransaction(AccountInterface acc){
-		acc.revertTransaction();
+	public boolean undoMostRecentTransaction(AccountInterface acc){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+
+		else {
+			acc.revertTransaction();
+			return true;
+		}
 	}
-	//
 
 
 	// Helper Method
