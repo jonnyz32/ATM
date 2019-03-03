@@ -22,17 +22,6 @@ public class ATM_machine extends TextInterface{
     public static void main (String[] args){
         userFile = new File("group_0331\\phase1\\users.txt");
         try {
-            FileOutputStream file = new FileOutputStream(userFile);
-            ObjectOutputStream objectStream = new ObjectOutputStream(file);
-            ATM_User default_user = new ATM_User("lilvlad", "1234");
-            users.add(default_user);
-            objectStream.writeObject(users);
-            objectStream.close();
-        }
-        catch (IOException x){
-            x.printStackTrace();
-        }
-        try {
             FileInputStream file = new FileInputStream(userFile);
             ObjectInputStream objectStream = new ObjectInputStream(file);
 
