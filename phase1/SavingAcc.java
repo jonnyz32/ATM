@@ -2,15 +2,18 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class SavingAcc implements AccountInterface {
     private ArrayList<double[]> past_trans;
     private double[] latest_trans;
     private double balance;
+    private Date creation_date;
 
     public SavingAcc() {
         past_trans = new ArrayList<>();
         balance = 0;
+        creation_date = new Date();
     }
 
     public void setBalance(double balance) {
@@ -61,6 +64,10 @@ public class SavingAcc implements AccountInterface {
 
     public boolean checkAmount(double amount) {
         return amount == balance;
+    }
+
+    public Date getCreation_date() {
+        return creation_date;
     }
 
 }
