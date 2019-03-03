@@ -1,6 +1,8 @@
 //ATM_User class
 
-public class ATM_User{
+import java.io.Serializable;
+
+public class ATM_User extends TextInterface implements Serializable {
 
     /**
      * The user's username.
