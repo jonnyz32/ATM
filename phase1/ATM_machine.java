@@ -10,12 +10,12 @@ import java.util.ArrayList;
 public class ATM_machine extends TextInterface{
 
     public static ArrayList<ATM_User> users = new ArrayList<ATM_User>();
-    private int numFifties = 100;
-    private int numTwenties = 250;
-    private int numTens = 500;
-    private int numFives = 1000;
+    private static int numFifties = 100;
+    private static int numTwenties = 250;
+    private static int numTens = 500;
+    private static int numFives = 1000;
 
-    public Date date = new Date();
+    public static Date date = new Date();
 
     //protected file_manager FileManager;
     public static void main (String[] args){
@@ -32,7 +32,7 @@ public class ATM_machine extends TextInterface{
         }
     }
 
-    public void checkForAlert(){
+    public static void checkForAlert(){
         try{
             FileWriter writer = new FileWriter("alerts.txt");
 
@@ -54,31 +54,31 @@ public class ATM_machine extends TextInterface{
         }
     }
 
-    public Date getTime(){return date;}
+    public static Date getTime(){return date;}
 
-    public void setTime(Date newDate){this.date = newDate;}
+    public static void setTime(Date newDate){this.date = newDate;}
 
-    public int getNumFifties(){return numFifties;}
+    public static int getNumFifties(){return numFifties;}
 
-    public int getNumTwenties(){return numTwenties;}
+    public static int getNumTwenties(){return numTwenties;}
 
-    public int getNumTens(){return numTens;}
+    public static int getNumTens(){return numTens;}
 
-    public int getNumFives(){return numFives;}
+    public static int getNumFives(){return numFives;}
 
-    public void setFifties(int numBills){
+    public static void setFifties(int numBills){
         numFifties = numBills;
     }
 
-    public void setTwenties(int numBills){
+    public static void setTwenties(int numBills){
         numTwenties = numBills;
     }
 
-    public void setTens(int numBills){
+    public static void setTens(int numBills){
         numTens = numBills;
     }
 
-    public void setFives(int numBills){
+    public static void setFives(int numBills){
         numFives = numBills;
     }
 }
