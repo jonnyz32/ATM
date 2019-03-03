@@ -3,10 +3,7 @@ import java.io.*;
 
 
 import java.lang.reflect.Array;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 
 public class ATM_machine extends TextInterface{
@@ -18,7 +15,7 @@ public class ATM_machine extends TextInterface{
     private static int numFives = 1000;
     private static File userFile;
 
-    private static Calendar date = new Date();
+    private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
         userFile = new File("group_0331\\phase1\\users.txt");
