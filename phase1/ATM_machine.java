@@ -105,4 +105,13 @@ public class ATM_machine extends TextInterface {
     static void setFives(int numBills){
         numFives = numBills;
     }
+
+    static ATM_User getUser(String username){
+        for(ATM_User user: users){
+            if (user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
 }
