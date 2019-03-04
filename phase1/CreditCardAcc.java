@@ -1,9 +1,6 @@
 // A super class for debt accounts.
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class CreditCardAcc implements AccountInterface {
 
@@ -20,7 +17,7 @@ public class CreditCardAcc implements AccountInterface {
         past_trans = new ArrayList<>();
         balance = 0;
         owes = false;
-        creation_date = new Date();
+        creation_date = new GregorianCalendar();
     }
 
     public void setBalance(double balance) {

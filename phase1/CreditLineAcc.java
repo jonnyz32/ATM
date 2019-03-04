@@ -1,9 +1,6 @@
 // A class for the credit line
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class CreditLineAcc implements AccountInterface {
 
@@ -17,7 +14,7 @@ public class CreditLineAcc implements AccountInterface {
         past_trans = new ArrayList<>();
         balance = 0;
         owes = false;
-        creation_date = new Date();
+        creation_date = new GregorianCalendar();
     }
 
     public void setBalance(double balance) {
