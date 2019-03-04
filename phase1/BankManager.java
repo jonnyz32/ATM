@@ -1,4 +1,7 @@
 //The bank manager class
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class BankManager extends ATM_User{
 
@@ -7,15 +10,40 @@ public class BankManager extends ATM_User{
     }
 
     /**
-     * Sets the ATM's date to the one specified.
+     * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
     public void setSystemDate(int year, int month, int day){
+        Calendar time = new GregorianCalendar(year, month-1, day);
+        ATM_machine.setTime(time);
     }
 
     /**
      * Adds num bills of the specified type to the machine.
+     * @return Returns the new number of bills, or -1 if the bill type cannot be found.
      */
-    public void addBills(int type, int num){
+    public int addBills(int type, int num){
+        int temp;
+        if (type==5){
+            temp = ATM_machine.getNumFives();
+            ATM_machine.setFives(temp + num);
+            return temp+num;
+        }
+        if (type==10){
+            temp = ATM_machine.getNumTens();
+            ATM_machine.setTens(temp + num);
+            return temp+num;
+        }
+        if (type==20){
+            temp = ATM_machine.getNumTwenties();
+            ATM_machine.setTwenties(temp + num);
+            return temp+num;
+        }
+        if (type==50){
+            temp = ATM_machine.getNumFifties();
+            ATM_machine.setFifties(temp + num);
+            return temp+num;
+        }
+        return -1;
     }
 
     /**
