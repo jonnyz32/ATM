@@ -2,7 +2,6 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Customer extends ATM_User {
 	private ArrayList<AccountInterface> accounts;
@@ -87,7 +86,7 @@ public class Customer extends ATM_User {
 		return false;
 	}
 
-	public boolean payBill(AccountInterface acc, double amount, Date date){
+	public boolean payBill(AccountInterface acc, double amount, Calendar date){
 		int index = accounts.indexOf(acc);
 		if (index == -1){ return false; }
 
