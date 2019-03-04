@@ -106,6 +106,10 @@ public class ATM_machine extends TextInterface {
         numFives = numBills;
     }
 
+    static void addCustomer(String username, String password){
+        users.add(new Customer(username, password));
+    }
+
     static ATM_User getUser(String username){
         for(ATM_User user: users){
             if (user.getUsername().equals(username)){
