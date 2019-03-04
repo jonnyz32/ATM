@@ -6,9 +6,11 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 
-public class ATM_machine extends TextInterface{
+public class ATM_machine extends TextInterface {
 
     static ArrayList<ATM_User> users = new ArrayList<ATM_User>();
+    //TODO: Merge these to single array, so we don't have to deal with 4 seperate variables?
+    //Then just have final ints for the array positions, ie numFifites -> bills[FIFTY]
     private static int numFifties = 100;
     private static int numTwenties = 250;
     private static int numTens = 500;
@@ -29,6 +31,17 @@ public class ATM_machine extends TextInterface{
         catch (IOException | ClassNotFoundException x){
             x.printStackTrace();
         }
+        addAction(1, ()->logIn(), "Log In");
+        showMenu();
+    }
+
+    public void exit() {
+        active = false;
+        //TODO: If it's the 1st day of a month, give interest on savings accounts
+        //TODO: Add proper on-exit behaviors.
+    }
+
+    static void logIn() {
         Scanner s = new Scanner(System.in);
         System.out.println("Input your username");
         String user = s.nextLine();
@@ -43,6 +56,7 @@ public class ATM_machine extends TextInterface{
     }
 
     static void checkForAlert(){
+        //SHOULD NOT HAVE FileWriters HERE! THAT'S FileManager's JOB!
         try{
             FileWriter writer = new FileWriter("alerts.txt");
 
@@ -69,25 +83,20 @@ public class ATM_machine extends TextInterface{
     static void setTime(Calendar newDate){date = newDate;}
 
     static int getNumFifties(){return numFifties;}
-
     static int getNumTwenties(){return numTwenties;}
-
     static int getNumTens(){return numTens;}
-
     static int getNumFives(){return numFives;}
 
+    //These methods will be called from inside the Manager class.
     static void setFifties(int numBills){
         numFifties = numBills;
     }
-
     static void setTwenties(int numBills){
         numTwenties = numBills;
     }
-
     static void setTens(int numBills){
         numTens = numBills;
     }
-
     static void setFives(int numBills){
         numFives = numBills;
     }
