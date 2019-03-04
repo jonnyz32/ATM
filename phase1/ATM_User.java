@@ -18,6 +18,7 @@ public class ATM_User extends TextInterface implements Serializable {
      *  Initializes ATM_User.
      */
     public ATM_User(String username, String password){
+        super()
         this.username = username;
         this.password = password;
     }

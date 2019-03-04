@@ -5,41 +5,39 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Customer extends ATM_User {
-	private ArrayList<AccountInterface> accounts;
-	private ArrayList<FileManager> textFileManagers;
+	private ArrayList<GenericAccount> accounts;
 
 	// Initialize new customer
 	public Customer(String username, String password){
 		super(username, password);
-		accounts = new ArrayList<>();
-		textFileManagers = new ArrayList<>();
+		accounts = new ArrayList<GenericAccount>();
+		addAction(1, ()->getFullSummary(), "Get account summary");
+		addAction(2, ()->requestAccount(), "Request account creation");
+		//TODO: Access each account they have
 	}
 
-	// Add an account and corresponding FileManager
-	public void addAccount(AccountInterface account, String accountType) {
+	public void requestAccount(){
+		Scanner s = new Scanner(System.in);
+		System.out.println("What kind of account?"); //TODO: list their options
+		String accountType = s.nextLine();
+		BankManager.requestAccount(this.getUsername(), accountType);
+	}
+
+	public void addAccount(GenericAccount account) {
 		accounts.add(account);
-		textFileManagers.add(new FileManager(getUsername(), accountType));
 	}
 
-	public boolean checkIfAccountExists(AccountInterface account) {
-		return (accounts.indexOf(account) != -1);
+	public void viewAccount(GenericAccount account) {
+		account.showMenu();
 	}
 
-	public String getFullSummary(){
+	public void getFullSummary(){
 		String summary = "";
 		for (AccountInterface acc : accounts){
 			summary += acc.getSummary();
 			summary += "\n";
 		}
-		return summary;
-	}
-
-	public double[] getMostRecentTransaction(AccountInterface acc){
-		return acc.getLatestTrans();
-	}
-
-	public Calendar getDateOfCreation(AccountInterface acc){
-		return acc.getCreation_date();
+		System.out.println(summary);
 	}
 
 	//
@@ -59,10 +57,7 @@ public class Customer extends ATM_User {
 	}
 
 
-	public double viewAccountBalance(AccountInterface acc){
-		return acc.getBalance();
-	}
-
+	//TODO: Migrate down to Account level?
 	public boolean transferBetweenAccounts(AccountInterface from, AccountInterface to, double amount){
 		// Returns true if transfer went through, false otherwise.
 		int index = accounts.indexOf(from);
@@ -89,6 +84,7 @@ public class Customer extends ATM_User {
 		return false;
 	}
 
+	//Does this have to be local? It decreases balance...
 	public boolean payBill(AccountInterface acc, double amount, Date date){
 		int index = accounts.indexOf(acc);
 		if (index == -1){ return false; }
@@ -119,19 +115,5 @@ public class Customer extends ATM_User {
 			acc.transfer_in(cheque);
 		}
 		return true;
-	}
-
-	public void requestAccountCreation(String accountType){
-		BankManager.requestAccount(this.getUsername(), accountType);
-	}
-
-	public void undoMostRecentTransaction(AccountInterface acc){
-		acc.revertTransaction();
-	}
-
-
-	// Helper Method
-	public boolean has(AccountInterface acc, double amount) {
-		return acc.getBalance() - amount >= 0;
 	}
 }

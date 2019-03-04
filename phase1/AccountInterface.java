@@ -4,27 +4,37 @@
 import java.util.Calendar;
 import java.util.Date;
 
-public interface AccountInterface {
+public class GenericAccount {
 
+    double balance;
+    boolean asset;
 
     // Set the balance of the account
-    void setBalance(double balance);
+    void setBalance(double balance) {
+        this.balance = balance;
+    }
 
     // True if customer owes money, false otherwise
-    void setOwes(boolean owes);
+    void setAsset(boolean asset) {
+        this.asset = asset;
+    }
 
-    double getBalance();
+    double getBalance() {
+        return balance;
+    }
 
-    boolean getOwes();
+    boolean isAsset() {
+        return asset;
+    }
 
     // Add to the balance
-    void transfer_in(double amount);
+    void transferIn(double amount);
 
     // Subtract from the balance
-    void transfer_out(double amount);
+    void transferOut(double amount);
 
     // Returns the latest transaction.
-    double[] getLatestTrans();
+    double getLatestTransaction();
 
     // Revert last transaction.
     void revertTransaction();
