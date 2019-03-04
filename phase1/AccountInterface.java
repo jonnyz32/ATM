@@ -1,6 +1,7 @@
 // An abstract Class for Acounts
 
 
+import java.util.Calendar;
 import java.util.Date;
 
 public interface AccountInterface {
@@ -35,5 +36,5 @@ public interface AccountInterface {
     boolean checkAmount(double amount);
 
     // Get date account was created.
-    Date getCreation_date();
+    Calendar getCreation_date();
 }

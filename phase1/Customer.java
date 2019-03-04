@@ -1,225 +1,137 @@
-////<<<<<<< HEAD
-////
-////// needs from account
-/////*
-////* has method
-////* double for amount
-////* last transaction variable
-////* revert transaction method
-////* getSummary()
-////* mostRecentTransaction()
-////* getDateOfCreation()
-////* ALSO - need getDeposits() and storeOutgoingMoney() in the text class
-////* */
-////
-////
-////// TODO replace Object with Account after it is created
-////public class Customer {
-////	private ArrayList<Object> accounts;
-////	private String login;
-////	private String password;
-////
-////	public String getFullSummary(){
-////		String summary = "";
-////		for (Account acc : accounts){
-////			summary += acc.getSummary();
-////		}
-////		return summary;
-////	}
-////
-////	public String getMostRecentTransaction(Object acc){
-////		return acc.mostRecentTransaction();
-////	}
-////
-////	public String getDateOfCreation(Object acc){
-////		return acc.getDateOfCreation();
-////	}
-////	public double getNetTotal(){
-////		// TODO
-////	}
-////
-////
-////	public String getLogin(){
-////		return login;
-////	}
-////
-////	public double viewAccountBalance(Object acc){
-////		return acc.getBalance();
-////	}
-////	public boolean transferBetweenAccounts(Object from, Object to, double amount){
-////		// Returns true if transfer went through, false otherwise.
-////		if (from.has(amount)) {
-////			to.transfer_in(amount);
-////			return true;
-////		}
-////		return false;
-////	}
-////
-////	// Same code for transfering between individual accounts and between two different people
-////	public void transferToOther(Object myAcc, Object otherAcc, double amount){
-////		return transferBetweenAccounts(myAcc, otherAcc, amount);
-////	}
-////
-////	public boolean withdrawFromAccount(Object acc, double amount){
-////		// Returns true if withdraw was succesful, false otherwise/
-////		if (acc.has(amount)){
-////			acc.transfer_out(amount);
-////			return true
-////		}
-////		return false;
-////	}
-////
-////	public void payBill(Object acc, double amount){
-////		if (acc.has(amount)){
-////			acc.transfer_out(amount);
-////			// TODO add in the save to text file functionality
-////			storeOutgoingMoney(amount);
-////			return true;
-////		}
-////		return false;
-////	}
-////
-////	public void depositMoney(Object acc, double money){
-////		// TODO add in the text file parser to bool
-////		ArrayList<double> moneyIn = getDeposits('deposits.txt');
-////		for (double cheque : moneyIn){
-////			acc.transfer_in(cheque);
-////		}
-////	}
-////
-////	public void requestAccountCreation(){
-////		// TODO use Observer strategy with bank manager
-////	}
-////
-////	// the following methods are avaliable only for BankManager
-////	public void setLogin(String login)(){
-////		this.login = login;
-////	}
-////	public void setPassword(String password){
-////		this.password = password;
-////	}
-////	public void undoMostRecentTransaction(Object acc){}
-////	//
-////
-////}
-////=======
-//
-//// needs from account
-///*
-//* has method
-//* double for amount
-//* last transaction variable
-//* revert transaction method
-//* getSummary()
-//* mostRecentTransaction()
-//* getDateOfCreation()
-//* ALSO - need getDeposits() and storeOutgoingMoney() in the text class
-//* */
-//
-//import java.util.ArrayList;
-//
-//// TODO replace Object with Account after it is created
-//public class Customer extends ATM_User {
-//	private ArrayList<AccountInterface> accounts;
-//	private TextFileManager textFileManager;
-//
-//	public Customer(String username, String password, TextFileManager textFileManager){
-//		super(username, password);
-//		this.textFileManager = textFileManager;
-//	}
-//
-//	public String getFullSummary(){
-//		String summary = "";
-//		for (AccountInterface acc : accounts){
-//			summary += acc.getSummary();
-//		}
-//		return summary;
-//	}
-//
-//	public double[] getMostRecentTransaction(AccountInterface acc){
-//		return acc.getLatestTrans();
-//	}
-//
-//	//TODO
-//	public String getDateOfCreation(AccountInterface acc){
-//		return acc.getDateOfCreation();
-//	}
-//
-//	public double getNetTotal(){
-//		double totalDebt = 0;
-//		double totalAsset = 0;
-//
-//		for (AccountInterface acc : accounts) {
-//			if (acc.getOwes()) {
-//				// TODO
-//				totalDebt += acc.getBalance();
-//			} else {
-//				totalAsset += acc.getBalance();
-//			}
-//		}
-//		return totalAsset - totalDebt;
-//	}
-//
-//
-//	public double viewAccountBalance(AccountInterface acc){
-//		return acc.getBalance();
-//	}
-//	public boolean transferBetweenAccounts(AccountInterface from, AccountInterface to, double amount){
-//		// Returns true if transfer went through, false otherwise.
-//		if (has(from, amount)) {
-//			to.transfer_in(amount);
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	// Same code for transfering between individual accounts and between two different people
-//	public boolean transferToOther(AccountInterface myAcc, AccountInterface otherAcc, double amount){
-//		return transferBetweenAccounts(myAcc, otherAcc, amount);
-//	}
-//
-//	public boolean withdrawFromAccount(AccountInterface acc, double amount){
-//		// Returns true if withdraw was succesful, false otherwise/
-//		if (has(acc, amount)){
-//			acc.transfer_out(amount);
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	public boolean payBill(AccountInterface acc, double amount){
-//		if (has(acc, amount)){
-//			acc.transfer_out(amount);
-//			// TODO add in the save to text file functionality
-//			textFilemanager.storeOutgoingMoney(amount);
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	public void depositMoney(AccountInterface acc, double money){
-//		// TODO add in the text file parser to bool
-//		ArrayList<Double> moneyIn = textFileManager.getDeposits('deposits.txt');
-//		for (double cheque : moneyIn){
-//			acc.transfer_in(cheque);
-//		}
-//	}
-//
-//	public void requestAccountCreation(){
-//		// TODO write to a file
-//
-//
-//	}
-//
-//	public void undoMostRecentTransaction(AccountInterface acc){
-//		acc.revertTransaction();
-//	}
-//	//
-//
-//
-//	// Helper Method
-//	public boolean has(AccountInterface acc, double amount) {
-//		return acc.getBalance() - amount >= 0;
-//	}
-//}
-//>>>>>>> b5480c7c00f65161a324aabe70721bd168be94ca
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+public class Customer extends ATM_User {
+	private ArrayList<AccountInterface> accounts;
+	private ArrayList<FileManager> textFileManagers;
+
+	// Initialize new customer
+	public Customer(String username, String password){
+		super(username, password);
+		accounts = new ArrayList<>();
+		textFileManagers = new ArrayList<>();
+	}
+
+	// Add an account and corresponding FileManager
+	public void addAccount(AccountInterface account, String accountType) {
+		accounts.add(account);
+		textFileManagers.add(new FileManager(getUsername(), accountType));
+	}
+
+	public boolean checkIfAccountExists(AccountInterface account) {
+		return (accounts.indexOf(account) != -1);
+	}
+
+	public String getFullSummary(){
+		String summary = "";
+		for (AccountInterface acc : accounts){
+			summary += acc.getSummary();
+			summary += "\n";
+		}
+		return summary;
+	}
+
+	public double[] getMostRecentTransaction(AccountInterface acc){
+		return acc.getLatestTrans();
+	}
+
+	public Calendar getDateOfCreation(AccountInterface acc){
+		return acc.getCreation_date();
+	}
+
+	//
+	public double getNetTotal(){
+		double totalDebt = 0;
+		double totalAsset = 0;
+
+		for (AccountInterface acc : accounts) {
+			if (acc.getOwes()) {
+				// TODO
+				totalDebt += acc.getBalance();
+			} else {
+				totalAsset += acc.getBalance();
+			}
+		}
+		return totalAsset - totalDebt;
+	}
+
+
+	public double viewAccountBalance(AccountInterface acc){
+		return acc.getBalance();
+	}
+
+	public boolean transferBetweenAccounts(AccountInterface from, AccountInterface to, double amount){
+		// Returns true if transfer went through, false otherwise.
+		int index = accounts.indexOf(from);
+		if (index == -1){ return false; }
+
+		if (has(from, amount)) {
+			to.transfer_in(amount);
+			return true;
+		}
+		return false;
+	}
+
+	// Same code for transfering between individual accounts and between two different people
+	public boolean transferToOther(AccountInterface myAcc, AccountInterface otherAcc, double amount){
+		return transferBetweenAccounts(myAcc, otherAcc, amount);
+	}
+
+	public boolean withdrawFromAccount(AccountInterface acc, double amount){
+		// Returns true if withdraw was successful, false otherwise.
+		if (has(acc, amount)){
+			acc.transfer_out(amount);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean payBill(AccountInterface acc, double amount, Date date){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+
+		if (has(acc, amount)){
+			acc.transfer_out(amount);
+			textFileManagers.get(index).withdrawMoney(amount, date);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean depositMoney(AccountInterface acc, double money){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+		else {
+			acc.transfer_in(money);
+			return true;
+		}
+	}
+
+	public boolean depositFromFile(AccountInterface acc, File depositFile){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
+
+		ArrayList<Double> moneyIn = textFileManagers.get(index).readDeposits(depositFile);
+		for (double cheque : moneyIn){
+			acc.transfer_in(cheque);
+		}
+		return true;
+	}
+
+	public void requestAccountCreation(String accountType){
+		BankManager.requestAccount(this.getUsername(), accountType);
+	}
+
+	public void undoMostRecentTransaction(AccountInterface acc){
+		acc.revertTransaction();
+	}
+
+
+	// Helper Method
+	public boolean has(AccountInterface acc, double amount) {
+		return acc.getBalance() - amount >= 0;
+	}
+}
