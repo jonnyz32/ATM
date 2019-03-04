@@ -1,6 +1,7 @@
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Customer extends ATM_User {
@@ -37,11 +38,11 @@ public class Customer extends ATM_User {
 		return acc.getLatestTrans();
 	}
 
-	public Date getDateOfCreation(AccountInterface acc){
+	public Calendar getDateOfCreation(AccountInterface acc){
 		return acc.getCreation_date();
 	}
 
-	// Doesn't Work
+	//
 	public double getNetTotal(){
 		double totalDebt = 0;
 		double totalAsset = 0;
@@ -81,9 +82,6 @@ public class Customer extends ATM_User {
 
 	public boolean withdrawFromAccount(AccountInterface acc, double amount){
 		// Returns true if withdraw was successful, false otherwise.
-		int index = accounts.indexOf(acc);
-		if (index == -1){ return false; }
-
 		if (has(acc, amount)){
 			acc.transfer_out(amount);
 			return true;
@@ -113,6 +111,8 @@ public class Customer extends ATM_User {
 	}
 
 	public boolean depositFromFile(AccountInterface acc, File depositFile){
+		int index = accounts.indexOf(acc);
+		if (index == -1){ return false; }
 
 		ArrayList<Double> moneyIn = textFileManagers.get(index).readDeposits(depositFile);
 		for (double cheque : moneyIn){

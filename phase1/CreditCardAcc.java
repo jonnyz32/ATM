@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CreditCardAcc implements AccountInterface {
@@ -10,7 +11,7 @@ public class CreditCardAcc implements AccountInterface {
     private double[] latest_trans;
     private double balance;
     private boolean owes;
-    private Date creation_date;
+    private Calendar creation_date;
 
     public CreditCardAcc() {
         // Array of double arrays with two values inside each double array.
@@ -71,7 +72,7 @@ public class CreditCardAcc implements AccountInterface {
         return amount == balance;
     }
 
-    public Date getCreation_date() {
+    public Calendar getCreation_date() {
         return creation_date;
     }
 

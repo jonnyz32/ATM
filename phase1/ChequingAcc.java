@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ChequingAcc implements AccountInterface {
@@ -9,7 +10,7 @@ public class ChequingAcc implements AccountInterface {
     private double[] latest_trans;
     private double balance;
     private boolean owes;
-    private Date creation_date;
+    private Calendar creation_date;
 
     public ChequingAcc() {
         past_trans = new ArrayList<>();
@@ -73,7 +74,7 @@ public class ChequingAcc implements AccountInterface {
         return amount == balance;
     }
 
-    public Date getCreation_date() {
+    public Calendar getCreation_date() {
         return creation_date;
     }
 
