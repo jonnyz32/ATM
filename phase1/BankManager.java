@@ -1,12 +1,22 @@
 //The bank manager class
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.GregorianCalendar;
 
 public class BankManager extends ATM_User{
 
+    private static List<Pair<String, String>> requests = new ArrayList<>();
+
     public BankManager(String username, String password){
         super(username, password);
+    }
+
+    /**
+     * Adds a request for the account of the specified type.
+     */
+    static void requestAccount(String username, String type){
+        requests.add(new Pair<>(username, type));
     }
 
     /**
@@ -47,21 +57,28 @@ public class BankManager extends ATM_User{
     }
 
     /**
-     * Undoes the last transaction (excluding bill payments) performed by the indicated user.
+     * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
-    public void undoTransaction(String username){
+    public void undoTransaction(String username, String account){
+
     }
 
     /**
      * Approves a customer's account creation request.
-     * @param id The id of the request.
      */
     public void approveAccount(int id){
+        String username = requests.get(id).getLeft();
+        String account = requests.get(id).getRight();
+        if (ATM_machine.getUser(username) instanceof Customer){
+            Customer user = (Customer) ATM_machine.getUser(username);
+            user.addAccount(account);
+        }
     }
 
     /**
      * Creates a new customer with the given login credentials.
      */
     public void createNewUser(String username, String password){
+        ATM_machine.addUser(username, password);
     }
 }
