@@ -12,7 +12,7 @@ class TextInterface {
 
     public TextInterface() {
         actions = new ArrayList<Action>();
-        addAction(0, ()->exit(), "Back")
+        addAction(0, ()->exit(), "Back");
     }
 
     public void addAction(int i, Runnable a, String t) {
