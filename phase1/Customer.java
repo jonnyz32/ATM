@@ -44,18 +44,16 @@ public class Customer extends ATM_User {
 
 	//
 	public double getNetTotal(){
-		double totalDebt = 0;
-		double totalAsset = 0;
-
+		double netTotal = 0;
 		for (AccountInterface acc : accounts) {
-			if (acc.getOwes()) {
-				// TODO
-				totalDebt += acc.getBalance();
-			} else {
-				totalAsset += acc.getBalance();
+			if (acc instanceof CreditCardAcc || acc instanceof CreditLineAcc){
+				netTotal -= acc.getBalance();
+			}
+			else if (acc instanceof ChequingAcc || acc instanceof  SavingAcc){
+				netTotal += acc.getBalance();
 			}
 		}
-		return totalAsset - totalDebt;
+		return netTotal;
 	}
 
 
