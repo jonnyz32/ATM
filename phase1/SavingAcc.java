@@ -1,9 +1,6 @@
 // A class for savings accounts
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class SavingAcc implements AccountInterface {
     private ArrayList<double[]> past_trans;
@@ -14,7 +11,7 @@ public class SavingAcc implements AccountInterface {
     public SavingAcc() {
         past_trans = new ArrayList<>();
         balance = 0;
-        creation_date = new Date();
+        creation_date = new GregorianCalendar();
     }
 
     public void setBalance(double balance) {
