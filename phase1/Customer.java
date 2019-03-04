@@ -1,5 +1,5 @@
 
-import java.lang.reflect.Array;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -41,6 +41,7 @@ public class Customer extends ATM_User {
 		return acc.getCreation_date();
 	}
 
+	// Doesn't Work
 	public double getNetTotal(){
 		double totalDebt = 0;
 		double totalAsset = 0;
@@ -111,31 +112,21 @@ public class Customer extends ATM_User {
 		}
 	}
 
-	public boolean depositFromFile(AccountInterface acc){
-		int index = accounts.indexOf(acc);
-		if (index == -1){ return false; }
+	public boolean depositFromFile(AccountInterface acc, File depositFile){
 
-		ArrayList<Double> moneyIn = textFileManagers.get(index).getDeposits('deposits.txt');
+		ArrayList<Double> moneyIn = textFileManagers.get(index).readDeposits(depositFile);
 		for (double cheque : moneyIn){
 			acc.transfer_in(cheque);
 		}
 		return true;
 	}
 
-	public void requestAccountCreation(){
-		// TODO write to a file
-
-
+	public void requestAccountCreation(String accountType){
+		BankManager.requestAccount(this.getUsername(), accountType);
 	}
 
-	public boolean undoMostRecentTransaction(AccountInterface acc){
-		int index = accounts.indexOf(acc);
-		if (index == -1){ return false; }
-
-		else {
-			acc.revertTransaction();
-			return true;
-		}
+	public void undoMostRecentTransaction(AccountInterface acc){
+		acc.revertTransaction();
 	}
 
 
