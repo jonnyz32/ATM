@@ -11,14 +11,26 @@ public abstract class GenericAccount extends TextInterface {
     boolean asset;
     String name;
 
+    //ToDo: How to track last transaction?
+    Runnable lastTransReverter;
+    double lastTransTotal;
+    String lastTransText;
+    GenericAccount lastTransOtherAcc;
+
     public GenericAccount() {
         super();
         addAction(1, ()->showBalance(), "View Balance");
-        addAction(2, ()->depositCash(), "Deposit Cash");
-        addAction(3, ()->transferToSelf(), "Transfer to another account");
-        addAction(4, ()->transferToOther(), "Transfer to another user");
-        addAction(5, ()->transferToExternal(), "Pay external bill");
-        addAction(6, ()->withdraw(), "Withdraw money");
+        addAction(2, ()->showLastTransaction(), "See Last Transaction");
+        addAction(3, ()->depositCash(), "Deposit Cash");
+        addAction(4, ()->transferToSelf(), "Transfer to another account");
+        addAction(5, ()->transferToOther(), "Transfer to another user");
+        addAction(6, ()->transferToExternal(), "Pay external bill");
+        addAction(7, ()->withdraw(), "Withdraw money");
+    }
+
+    void showLastTransaction() {
+        System.out.println("Last Transaction:");
+        System.out.println(lastTransText);
     }
 
     void showBalance() {
@@ -53,10 +65,34 @@ public abstract class GenericAccount extends TextInterface {
         ATM_machine.setTens(ATM_machine.getNumTens()+tens);
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()+twenties);
         ATM_machine.setFifties(ATM_machine.getNumFifties()+fifties);
+
+        lastTransTotal = total;
+        lastTransReverter = revertDeposit();
+        lastTransText = "Deposited cash amount of $"+lastTransTotal;
+        lastTransOtherAcc = null;
+    }
+    void revertDeposit() {
+        if(asset) {
+            balance -= lastTransTotal;
+        } else {
+            balance += lastTransTotal;
+        }
+        lastTransText = "Reverted cash deposit of $"+lastTransTotal;
+        lastTransTotal *= -1;
     }
 
     void transferToSelf() {
         //TODO: Select an account, somehow
+        GenericAccount other;
+
+        lastTransTotal = total;
+        lastTransReverter = revertSelfTransfer();
+        lastTransText = "Transferred $"+lastTransTotal+" to "+other.name;
+        lastTransOtherAcc = other;
+        //ToDo: Presumably, this influences the other account's last transaction too. Have to to that.
+    }
+    void revertSelfTransfer() {
+
     }
 
     void transferToOther() {
@@ -64,7 +100,14 @@ public abstract class GenericAccount extends TextInterface {
     }
 
     void transferToExternal() {
-        //Todo: Request name of bill.
+        Scanner s = new Scanner(System.in);
+        System.out.println("What bill would you like to pay?");
+        String name = s.nextLine();
+        System.out.println("How much are you paying?");
+        double amount = s.nextDouble();
+        if(asset) {balance-=amount;}
+        else {balance+=amount;}
+        //Todo: output to outbound.txt
     }
 
     void withdraw() {

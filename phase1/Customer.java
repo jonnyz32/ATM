@@ -45,6 +45,7 @@ public class Customer extends ATM_User {
 		accounts.get(i).showMenu();
 	}
 
+	//Summary of account balances
 	public void getFullSummary(){
 		String summary = "";
 		for (GenericAccount acc : accounts){
@@ -54,23 +55,21 @@ public class Customer extends ATM_User {
 		System.out.println(summary);
 	}
 
-	//
+	//Net total of all accounts
 	public double getNetTotal(){
-		double totalDebt = 0;
-		double totalAsset = 0;
-
+		double total = 0;
 		for (GenericAccount acc : accounts) {
-			if (!acc.isAsset()) {
-				// TODO
-				totalDebt += acc.getBalance();
+			if (acc.isAsset()) {
+				total += acc.getBalance();
 			} else {
-				totalAsset += acc.getBalance();
+				total -= acc.getBalance();
 			}
 		}
-		return totalAsset - totalDebt;
+		System.out.println("Your net total is :");
+		System.out.println("$"+total)
 	}
 
-
+	/*
 	//TODO: Migrate down to Account level?
 	public boolean transferBetweenAccounts(GenericAccount from, GenericAccount to, double amount){
 		// Returns true if transfer went through, false otherwise.
@@ -120,4 +119,5 @@ public class Customer extends ATM_User {
 		}
 		return true;
 	}
+	*/
 }
