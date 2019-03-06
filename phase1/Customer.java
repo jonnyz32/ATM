@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Customer extends ATM_User {
 	private ArrayList<GenericAccount> accounts;
@@ -13,7 +14,10 @@ public class Customer extends ATM_User {
 		accounts = new ArrayList<GenericAccount>();
 		addAction(1, ()->getFullSummary(), "Get account summary");
 		addAction(2, ()->requestAccount(), "Request account creation");
-		//TODO: Access each account they have
+		for(int i=0;i<accounts.size();i++) {
+			final int f = i; //Because the input needs to be final.
+			addAction(i+2, ()->viewAccount(f), "Account: "+accounts.get(i).name);
+		}
 	}
 
 	public void requestAccount(){
@@ -23,17 +27,27 @@ public class Customer extends ATM_User {
 		BankManager.requestAccount(this.getUsername(), accountType);
 	}
 
-	public void addAccount(GenericAccount account) {
-		accounts.add(account);
+	public void addAccount(String account) {
+		if(account.equals("Chequing")) {
+			accounts.add(new ChequingAcc());
+		} else if(account.equals("CreditCard")) {
+			accounts.add(new CreditCardAcc());
+		} else if(account.equals("CreditLine")) {
+			accounts.add(new CreditLineAcc());
+		} else if(account.equals("Saving")) {
+			accounts.add(new SavingAcc());
+		} else {
+			System.out.println("ERROR: INVALID ACCOUNT TYPE");
+		}
 	}
 
-	public void viewAccount(GenericAccount account) {
-		account.showMenu();
+	public void viewAccount(int i) {
+		accounts.get(i).showMenu();
 	}
 
 	public void getFullSummary(){
 		String summary = "";
-		for (AccountInterface acc : accounts){
+		for (GenericAccount acc : accounts){
 			summary += acc.getSummary();
 			summary += "\n";
 		}
@@ -45,8 +59,8 @@ public class Customer extends ATM_User {
 		double totalDebt = 0;
 		double totalAsset = 0;
 
-		for (AccountInterface acc : accounts) {
-			if (acc.getOwes()) {
+		for (GenericAccount acc : accounts) {
+			if (!acc.isAsset()) {
 				// TODO
 				totalDebt += acc.getBalance();
 			} else {
@@ -58,55 +72,45 @@ public class Customer extends ATM_User {
 
 
 	//TODO: Migrate down to Account level?
-	public boolean transferBetweenAccounts(AccountInterface from, AccountInterface to, double amount){
+	public boolean transferBetweenAccounts(GenericAccount from, GenericAccount to, double amount){
 		// Returns true if transfer went through, false otherwise.
 		int index = accounts.indexOf(from);
 		if (index == -1){ return false; }
 
-		if (has(from, amount)) {
-			to.transfer_in(amount);
+		if (from.getBalance()>=amount) {
+			from.transferOut(amount);
+			to.transferIn(amount);
 			return true;
 		}
 		return false;
 	}
 
 	// Same code for transfering between individual accounts and between two different people
-	public boolean transferToOther(AccountInterface myAcc, AccountInterface otherAcc, double amount){
+	public boolean transferToOther(GenericAccount myAcc, GenericAccount otherAcc, double amount){
 		return transferBetweenAccounts(myAcc, otherAcc, amount);
 	}
 
-	public boolean withdrawFromAccount(AccountInterface acc, double amount){
+	public boolean withdrawFromAccount(GenericAccount acc, double amount){
 		// Returns true if withdraw was successful, false otherwise.
-		if (has(acc, amount)){
-			acc.transfer_out(amount);
+		if (acc.getBalance()>=amount){
+			//Pull cash
+			acc.transferOut(amount);
 			return true;
 		}
 		return false;
 	}
 
-	//Does this have to be local? It decreases balance...
-	public boolean payBill(AccountInterface acc, double amount, Date date){
-		int index = accounts.indexOf(acc);
-		if (index == -1){ return false; }
 
-		if (has(acc, amount)){
-			acc.transfer_out(amount);
-			textFileManagers.get(index).withdrawMoney(amount, date);
-			return true;
-		}
-		return false;
-	}
-
-	public boolean depositMoney(AccountInterface acc, double money){
+	public boolean depositMoney(GenericAccount acc, double money){
 		int index = accounts.indexOf(acc);
 		if (index == -1){ return false; }
 		else {
-			acc.transfer_in(money);
+			acc.transferIn(money);
 			return true;
 		}
 	}
 
-	public boolean depositFromFile(AccountInterface acc, File depositFile){
+	public boolean depositFromFile(GenericAccount acc, File depositFile){
 		int index = accounts.indexOf(acc);
 		if (index == -1){ return false; }
 

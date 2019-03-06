@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-public class ChequingAcc implements AccountInterface {
+public class ChequingAcc extends GenericAccount {
     private ArrayList<double[]> past_trans;
     private double[] latest_trans;
     private double balance;
@@ -10,6 +10,7 @@ public class ChequingAcc implements AccountInterface {
     private Calendar creation_date;
 
     public ChequingAcc() {
+        name = "New Chequing Account";
         past_trans = new ArrayList<>();
         balance = 0;
         owes = false;

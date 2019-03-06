@@ -2,13 +2,14 @@
 
 import java.util.*;
 
-public class SavingAcc implements AccountInterface {
+public class SavingAcc extends GenericAccount {
     private ArrayList<double[]> past_trans;
     private double[] latest_trans;
     private double balance;
     private Calendar creation_date;
 
     public SavingAcc() {
+        name = "New Savings Account";
         past_trans = new ArrayList<>();
         balance = 0;
         creation_date = new GregorianCalendar();

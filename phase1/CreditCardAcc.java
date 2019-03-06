@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-public class CreditCardAcc implements AccountInterface {
+public class CreditCardAcc extends GenericAccount {
 
     private ArrayList<double[]> past_trans;
     private double[] latest_trans;
@@ -11,6 +11,7 @@ public class CreditCardAcc implements AccountInterface {
     private Calendar creation_date;
 
     public CreditCardAcc() {
+        name = "New Credit Card";
         // Array of double arrays with two values inside each double array.
         // First value is balance before transaction and second after.
         // Last item in ArrayList is latest transaction.

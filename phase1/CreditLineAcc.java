@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-public class CreditLineAcc implements AccountInterface {
+public class CreditLineAcc extends GenericAccount {
 
     private ArrayList<double[]> past_trans;
     private double[] latest_trans;
@@ -11,6 +11,7 @@ public class CreditLineAcc implements AccountInterface {
     private Calendar creation_date;
 
     public CreditLineAcc() {
+        name = "New Line of Credit";
         past_trans = new ArrayList<>();
         balance = 0;
         owes = false;
