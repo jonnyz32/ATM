@@ -1,8 +1,12 @@
+import javax.xml.soap.Text;
 import java.io.*;
+
+
+import java.lang.reflect.Array;
 import java.util.*;
 
 
-public class ATM_machine {
+public class ATM_machine extends TextInterface {
 
     static ArrayList<ATM_User> users = new ArrayList<ATM_User>();
     //the final ints represent the indexes in an array of bill quantities, with the index corresponding to their
@@ -16,6 +20,7 @@ public class ATM_machine {
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
+        //TODO: increment date
         bills = FileManager.retrieveBills();
         users = FileManager.retrieveUsers();
         if(users.size()==0) {
@@ -23,28 +28,35 @@ public class ATM_machine {
         }
         //addAction(1, ()->logIn(), "Log In");
         //showMenu();
-        new MainMenu().showMenu();
+        logIn();
+        System.out.println(System.getProperty("user.dir"));
     }
 
-//    public void exit() {
-//        active = false;
-//        //TODO: If it's the 1st day of a month, give interest on savings accounts
-//        //TODO: Add proper on-exit behaviors.
-//    }
-//
-//    static void logIn() {
-//        Scanner s = new Scanner(System.in);
-//        System.out.println("Input your username");
-//        String user = s.nextLine();
-//        System.out.println("Input your password");
-//        String pass = s.nextLine();
-//        for (int i = 0; i < users.size(); i++){
-//            if(users.get(i).getUsername().equals(user) && users.get(i).getPassword().equals(pass)){
-//                System.out.println("Success!");
-//                users.get(i).showMenu();
-//            }
-//        }
-//    }
+    public void exit() {
+        active = false;
+        FileManager.writeBills(bills);
+        FileManager.saveUsers(users);
+        if (date.get(Calendar.DAY_OF_MONTH) == 1){
+            for(int i = 0; i < users.size(); i++){
+                //user.Interest();
+            }
+        }
+        //TODO: Add proper on-exit behaviors.
+    }
+
+    static void logIn() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Input your username");
+        String user = s.nextLine();
+        System.out.println("Input your password");
+        String pass = s.nextLine();
+        for (int i = 0; i < users.size(); i++){
+            if(users.get(i).getUsername().equals(user) && users.get(i).getPassword().equals(pass)){
+                System.out.println("Success!");
+                users.get(i).showMenu();
+            }
+        }
+    }
 
     static void checkForAlert(){
         //SHOULD NOT HAVE FileWriters HERE! THAT'S FileManager's JOB!
