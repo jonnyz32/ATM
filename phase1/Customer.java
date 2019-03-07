@@ -14,6 +14,10 @@ public class Customer extends ATM_User {
 		accounts = new ArrayList<GenericAccount>();
 	}
 
+	public ArrayList<GenericAccount> getAccounts(){
+	    return accounts;
+    }
+
 	public void requestAccount(String accountType){
 		BankManager.requestAccount(this.getUsername(), accountType);
 	}
@@ -21,29 +25,25 @@ public class Customer extends ATM_User {
 	public void addAccount(String account) {
 		if(account.equals("Chequing")) {
 			accounts.add(new ChequingAcc());
-		} else if(account.equals("CreditCard")) {
+		} else if(account.equals("Credit")) {
 			accounts.add(new CreditCardAcc());
 		} else if(account.equals("CreditLine")) {
 			accounts.add(new CreditLineAcc());
-		} else if(account.equals("Saving")) {
+		} else if(account.equals("Savings")) {
 			accounts.add(new SavingAcc());
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");
 		}
 	}
 
-	public void viewAccount(int i) {
-		accounts.get(i).showMenu();
-	}
-
 	//Summary of account balances
-	public void getFullSummary(){
+	public String getFullSummary(){
 		String summary = "";
 		for (GenericAccount acc : accounts){
 			summary += acc.getSummary();
 			summary += "\n";
 		}
-		System.out.println(summary);
+		return summary;
 	}
 
 	//Net total of all accounts
@@ -56,8 +56,7 @@ public class Customer extends ATM_User {
 				total -= acc.getBalance();
 			}
 		}
-		System.out.println("Your net total is :");
-		System.out.println("$"+total);
+		return total;
 	}
 
 	/*
