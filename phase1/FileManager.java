@@ -22,7 +22,7 @@ public class FileManager {
 
     }
 
-    public ArrayList<ATM_User> retrieveUsers(){
+    public static ArrayList<ATM_User> retrieveUsers(){
         File userFile = new File("group_0331\\phase1\\users.txt");
         try {
             FileInputStream file = new FileInputStream(userFile);
@@ -34,6 +34,7 @@ public class FileManager {
         }
         catch (IOException | ClassNotFoundException x){
             x.printStackTrace();
+            return null;
         }
     }
 
