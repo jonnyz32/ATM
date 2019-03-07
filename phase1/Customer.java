@@ -12,18 +12,9 @@ public class Customer extends ATM_User {
 	public Customer(String username, String password){
 		super(username, password);
 		accounts = new ArrayList<GenericAccount>();
-		addAction(1, ()->getFullSummary(), "Get account summary");
-		addAction(2, ()->requestAccount(), "Request account creation");
-		for(int i=0;i<accounts.size();i++) {
-			final int f = i; //Because the input needs to be final.
-			addAction(i+2, ()->viewAccount(f), "Account: "+accounts.get(i).name);
-		}
 	}
 
-	public void requestAccount(){
-		Scanner s = new Scanner(System.in);
-		System.out.println("What kind of account?"); //TODO: list their options
-		String accountType = s.nextLine();
+	public void requestAccount(String accountType){
 		BankManager.requestAccount(this.getUsername(), accountType);
 	}
 
