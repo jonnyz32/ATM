@@ -8,9 +8,13 @@ class TextInterface {
     String header;
     String footer;
     ArrayList<Action> actions;
+    boolean active;
+
+    public static Scanner in = new Scanner(System.in);
 
     public TextInterface() {
         actions = new ArrayList<Action>();
+        addAction(0, ()->exit(), "Back");
     }
 
     public void addAction(int i, Runnable a, String t) {
@@ -27,7 +31,12 @@ class TextInterface {
         return null;
     }
 
+    public void exit() {
+        active = false;
+    }
+
     public void showMenu() {
+        active = true;
         System.out.println(header);
         for(int i=0;i<actions.size();i++) {
             Action a = actions.get(i);
@@ -36,29 +45,25 @@ class TextInterface {
         System.out.println(footer);
 
         Scanner in = new Scanner(System.in);
-        Action a = a = getAction(in.nextInt());
-        while(a==null) {
-            System.out.println("Invalid Button. Try Again.");
-            a = getAction(in.nextInt());
+        while(active) {
+            Action a = a = getAction(in.nextInt());
+            while (a == null) {
+                System.out.println("Invalid Button. Try Again.");
+                a = getAction(in.nextInt());
+            }
+            a.action.run();
         }
-        a.action.run();
     }
 
 
 
-    //DIAGNOSTIC METHODS. TEMPORARY.
-    String s;
-    public void test() {
-        System.out.println(s);
+    public static String nextLine() {
+        return in.nextLine();
     }
-
-    public static void main(String[] args) {
-        TextInterface t = new TextInterface();
-        t.header = "HeaderText";
-        t.footer = "FooterText";
-        t.s = "old";
-        t.addAction(1, ()->t.test(),"TestOptionText");//Important note: Functions cannot recieve inputs.
-        t.s = "new";
-        t.showMenu();
+    public static int nextInt() {
+        return in.nextInt();
+    }
+    public static double nextDouble() {
+        return in.nextDouble();
     }
 }
