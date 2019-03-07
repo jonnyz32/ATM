@@ -1,13 +1,16 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class FileManager {
     private File allTransactions;
     private File deposits;
     private File withdrawals;
+    private File bills;
     private File balanceHistory;
     private static File accounts;
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -19,9 +22,51 @@ public class FileManager {
         decimalFormat.setRoundingMode(RoundingMode.CEILING);
         createAccount(username, accountType);
         this.balance = initializeBalance();
+        this.bills = new File("group_0331\\phase1\\bills.txt");
+        System.out.println(bills.exists());
+
 
     }
 
+    public static ArrayList<ATM_User> retrieveUsers(){
+        File userFile = new File("./phase1/users.txt");
+        try {
+            FileInputStream file = new FileInputStream(userFile);
+            ObjectInputStream objectStream = new ObjectInputStream(file);
+
+            ArrayList users = (ArrayList) objectStream.readObject();
+            objectStream.close();
+            return users;
+        }
+        catch (IOException | ClassNotFoundException x){
+            x.printStackTrace();
+        }
+        return null;
+    }
+
+    static int[] retrieveBills(){
+        try {
+            int i = 0;
+            int[] billList = new int[4];
+            FileReader file = new FileReader(bills);
+            BufferedReader reader = new BufferedReader(file);
+
+            String numBillsText = reader.readLine();
+            while (numBillsText != null) {
+                int numBills = Integer.parseInt(numBillsText.split(":")[1]);
+                billList[i] = numBills;
+                numBillsText = reader.readLine();
+                i += 1;
+
+            }
+            return billList;
+
+        } catch (IOException e) {
+            System.out.println("File could not be found");
+
+            return null;
+        }
+    }
 
 
 
@@ -46,27 +91,27 @@ public class FileManager {
         }
     }
 
-     ArrayList<Double> readDeposits(File depositFile){
-         ArrayList<Double> depositList = new ArrayList<>();
-
-         try {
-            FileReader file = new FileReader(depositFile);
-            BufferedReader reader = new BufferedReader(file);
-            double depositAmount = 0.0;
-            String temp = "0.0";
-            while (temp != null){
-                depositList.add(Double.parseDouble(temp));
-                temp = reader.readLine();
-            }
-
-        } catch (IOException e) {
-            System.out.println("File could not be found");
-
-            return null;
-        }
-        depositList.remove(0);
-        return depositList;
-    }
+//     ArrayList<Double> readDeposits(File depositFile){
+//         ArrayList<Double> depositList = new ArrayList<>();
+//
+//         try {
+//            FileReader file = new FileReader(depositFile);
+//            BufferedReader reader = new BufferedReader(file);
+//            double depositAmount = 0.0;
+//            String temp = "0.0";
+//            while (temp != null){
+//                depositList.add(Double.parseDouble(temp));
+//                temp = reader.readLine();
+//            }
+//
+//        } catch (IOException e) {
+//            System.out.println("File could not be found");
+//
+//            return null;
+//        }
+//        depositList.remove(0);
+//        return depositList;
+//    }
 
     private double getLatestTransactions(){
         try {
@@ -105,7 +150,11 @@ public class FileManager {
         f.withdrawMoney(123.45, d);
         System.out.println("Ending balance is " + f.getBalance());
         System.out.println(f.getLatestTransactions());
-        System.out.println(f.readDeposits(f.balanceHistory));
+//        System.out.println(f.readDeposits(f.balanceHistory));
+        System.out.println(f.bills.exists());
+        System.out.println(f.bills.getAbsoluteFile());
+        System.out.println(Arrays.toString(f.retrieveBills()));
+
 
     }
 

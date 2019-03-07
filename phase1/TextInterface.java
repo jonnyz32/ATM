@@ -10,6 +10,8 @@ class TextInterface {
     ArrayList<Action> actions;
     boolean active;
 
+    public static Scanner in = new Scanner(System.in);
+
     public TextInterface() {
         actions = new ArrayList<Action>();
         addAction(0, ()->exit(), "Back");
@@ -55,19 +57,13 @@ class TextInterface {
 
 
 
-    //DIAGNOSTIC METHODS. TEMPORARY.
-    String s;
-    public void test() {
-        System.out.println(s);
+    public static String nextLine() {
+        return in.nextLine();
     }
-
-    public static void main(String[] args) {
-        TextInterface t = new TextInterface();
-        t.header = "HeaderText";
-        t.footer = "FooterText";
-        t.s = "old";
-        t.addAction(1, ()->t.test(),"TestOptionText");//Important note: Functions cannot recieve inputs.
-        t.s = "new";
-        t.showMenu();
+    public static int nextInt() {
+        return in.nextInt();
+    }
+    public static double nextDouble() {
+        return in.nextDouble();
     }
 }

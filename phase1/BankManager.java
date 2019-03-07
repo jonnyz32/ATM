@@ -6,10 +6,17 @@ import java.util.GregorianCalendar;
 
 public class BankManager extends ATM_User{
 
+    /**
+     * Requests are stored as a Pair<String username, String type>
+     */
     private static List<Pair<String, String>> requests = new ArrayList<>();
 
     public BankManager(String username, String password){
         super(username, password);
+    }
+
+    static List<Pair<String, String>> getRequests(){
+        return requests;
     }
 
     /**
@@ -22,7 +29,7 @@ public class BankManager extends ATM_User{
     /**
      * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
-    public void setSystemDate(int year, int month, int day){
+    void setSystemDate(int year, int month, int day){
         Calendar time = new GregorianCalendar(year, month-1, day);
         ATM_machine.setTime(time);
     }
@@ -31,7 +38,7 @@ public class BankManager extends ATM_User{
      * Adds num bills of the specified type to the machine.
      * @return Returns the new number of bills, or -1 if the bill type cannot be found.
      */
-    public int addBills(int type, int num){
+    int addBills(int type, int num){
         int temp;
         if (type==5){
             temp = ATM_machine.getNumFives();
@@ -59,26 +66,30 @@ public class BankManager extends ATM_User{
     /**
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
-    public void undoTransaction(String username, String account){
+    void undoTransaction(String username, String account){
 
     }
 
     /**
      * Approves a customer's account creation request.
      */
-    public void approveAccount(int id){
+    void approveAccount(int id){
         String username = requests.get(id).getLeft();
         String account = requests.get(id).getRight();
         if (ATM_machine.getUser(username) instanceof Customer){
             Customer user = (Customer) ATM_machine.getUser(username);
             user.addAccount(account);
         }
+        else{
+            requests.remove(id);
+            System.out.println("ERROR: USER NOT VALID");
+        }
     }
 
     /**
      * Creates a new customer with the given login credentials.
      */
-    public void createNewCustomer(String username, String password){
+    void createNewCustomer(String username, String password){
         ATM_machine.addCustomer(username, password);
     }
 }
