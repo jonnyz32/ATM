@@ -57,7 +57,7 @@ public class Customer extends ATM_User {
 			}
 		}
 		System.out.println("Your net total is :");
-		System.out.println("$"+total)
+		System.out.println("$"+total);
 	}
 
 	/*
