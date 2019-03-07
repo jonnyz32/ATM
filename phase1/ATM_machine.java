@@ -9,35 +9,26 @@ import java.util.*;
 public class ATM_machine extends TextInterface {
 
     static ArrayList<ATM_User> users = new ArrayList<ATM_User>();
-    //TODO: Merge these to single array, so we don't have to deal with 4 seperate variables?
-    //Then just have final ints for the array positions, ie numFifites -> bills[FIFTY]
-    private static int numFifties = 100;
-    private static int numTwenties = 250;
-    private static int numTens = 500;
-    private static int numFives = 1000;
-    private static File userFile;
+    //the final ints represent the indexes in an array of bill quantities, with the index corresponding to their
+    //type.
+    final static int FIVE = 0;
+    final static int TEN = 1;
+    final static int TWENTY = 2;
+    final static int FIFTY = 3;
+    private static int[] bills = new int[4];
 
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
-        userFile = new File("phase1/users.txt");
-        try {
-            FileInputStream file = new FileInputStream(userFile);
-            ObjectInputStream objectStream = new ObjectInputStream(file);
-
-            users = (ArrayList) objectStream.readObject();
-            objectStream.close();
-        }
-        catch (IOException | ClassNotFoundException x){
-            x.printStackTrace();
-            users = new ArrayList<ATM_User>();
-        }
+        bills = FileManager.retrieveBills();
+        users = FileManager.retrieveUsers();
         if(users.size()==0) {
             users.add(new BankManager("manager","password"));
         }
         //addAction(1, ()->logIn(), "Log In");
         //showMenu();
         logIn();
+        System.out.println(System.getProperty("user.dir"));
     }
 
     public void exit() {
@@ -87,23 +78,23 @@ public class ATM_machine extends TextInterface {
 
     static void setTime(Calendar newDate){date = newDate;}
 
-    static int getNumFifties(){return numFifties;}
-    static int getNumTwenties(){return numTwenties;}
-    static int getNumTens(){return numTens;}
-    static int getNumFives(){return numFives;}
+    static int getNumFifties(){return bills[FIFTY];}
+    static int getNumTwenties(){return bills[TWENTY];}
+    static int getNumTens(){return bills[TEN];}
+    static int getNumFives(){return bills[FIVE];}
 
     //These methods will be called from inside the Manager class.
     static void setFifties(int numBills){
-        numFifties = numBills;
+        bills[FIFTY] = numBills;
     }
     static void setTwenties(int numBills){
-        numTwenties = numBills;
+        bills[TWENTY] = numBills;
     }
     static void setTens(int numBills){
-        numTens = numBills;
+        bills[TEN] = numBills;
     }
     static void setFives(int numBills){
-        numFives = numBills;
+        bills[FIVE] = numBills;
     }
 
     static void addCustomer(String username, String password){
