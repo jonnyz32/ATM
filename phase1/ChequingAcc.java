@@ -1,21 +1,20 @@
 // A class for Chequing accounts
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
-public class ChequingAcc implements AccountInterface {
+public class ChequingAcc extends GenericAccount {
     private ArrayList<double[]> past_trans;
     private double[] latest_trans;
     private double balance;
     private boolean owes;
-    private Date creation_date;
+    private Calendar creation_date;
 
     public ChequingAcc() {
+        name = "New Chequing Account";
         past_trans = new ArrayList<>();
         balance = 0;
         owes = false;
-        creation_date = new Date();
+        creation_date = new GregorianCalendar();
     }
 
     public void setBalance(double balance) {
@@ -73,7 +72,7 @@ public class ChequingAcc implements AccountInterface {
         return amount == balance;
     }
 
-    public Date getCreation_date() {
+    public Calendar getCreation_date() {
         return creation_date;
     }
 

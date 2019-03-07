@@ -188,4 +188,8 @@ public class FileManager {
             e.printStackTrace();
         }
     }
+
+    // void CustomerRequestsBankAccountCreation(String username, String bankAccountType)
+
+
 }

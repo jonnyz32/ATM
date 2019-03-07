@@ -1,17 +1,30 @@
 //The bank manager class
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.GregorianCalendar;
 
 public class BankManager extends ATM_User{
+
+    private static List<Pair<String, String>> requests = new ArrayList<>();
 
     public BankManager(String username, String password){
         super(username, password);
     }
 
     /**
-     * Sets the ATM's date to the one specified.
+     * Adds a request for the account of the specified type.
+     */
+    static void requestAccount(String username, String type){
+        requests.add(new Pair<>(username, type));
+    }
+
+    /**
+     * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
     public void setSystemDate(int year, int month, int day){
-        Date temp = ATM_machine.getTime();
+        Calendar time = new GregorianCalendar(year, month-1, day);
+        ATM_machine.setTime(time);
     }
 
     /**
@@ -44,21 +57,28 @@ public class BankManager extends ATM_User{
     }
 
     /**
-     * Undoes the last transaction (excluding bill payments) performed by the indicated user.
+     * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
-    public void undoTransaction(String username){
+    public void undoTransaction(String username, String account){
+
     }
 
     /**
      * Approves a customer's account creation request.
-     * @param id The id of the request.
      */
     public void approveAccount(int id){
+        String username = requests.get(id).getLeft();
+        String account = requests.get(id).getRight();
+        if (ATM_machine.getUser(username) instanceof Customer){
+            Customer user = (Customer) ATM_machine.getUser(username);
+            user.addAccount(account);
+        }
     }
 
     /**
      * Creates a new customer with the given login credentials.
      */
-    public void createNewUser(String username, String password){
+    public void createNewCustomer(String username, String password){
+        ATM_machine.addCustomer(username, password);
     }
 }

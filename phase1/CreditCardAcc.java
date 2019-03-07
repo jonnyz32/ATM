@@ -1,25 +1,24 @@
 // A super class for debt accounts.
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
-public class CreditCardAcc implements AccountInterface {
+public class CreditCardAcc extends GenericAccount {
 
     private ArrayList<double[]> past_trans;
     private double[] latest_trans;
     private double balance;
     private boolean owes;
-    private Date creation_date;
+    private Calendar creation_date;
 
     public CreditCardAcc() {
+        name = "New Credit Card";
         // Array of double arrays with two values inside each double array.
         // First value is balance before transaction and second after.
         // Last item in ArrayList is latest transaction.
         past_trans = new ArrayList<>();
         balance = 0;
         owes = false;
-        creation_date = new Date();
+        creation_date = new GregorianCalendar();
     }
 
     public void setBalance(double balance) {
@@ -71,7 +70,7 @@ public class CreditCardAcc implements AccountInterface {
         return amount == balance;
     }
 
-    public Date getCreation_date() {
+    public Calendar getCreation_date() {
         return creation_date;
     }
 
