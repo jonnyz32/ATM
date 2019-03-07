@@ -20,18 +20,7 @@ public class ATM_machine extends TextInterface {
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
-        userFile = new File("phase1/users.txt");
-        try {
-            FileInputStream file = new FileInputStream(userFile);
-            ObjectInputStream objectStream = new ObjectInputStream(file);
-
-            users = (ArrayList) objectStream.readObject();
-            objectStream.close();
-        }
-        catch (IOException | ClassNotFoundException x){
-            x.printStackTrace();
-            users = new ArrayList<ATM_User>();
-        }
+        users = FileManager.retrieveUsers();
         if(users.size()==0) {
             users.add(new BankManager("manager","password"));
         }
