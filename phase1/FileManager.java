@@ -130,7 +130,7 @@ public class FileManager {
             user.mkdirs();
 
 
-            this.allTransactions = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\allTransactions.txt");
+            this.allTransactions = new File("\\group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\allTransactions.txt");
             this.deposits = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\deposits.txt");
             this.withdrawals = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\withdrawals.txt");
             this.balanceHistory = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\balanceHistory.txt");
