@@ -1,19 +1,24 @@
 // An abstract Class for Acounts
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
 public abstract class GenericAccount extends TextInterface {
 
+    Customer owner;
     double balance;
     boolean asset;
     String name;
+    ArrayList<Double> past_trans;
+    Calendar creation_date;
 
     //ToDo: How to track last transaction?
     Runnable lastTransReverter;
-    double lastTransTotal;
+    // lastTrans is negative if money was taking out and positive if money went in
+    Double lastTrans;
     String lastTransText;
     GenericAccount lastTransOtherAcc;
 
@@ -30,7 +35,8 @@ public abstract class GenericAccount extends TextInterface {
 
     void showLastTransaction() {
         System.out.println("Last Transaction:");
-        System.out.println(lastTransText);
+        lastTransText = getLatestTransaction().toString();
+        System.out.println(lastTransText + "in" + name);
     }
 
     void showBalance() {
@@ -66,32 +72,56 @@ public abstract class GenericAccount extends TextInterface {
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()+twenties);
         ATM_machine.setFifties(ATM_machine.getNumFifties()+fifties);
 
-        lastTransTotal = total;
-        lastTransReverter = revertDeposit();
-        lastTransText = "Deposited cash amount of $"+lastTransTotal;
+        lastTrans = (double) total;
+        past_trans.add(lastTrans);
+        lastTransReverter = ()-> revertDeposit();
+        lastTransText = "Deposited cash amount of $"+lastTrans;
         lastTransOtherAcc = null;
     }
     void revertDeposit() {
         if(asset) {
-            balance -= lastTransTotal;
+            balance -= getLatestTransaction();
         } else {
-            balance += lastTransTotal;
+            balance += getLatestTransaction();
         }
-        lastTransText = "Reverted cash deposit of $"+lastTransTotal;
-        lastTransTotal *= -1;
+        lastTransText = "Reverted cash deposit of $"+ getLatestTransaction();
+        lastTrans = past_trans.get(past_trans.size() - 2);
+        past_trans.remove(past_trans.size() - 1);
     }
 
     void transferToSelf() {
         //TODO: Select an account, somehow
-        GenericAccount other;
+        Scanner i = new Scanner(System.in);
+        System.out.println("Amount to transfer?");
+        Double amount = i.nextDouble();
+        System.out.println("Account to transfer to?");
+        String other_acc_name = i.next();
+        GenericAccount other_acc = owner.getbyname(other_acc_name);
+        lastTrans = amount;
+        // Add this transaction to this account
+        if (asset) {
+            balance -= amount;
+            past_trans.add(-amount);
+        }
+        else {
+            balance += amount;
+            past_trans.add(-amount);
+        }
+        if (other_acc.asset) {
+            other_acc.balance += amount;
+            other_acc.past_trans.add(amount);
+        }
+        else {
+            other_acc.balance -= amount;
+            other_acc.past_trans.add(amount);
 
-        lastTransTotal = total;
-        lastTransReverter = revertSelfTransfer();
-        lastTransText = "Transferred $"+lastTransTotal+" to "+other.name;
-        lastTransOtherAcc = other;
+        }
+        lastTransReverter = ()-> revertSelfTransfer();
+        lastTransText = "Transferred $"+lastTrans+" to "+other_acc.name;
         //ToDo: Presumably, this influences the other account's last transaction too. Have to to that.
     }
     void revertSelfTransfer() {
+
 
     }
 
@@ -123,7 +153,7 @@ public abstract class GenericAccount extends TextInterface {
         this.balance = balance;
     }
 
-    // True if customer owes money, false otherwise
+    // True if asset account, false is debt account
     void setAsset(boolean asset) {
         this.asset = asset;
     }
@@ -143,10 +173,8 @@ public abstract class GenericAccount extends TextInterface {
     abstract void transferOut(double amount);
 
     // Returns the latest transaction.
-    abstract double getLatestTransaction();
+    Double getLatestTransaction() {return past_trans.get(past_trans.size() - 1);}
 
-    // Revert last transaction.
-    abstract void revertTransaction();
 
     //Get a string representation
     abstract String getSummary();

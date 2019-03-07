@@ -56,7 +56,7 @@ public class Customer extends ATM_User {
 	}
 
 	//Net total of all accounts
-	public double getNetTotal(){
+	public void getNetTotal(){
 		double total = 0;
 		for (GenericAccount acc : accounts) {
 			if (acc.isAsset()) {
@@ -66,7 +66,18 @@ public class Customer extends ATM_User {
 			}
 		}
 		System.out.println("Your net total is :");
-		System.out.println("$"+total)
+		System.out.println("$"+total);
+	}
+
+	//Get account given name
+	// Assume account has given name
+	public GenericAccount getbyname(String name) {
+		for (GenericAccount a: accounts) {
+			if (a.name.equals(name)) {
+				return a;
+			}
+		}
+		return new ChequingAcc();
 	}
 
 	/*
