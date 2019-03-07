@@ -12,42 +12,51 @@ public class Customer extends ATM_User {
 	public Customer(String username, String password){
 		super(username, password);
 		accounts = new ArrayList<GenericAccount>();
+		addAction(1, ()->getFullSummary(), "Get account summary");
+		addAction(2, ()->requestAccount(), "Request account creation");
+		for(int i=0;i<accounts.size();i++) {
+			final int f = i; //Because the input needs to be final.
+			addAction(i+2, ()->viewAccount(f), "Account: "+accounts.get(i).name);
+		}
 	}
 
-	public ArrayList<GenericAccount> getAccounts(){
-	    return accounts;
-    }
-
-	public void requestAccount(String accountType){
+	public void requestAccount(){
+		Scanner s = new Scanner(System.in);
+		System.out.println("What kind of account?"); //TODO: list their options
+		String accountType = s.nextLine();
 		BankManager.requestAccount(this.getUsername(), accountType);
 	}
 
 	public void addAccount(String account) {
 		if(account.equals("Chequing")) {
 			accounts.add(new ChequingAcc());
-		} else if(account.equals("Credit")) {
+		} else if(account.equals("CreditCard")) {
 			accounts.add(new CreditCardAcc());
 		} else if(account.equals("CreditLine")) {
 			accounts.add(new CreditLineAcc());
-		} else if(account.equals("Savings")) {
+		} else if(account.equals("Saving")) {
 			accounts.add(new SavingAcc());
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");
 		}
 	}
 
+	public void viewAccount(int i) {
+		accounts.get(i).showMenu();
+	}
+
 	//Summary of account balances
-	public String getFullSummary(){
+	public void getFullSummary(){
 		String summary = "";
 		for (GenericAccount acc : accounts){
 			summary += acc.getSummary();
 			summary += "\n";
 		}
-		return summary;
+		System.out.println(summary);
 	}
 
 	//Net total of all accounts
-	public double getNetTotal(){
+	public void getNetTotal(){
 		double total = 0;
 		for (GenericAccount acc : accounts) {
 			if (acc.isAsset()) {
@@ -56,7 +65,19 @@ public class Customer extends ATM_User {
 				total -= acc.getBalance();
 			}
 		}
-		return total;
+		System.out.println("Your net total is :");
+		System.out.println("$"+total);
+	}
+
+	//Get account given name
+	// Assume account has given name
+	public GenericAccount getbyname(String name) {
+		for (GenericAccount a: accounts) {
+			if (a.name.equals(name)) {
+				return a;
+			}
+		}
+		return new ChequingAcc();
 	}
 
 	/*

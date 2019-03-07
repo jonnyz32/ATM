@@ -2,7 +2,7 @@
 
 import java.io.Serializable;
 
-public class ATM_User extends TextInterface implements Serializable {
+public class ATM_User implements Serializable {
 
     /**
      * The user's username.

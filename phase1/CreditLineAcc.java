@@ -4,17 +4,12 @@ import java.util.*;
 
 public class CreditLineAcc extends GenericAccount {
 
-    private ArrayList<double[]> past_trans;
-    private double[] latest_trans;
-    private double balance;
-    private boolean owes;
-    private Calendar creation_date;
 
     public CreditLineAcc() {
         name = "New Line of Credit";
-        past_trans = new ArrayList<>();
+        past_trans = new ArrayList<Double>();
         balance = 0;
-        owes = false;
+        asset = false;
         creation_date = new GregorianCalendar();
     }
 
@@ -22,49 +17,51 @@ public class CreditLineAcc extends GenericAccount {
         this.balance = balance;
     }
 
-    public void setOwes(boolean owes) {
-        this.owes = owes;
+    public void setAsset(boolean asset) {
+        this.asset = asset;
     }
 
     public double getBalance() {
         return this.balance;
     }
 
-    public boolean getOwes() {
-        return this.owes;
+    public boolean getasset() {
+        return this.asset;
     }
 
-    public void transfer_in(double amount) {
-        double past_bal = this.getBalance();
+    public void transferIn(double amount) {
         this.balance += amount;
-        double[] curr_trans = {past_bal, this.balance};
-        past_trans.add(curr_trans);
-        latest_trans = curr_trans;
+        past_trans.add(amount);
+        lastTrans = amount;
 
     }
 
-    public void transfer_out(double amount) {
-        double past_bal = this.getBalance();
+    public void transferOut(double amount) {
         this.balance -= amount;
-        double[] curr_trans = {past_bal, this.balance};
-        past_trans.add(curr_trans);
-        latest_trans = curr_trans;
+        past_trans.add(-amount);
+        lastTrans = -amount;
     }
 
-
-    public double[] getLatestTrans() {
-        return latest_trans;
+    public Double getLatestTransaction() {
+        lastTrans = past_trans.get(past_trans.size() - 1);
+        return lastTrans;
     }
 
     public void revertTransaction() {
-        double[] revert_trans = past_trans.get(past_trans.size() - 1);
-        this.setBalance(revert_trans[0]);
-        latest_trans = past_trans.get(past_trans.size() - 2);
+        Double to_revert = this.getLatestTransaction();
+        if (to_revert >= 0) {
+            // If latest trans is positive, it was a transfer in, so subtract from balance to revert
+            this.balance -= to_revert;
+        }
+        else {
+            this.balance += to_revert;
+        }
+        lastTrans = past_trans.get(past_trans.size() - 2);
         past_trans.remove(past_trans.size() - 1);
     }
 
     public String getSummary() {
-        String lt = Arrays.toString(latest_trans);
+        String lt = lastTrans.toString();
         return "Latest Transaction: " + lt + "\r\n" +
                 "Balance:" + balance;
     }
