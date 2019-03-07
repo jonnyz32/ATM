@@ -9,7 +9,6 @@ public class CustomerMenu extends TextInterface{
         addAction(2, ()->requestAccount(), "Request account creation");
         addAction(3, ()->getNetTotal(), "Get net total");
         initAccounts(4);
-        showMenu();
     }
 
     private void initAccounts(int a){
@@ -27,7 +26,7 @@ public class CustomerMenu extends TextInterface{
 
     private void requestAccount(){
         System.out.println("Options: Chequing, Credit, CreditLine, Savings\n" +
-                "Which type of account?"); //TODO: list their options
+                "Which type of account?");
         String accountType = nextLine();
         customer.requestAccount(accountType);
     }
@@ -40,6 +39,6 @@ public class CustomerMenu extends TextInterface{
 
     public void viewAccount(int i) {
         GenericAccount account = customer.getAccounts().get(i);
-        new AccountMenu(account);
+        new AccountMenu(account).showMenu();
     }
 }
