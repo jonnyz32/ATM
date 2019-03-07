@@ -25,11 +25,11 @@ public class Customer extends ATM_User {
 	public void addAccount(String account) {
 		if(account.equals("Chequing")) {
 			accounts.add(new ChequingAcc());
-		} else if(account.equals("CreditCard")) {
+		} else if(account.equals("Credit")) {
 			accounts.add(new CreditCardAcc());
 		} else if(account.equals("CreditLine")) {
 			accounts.add(new CreditLineAcc());
-		} else if(account.equals("Saving")) {
+		} else if(account.equals("Savings")) {
 			accounts.add(new SavingAcc());
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");

@@ -28,7 +28,7 @@ public class CustomerMenu extends TextInterface{
     }
 
     private void requestAccount(){
-        System.out.println("" +
+        System.out.println("Options: Chequing, Credit, CreditLine, Savings\n" +
                 "Which type of account?"); //TODO: list their options
         String accountType = nextLine();
         customer.requestAccount(accountType);
