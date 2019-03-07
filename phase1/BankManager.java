@@ -73,6 +73,10 @@ public class BankManager extends ATM_User{
             Customer user = (Customer) ATM_machine.getUser(username);
             user.addAccount(account);
         }
+        else{
+            requests.remove(id);
+            System.out.println("ERROR: USER NOT VALID");
+        }
     }
 
     /**
