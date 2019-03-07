@@ -6,10 +6,17 @@ import java.util.GregorianCalendar;
 
 public class BankManager extends ATM_User{
 
+    /**
+     * Requests are stored as a Pair<String username, String type>
+     */
     private static List<Pair<String, String>> requests = new ArrayList<>();
 
     public BankManager(String username, String password){
         super(username, password);
+    }
+
+    static List<Pair<String, String>> getRequests(){
+        return requests;
     }
 
     /**

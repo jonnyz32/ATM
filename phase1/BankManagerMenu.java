@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class BankManagerMenu extends TextInterface{
 
     private BankManager bankManager;
@@ -39,9 +41,16 @@ public class BankManagerMenu extends TextInterface{
         bankManager.undoTransaction(username, account);
     }
 
-    //TODO: Finish this
-    public void approveAccount(){
-        bankManager.approveAccount(0);
+    private void approveAccount(){
+        List<Pair<String,String>> requests = BankManager.getRequests();
+        int i = 0;
+        for(Pair<String, String> request: requests){
+            System.out.println(i + ": " + request.getLeft() + " requests a " + request.getRight() + " account");
+            i++;
+        }
+        System.out.println("Input id to approve:");
+        int target = Integer.parseInt(nextLine());
+        bankManager.approveAccount(target);
     }
 
     private void createNewCustomer(){
