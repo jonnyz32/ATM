@@ -81,12 +81,12 @@ public abstract class GenericAccount extends TextInterface {
         lastTransTotal *= -1;
     }
 
-    void transferToSelf() {
+    void transferToSelf(double total) {
         //TODO: Select an account, somehow
         GenericAccount other;
-
+        
         lastTransTotal = total;
-        lastTransReverter = revertSelfTransfer();
+        lastTransReverter = ()->revertSelfTransfer();
         lastTransText = "Transferred $"+lastTransTotal+" to "+other.name;
         lastTransOtherAcc = other;
         //ToDo: Presumably, this influences the other account's last transaction too. Have to to that.
