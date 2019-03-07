@@ -20,6 +20,7 @@ public class ATM_machine extends TextInterface {
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
+        //TODO: increment date
         bills = FileManager.retrieveBills();
         users = FileManager.retrieveUsers();
         if(users.size()==0) {
@@ -33,7 +34,13 @@ public class ATM_machine extends TextInterface {
 
     public void exit() {
         active = false;
-        //TODO: If it's the 1st day of a month, give interest on savings accounts
+        FileManager.writeBills(bills);
+        FileManager.saveUsers(users);
+        if (date.get(Calendar.DAY_OF_MONTH) == 1){
+            for(int i = 0; i < users.size(); i++){
+                //user.Interest();
+            }
+        }
         //TODO: Add proper on-exit behaviors.
     }
 
