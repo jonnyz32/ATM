@@ -28,7 +28,7 @@ public class FileManager {
 
     }
 
-    public ArrayList<ATM_User> retrieveUsers(){
+    public static ArrayList<ATM_User> retrieveUsers(){
         File userFile = new File("./phase1/users.txt");
         try {
             FileInputStream file = new FileInputStream(userFile);
@@ -44,7 +44,7 @@ public class FileManager {
         return null;
     }
 
-    int[] retrieveBills(){
+    static int[] retrieveBills(){
         try {
             int i = 0;
             int[] billList = new int[4];
