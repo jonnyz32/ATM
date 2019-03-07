@@ -10,7 +10,7 @@ public class FileManager {
     private File allTransactions;
     private File deposits;
     private File withdrawals;
-    private File bills;
+    private static File bills;
     private File balanceHistory;
     private static File accounts;
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
@@ -44,6 +44,19 @@ public class FileManager {
         return null;
     }
 
+    public static void saveUsers(ArrayList<ATM_User> users){
+        File userFile = new File("./phase1/users.txt");
+        try {
+            FileOutputStream file = new FileOutputStream(userFile);
+            ObjectOutputStream objectStream = new ObjectOutputStream(file);
+            objectStream.writeObject(users);
+            objectStream.close();
+        }
+        catch (IOException x){
+            x.printStackTrace();
+        }
+    }
+
     static int[] retrieveBills(){
         try {
             int i = 0;
@@ -67,6 +80,21 @@ public class FileManager {
             return null;
         }
     }
+
+    static void writeBills(int[] billList){
+        try {
+            FileWriter file = new FileWriter(bills);
+            BufferedWriter writer = new BufferedWriter(file);
+
+            for(int i = 0; i < billList.length; i++) {
+                String newLine = ((Integer) billList[i]).toString();
+                writer.write(newLine);
+            }
+        } catch (IOException e) {
+            System.out.println("File could not be found");
+        }
+    }
+
 
 
 
