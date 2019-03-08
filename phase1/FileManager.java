@@ -12,19 +12,22 @@ public class FileManager {
 //    private File withdrawals;
 //    private File balanceHistory;
 //    private static File accounts;
-//    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
 //    private String username;
 //    private double balance;
       private static File bills;
       private static File userFile;
+      private static File outgoing;
 
     FileManager(){
 
 //        decimalFormat.setRoundingMode(RoundingMode.CEILING);
 //        createAccount(username, accountType);
 //        this.balance = initializeBalance();
-        bills = new File("phase1\\bills.txt");
-        userFile = new File("phase1/users.txt");//        System.out.println(bills.exists());
+        bills = new File("phase1/bills.txt");
+        userFile = new File("phase1/users.txt");
+        outgoing = new File("phase1/outgoing.txt");
+        //       System.out.println(bills.exists());
 
     }
 
@@ -41,6 +44,21 @@ public class FileManager {
             x.printStackTrace();
         }
         return null;
+    }
+
+        static void writeOutgoing(String username, String destination, double amount){
+        try {
+//            balance += amount;
+
+            Writer writer = new BufferedWriter(new FileWriter(outgoing, true));
+//            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
+            writer.write(String.format("%s, %s, %s\n", username, destination, decimalFormat.format(amount)));
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     static void saveUsers(ArrayList<ATM_User> users){
@@ -137,6 +155,7 @@ public class FileManager {
         System.out.println(f.bills.exists());
         System.out.println(f.bills.getAbsoluteFile());
         System.out.println(Arrays.toString(f.retrieveBills()));
+        FileManager.writeOutgoing("user1", "uofT", 1223);
 
 
         ATM_User user1 = new ATM_User("user1", "pass1");
