@@ -18,6 +18,7 @@ public class FileManager {
       private static File bills;
       private static File userFile;
       private static File outgoing;
+      private static File alerts;
 
     FileManager(){
 
@@ -27,6 +28,7 @@ public class FileManager {
         bills = new File("phase1/bills.txt");
         userFile = new File("phase1/users.txt");
         outgoing = new File("phase1/outgoing.txt");
+        alerts = new File("phase1/alerts.txt");
         //       System.out.println(bills.exists());
 
     }
@@ -73,6 +75,24 @@ public class FileManager {
             x.printStackTrace();
         }
     }
+    static void writeAlerts(ArrayList<int[]> alertList){
+        try {
+
+            Writer writer = new BufferedWriter(new FileWriter(alerts, true));
+
+            for (int[] x: alertList){
+
+                    writer.write(String.format("Number of %d dollar bills has fallen below 20. Current number: %d\n", x[0], x[1]));
+                }
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     static int[] retrieveBills(){
         try {
@@ -94,7 +114,7 @@ public class FileManager {
         } catch (IOException e) {
             System.out.println("File could not be found");
 
-            return null;
+            return new int[4];
         }
     }
 
@@ -144,6 +164,12 @@ public class FileManager {
 
     public static void main(String[] args) {
         FileManager f = new FileManager();
+        ArrayList<int[]> testArray = new ArrayList<>();
+        testArray.add(new int[]{5,15});
+        testArray.add(new int[]{10,23});
+        testArray.add(new int[]{20,12});
+        testArray.add(new int[]{50,65});
+
         Date d = new Date();
         double amount = 2745.635;
 //        System.out.println("Starting balance is " + f.getBalance());
@@ -156,6 +182,7 @@ public class FileManager {
         System.out.println(f.bills.getAbsoluteFile());
         System.out.println(Arrays.toString(f.retrieveBills()));
         FileManager.writeOutgoing("user1", "uofT", 1223);
+        FileManager.writeAlerts(testArray);
 
 
         ATM_User user1 = new ATM_User("user1", "pass1");
