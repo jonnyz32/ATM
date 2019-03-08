@@ -59,26 +59,54 @@ public class ATM_machine extends TextInterface {
     }
 
     static void checkForAlert(){
-        //SHOULD NOT HAVE FileWriters HERE! THAT'S FileManager's JOB!
-        try{
-            FileWriter writer = new FileWriter("alerts.txt");
+        HashMap<Integer, Integer> billsMap = new HashMap<>();
+        billsMap.put(0,5);
+        billsMap.put(1,10);
+        billsMap.put(2, 20);
+        billsMap.put(3, 50);
 
-            if (getNumFifties() < 20){
-                writer.write("numFifties has fallen below 20. Current number: "+getNumFifties());
-            }
-            if (getNumTwenties() < 20){
-                writer.write("numTwenties has fallen below 20. Current number: "+getNumTwenties());
-            }
-            if (getNumTens() < 20){
-                writer.write("numTens has fallen below 20. Current number: "+getNumTens());
-            }
-            if (getNumFives() < 20) {
-                writer.write("numFives has fallen below 20. Current number: "+getNumFives());
+        int[] bills = FileManager.retrieveBills();
+        ArrayList<int[]> alerts = new ArrayList<>();
+        for (int i = 0; i < 4; i++){
+            if (bills[i] < 20){
+                alerts.add(new int[]{billsMap.get(i),bills[i]});
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileManager.writeAlerts(alerts);
+
+//        if (getNumFifties() < 20){
+//            w.write("numFifties has fallen below 20. Current number: "+getNumFifties());
+//        }
+//        if (getNumTwenties() < 20){
+//            writer.write("numTwenties has fallen below 20. Current number: "+getNumTwenties());
+//        }
+//        if (getNumTens() < 20){
+//            writer.write("numTens has fallen below 20. Current number: "+getNumTens());
+//        }
+//        if (getNumFives() < 20) {
+//            writer.write("numFives has fallen below 20. Current number: "+getNumFives());
+//        }
+//
+//        //SHOULD NOT HAVE FileWriters HERE! THAT'S FileManager's JOB!
+//        try{
+//            FileWriter writer = new FileWriter("alerts.txt");
+//
+//            if (getNumFifties() < 20){
+//                writer.write("numFifties has fallen below 20. Current number: "+getNumFifties());
+//            }
+//            if (getNumTwenties() < 20){
+//                writer.write("numTwenties has fallen below 20. Current number: "+getNumTwenties());
+//            }
+//            if (getNumTens() < 20){
+//                writer.write("numTens has fallen below 20. Current number: "+getNumTens());
+//            }
+//            if (getNumFives() < 20) {
+//                writer.write("numFives has fallen below 20. Current number: "+getNumFives());
+//            }
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     static Calendar getTime(){return date;}
