@@ -150,4 +150,16 @@ public class ATM_machine extends TextInterface {
         }
         return null;
     }
+
+    static void update_user (Customer customer) {
+        String to_update = customer.getUsername();
+        int i = 0;
+        for (ATM_User u: users) {
+            if (u.getUsername().equals(to_update)) {
+                users.set(i, customer);
+                break;
+            }
+            i += 1;
+        }
+    }
 }
