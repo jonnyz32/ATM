@@ -20,16 +20,15 @@ public class FileManager {
     FileManager(String username, String accountType){
 
         decimalFormat.setRoundingMode(RoundingMode.CEILING);
-        createAccount(username, accountType);
-        this.balance = initializeBalance();
+//        createAccount(username, accountType);
+//        this.balance = initializeBalance();
         this.bills = new File("group_0331\\phase1\\bills.txt");
         System.out.println(bills.exists());
-
 
     }
 
     public static ArrayList<ATM_User> retrieveUsers(){
-        File userFile = new File("./phase1/users.txt");
+        File userFile = new File("group_0331/phase1/users.txt");
         try {
             FileInputStream file = new FileInputStream(userFile);
             ObjectInputStream objectStream = new ObjectInputStream(file);
@@ -45,7 +44,7 @@ public class FileManager {
     }
 
     public static void saveUsers(ArrayList<ATM_User> users){
-        File userFile = new File("./phase1/users.txt");
+        File userFile = new File("group_0331/phase1/users.txt");
         try {
             FileOutputStream file = new FileOutputStream(userFile);
             ObjectOutputStream objectStream = new ObjectOutputStream(file);
@@ -87,7 +86,7 @@ public class FileManager {
             BufferedWriter writer = new BufferedWriter(file);
 
             for(int i = 0; i < billList.length; i++) {
-                String newLine = ((Integer) billList[i]).toString();
+                String newLine = String.valueOf(billList[i]);
                 writer.write(newLine);
             }
         } catch (IOException e) {
@@ -99,67 +98,33 @@ public class FileManager {
 
 
 
-    private double initializeBalance() {
-        try {
-            FileReader file = new FileReader(balanceHistory);
-            BufferedReader reader = new BufferedReader(file);
+     ArrayList<int[]> readDeposits(String depositFile){
 
-            String balance = reader.readLine();
-            String temp = "0.0";
-            while (balance != null) {
-                temp = balance;
-                balance = reader.readLine();
+        ArrayList<int[]> allDeposits = new ArrayList<>();
+         try {
+            FileReader file = new FileReader(depositFile);
+            BufferedReader reader = new BufferedReader(file);
+            String temp = reader.readLine();
+            while (temp != null){
+                String[] depositArrayString = temp.split(",");
+                int[] depositArrayNum = new int[7];
+                for (int x = 0; x < 7; x++){
+                    depositArrayNum[x] = Integer.parseInt(depositArrayString[x]);
+                }
+                allDeposits.add(depositArrayNum);
+                temp = reader.readLine();
             }
-            return Double.parseDouble(temp);
 
         } catch (IOException e) {
             System.out.println("File could not be found");
 
-            return 0.0;
+            return null;
         }
+
+        return allDeposits;
     }
 
-//     ArrayList<Double> readDeposits(File depositFile){
-//         ArrayList<Double> depositList = new ArrayList<>();
-//
-//         try {
-//            FileReader file = new FileReader(depositFile);
-//            BufferedReader reader = new BufferedReader(file);
-//            double depositAmount = 0.0;
-//            String temp = "0.0";
-//            while (temp != null){
-//                depositList.add(Double.parseDouble(temp));
-//                temp = reader.readLine();
-//            }
-//
-//        } catch (IOException e) {
-//            System.out.println("File could not be found");
-//
-//            return null;
-//        }
-//        depositList.remove(0);
-//        return depositList;
-//    }
 
-    private double getLatestTransactions(){
-        try {
-            FileReader file = new FileReader(allTransactions);
-            BufferedReader reader = new BufferedReader(file);
-
-            String transaction = reader.readLine();
-            String temp = "0.0";
-            while (transaction != null) {
-                temp = transaction;
-                transaction = reader.readLine();
-            }
-            return Double.parseDouble(temp.split(" ")[0]);
-
-        } catch (IOException e) {
-            System.out.println("File could not be found");
-
-            return 0.0;
-        }
-    }
 
 
 
@@ -174,85 +139,141 @@ public class FileManager {
         Date d = new Date();
         double amount = 2745.635;
         System.out.println("Starting balance is " + f.getBalance());
-        f.depositMoney(amount, d);
-        f.withdrawMoney(123.45, d);
+//        f.depositMoney(amount, d);
+//        f.withdrawMoney(123.45, d);
         System.out.println("Ending balance is " + f.getBalance());
-        System.out.println(f.getLatestTransactions());
+//        System.out.println(f.getLatestTransactions());
 //        System.out.println(f.readDeposits(f.balanceHistory));
         System.out.println(f.bills.exists());
         System.out.println(f.bills.getAbsoluteFile());
         System.out.println(Arrays.toString(f.retrieveBills()));
 
 
-    }
-
-    private void createAccount(String username, String accountType){
-
-            this.username = username;
-            File user = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType);
-            user.mkdirs();
-
-
-            this.allTransactions = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\allTransactions.txt");
-            this.deposits = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\deposits.txt");
-            this.withdrawals = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\withdrawals.txt");
-            this.balanceHistory = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\balanceHistory.txt");
-
-    }
-
-    void depositMoney(double amount, Date date){
-        try {
-            balance += amount;
-
-            Writer writer = new BufferedWriter(new FileWriter(deposits, true));
-//            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
-            writer.write(decimalFormat.format(amount) + " " + date + "\n");
-
-            writer.close();
-
-            writer = new BufferedWriter(new FileWriter(allTransactions, true));
-//            writer.write(String.format("" +
-//                    "Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
-
-            writer.write(decimalFormat.format(amount) + " " + date + "\n");
-            writer.close();
-
-            writer = new BufferedWriter(new FileWriter(balanceHistory, true));
-//            writer.write(Double.toString(balance) + "\n" +"hello");
-            writer.write(decimalFormat.format(balance) + "\n");
-            writer.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        ATM_User user1 = new ATM_User("user1", "pass1");
+        ATM_User user2 = new ATM_User("user2", "pass2");
+        ArrayList<ATM_User> userlist = new ArrayList<>();
+        userlist.add(user1);
+        userlist.add(user2);
+        FileManager.saveUsers(userlist);
+        System.out.println(FileManager.retrieveUsers());
+        System.out.println(FileManager.retrieveUsers().get(0).getUsername());
+        System.out.println(System.getProperty("user.dir"));
+        ArrayList<int[]> testdepostist = f.readDeposits("group_0331/phase1/depositFile.txt");
+        for(int i = 0; i< testdepostist.size(); i++){
+            System.out.println(Arrays.toString(testdepostist.get(i)));
         }
+
+
+
     }
 
-    void withdrawMoney(double amount, Date date){
-        try {
-            balance -= amount;
-            Writer writer = new BufferedWriter(new FileWriter(withdrawals, true));
-//            writer.write(String.format("Withdrew %s dollars on %tc \n", decimalFormat.format(amount), date));
-            writer.write(decimalFormat.format(amount * -1) +" " + date + "\n");
+//    private void createAccount(String username, String accountType){
+//
+//            this.username = username;
+//            File user = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType);
+//            user.mkdirs();
+//
+//
+//            this.allTransactions = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\allTransactions.txt");
+//            this.deposits = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\deposits.txt");
+//            this.withdrawals = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\withdrawals.txt");
+//            this.balanceHistory = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\balanceHistory.txt");
+//
+//    }
 
-            writer.close();
+//    void depositMoney(double amount, Date date){
+//        try {
+//            balance += amount;
+//
+//            Writer writer = new BufferedWriter(new FileWriter(deposits, true));
+////            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
+//            writer.write(decimalFormat.format(amount) + " " + date + "\n");
+//
+//            writer.close();
+//
+//            writer = new BufferedWriter(new FileWriter(allTransactions, true));
+////            writer.write(String.format("" +
+////                    "Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
+//
+//            writer.write(decimalFormat.format(amount) + " " + date + "\n");
+//            writer.close();
+//
+//            writer = new BufferedWriter(new FileWriter(balanceHistory, true));
+////            writer.write(Double.toString(balance) + "\n" +"hello");
+//            writer.write(decimalFormat.format(balance) + "\n");
+//            writer.close();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-            writer = new BufferedWriter(new FileWriter(allTransactions, true));
-//            writer.write(String.format("" +
-////                    "Withdrew %s dollars on %tc \n", decimalFormat.format(amount), date));
+//    void withdrawMoney(double amount, Date date){
+//        try {
+//            balance -= amount;
+//            Writer writer = new BufferedWriter(new FileWriter(withdrawals, true));
+////            writer.write(String.format("Withdrew %s dollars on %tc \n", decimalFormat.format(amount), date));
+//            writer.write(decimalFormat.format(amount * -1) +" " + date + "\n");
+//
+//            writer.close();
+//
+//            writer = new BufferedWriter(new FileWriter(allTransactions, true));
+////            writer.write(String.format("" +
+//////                    "Withdrew %s dollars on %tc \n", decimalFormat.format(amount), date));
+//
+//            writer.write(decimalFormat.format(amount * -1) + " " + date +"\n");
+//
+//            writer.close();
+//
+//            writer = new BufferedWriter(new FileWriter(balanceHistory, true));
+//            writer.write(decimalFormat.format(balance) + "\n");
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    // void CustomerRequestsBankAccountCreation(String username, String bankAccountType)
 
-            writer.write(decimalFormat.format(amount * -1) + " " + date +"\n");
 
-            writer.close();
+//
+//    private double initializeBalance() {
+//        try {
+//            FileReader file = new FileReader(balanceHistory);
+//            BufferedReader reader = new BufferedReader(file);
+//
+//            String balance = reader.readLine();
+//            String temp = "0.0";
+//            while (balance != null) {
+//                temp = balance;
+//                balance = reader.readLine();
+//            }
+//            return Double.parseDouble(temp);
+//
+//        } catch (IOException e) {
+//            System.out.println("File could not be found");
+//
+//            return 0.0;
+//        }
+//    }
 
-            writer = new BufferedWriter(new FileWriter(balanceHistory, true));
-            writer.write(decimalFormat.format(balance) + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // void CustomerRequestsBankAccountCreation(String username, String bankAccountType)
-
-
+    //    private double getLatestTransactions(){
+//        try {
+//            FileReader file = new FileReader(allTransactions);
+//            BufferedReader reader = new BufferedReader(file);
+//
+//            String transaction = reader.readLine();
+//            String temp = "0.0";
+//            while (transaction != null) {
+//                temp = transaction;
+//                transaction = reader.readLine();
+//            }
+//            return Double.parseDouble(temp.split(" ")[0]);
+//
+//        } catch (IOException e) {
+//            System.out.println("File could not be found");
+//
+//            return 0.0;
+//        }
+//    }
 }
