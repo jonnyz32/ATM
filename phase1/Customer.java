@@ -9,48 +9,45 @@ public class Customer extends ATM_User {
 	private ArrayList<GenericAccount> accounts;
 
 	// Initialize new customer
-	public Customer(String username, String password){
+	Customer(String username, String password){
 		super(username, password);
-		accounts = new ArrayList<GenericAccount>();
+		accounts = new ArrayList<>();
 	}
 
-	public void requestAccount(){
-		Scanner s = new Scanner(System.in);
-		System.out.println("What kind of account?"); //TODO: list their options
-		String accountType = s.nextLine();
+	void requestAccount(String accountType){
 		BankManager.requestAccount(this.getUsername(), accountType);
 	}
 
-	public void addAccount(String account) {
+	void addAccount(String account) {
 		if(account.equals("Chequing")) {
 			accounts.add(new ChequingAcc());
-		} else if(account.equals("CreditCard")) {
+		} else if(account.equals("Credit")) {
 			accounts.add(new CreditCardAcc());
 		} else if(account.equals("CreditLine")) {
 			accounts.add(new CreditLineAcc());
-		} else if(account.equals("Saving")) {
+		} else if(account.equals("Savings")) {
 			accounts.add(new SavingAcc());
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");
 		}
 	}
 
-	public void viewAccount(int i) {
-		accounts.get(i).showMenu();
-	}
+	ArrayList<GenericAccount> getAccounts(){
+	    return accounts;
+    }
 
 	//Summary of account balances
-	public void getFullSummary(){
+	String getFullSummary(){
 		String summary = "";
 		for (GenericAccount acc : accounts){
 			summary += acc.getSummary();
 			summary += "\n";
 		}
-		System.out.println(summary);
+		return summary;
 	}
 
 	//Net total of all accounts
-	public void getNetTotal(){
+	double getNetTotal(){
 		double total = 0;
 		for (GenericAccount acc : accounts) {
 			if (acc.isAsset()) {
@@ -59,13 +56,13 @@ public class Customer extends ATM_User {
 				total -= acc.getBalance();
 			}
 		}
-		System.out.println("Your net total is :");
-		System.out.println("$"+total);
+		return total;
 	}
 
-	//Get account given name
-	// Assume account has given name
-	public GenericAccount getbyname(String name) {
+    /**
+     * Gets an account given the name.
+     */
+	GenericAccount getAccountByName(String name) {
 		for (GenericAccount a: accounts) {
 			if (a.name.equals(name)) {
 				return a;
