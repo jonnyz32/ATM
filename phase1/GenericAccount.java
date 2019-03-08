@@ -1,6 +1,7 @@
 // An abstract Class for Acounts
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GenericAccount extends TextInterface {
+public class GenericAccount extends TextInterface implements Serializable {
 
     Customer owner;
     double balance;
@@ -65,12 +66,11 @@ public class GenericAccount extends TextInterface {
         }
         else {
             other_acc.balance -= amount;
-
         }
+        ATM_machine.update_user(owner);
     }
 
     void depositCash() {
-        //TODO store transaction in deposits.txt
         Scanner s = new Scanner(System.in);
         System.out.println("How many Fives?");
         int fives = s.nextInt();
@@ -91,9 +91,13 @@ public class GenericAccount extends TextInterface {
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()+twenties);
         ATM_machine.setFifties(ATM_machine.getNumFifties()+fifties);
 
+        FileManager.writeOutgoing(owner.getUsername(), name, total);
+
         lastTransReverter = ()-> revertDeposit();
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
         past_trans.add(lastTransText);
+
+        ATM_machine.update_user(owner);
     }
     void revertDeposit() {
         if(asset) {
@@ -103,10 +107,10 @@ public class GenericAccount extends TextInterface {
         }
         past_trans.remove(past_trans.size() - 1);
         lastTransText = getLatestTransaction();
+        ATM_machine.update_user(owner);
     }
 
     void transferToSelf() {
-        // TODO should update array list entry for this user
         Scanner i = new Scanner(System.in);
         System.out.println("Amount to transfer?");
         Double amount = i.nextDouble();
@@ -137,16 +141,17 @@ public class GenericAccount extends TextInterface {
         }
         past_trans.remove(past_trans.size() - 1);
         lastTransText = getLatestTransaction();
+        ATM_machine.update_user(owner);
     }
 
-    GenericAccount transferToOther_helper() {
+    Customer transferToOther_helper() {
         // Get the user and the account
         Scanner s = new Scanner(System.in);
         System.out.println("Who would you like to transfer to");
         String other_username = s.next();
         boolean other_exists = false;
         Customer other_user = null;
-        ArrayList<ATM_User> all_users = FileManager.retrieveUsers();
+        ArrayList<ATM_User> all_users = ATM_machine.users;
         for (ATM_User u: all_users) {
             if (u.getUsername().equals(other_username)) {
                 other_user = (Customer) u;
@@ -158,20 +163,21 @@ public class GenericAccount extends TextInterface {
             System.out.println("That username does not exist, please try another user.");
             transferToOther_helper();
         }
-        String message = "Which account of " + other_user.getUsername() + " would you like to transfer to?";
-        System.out.println(message);
-        String other_acc_name = s.next();
-        return other_user.getAccountByName(other_acc_name);
+        return other_user;
     }
 
     void transferToOther() {
-        // TODO should find other user and this user in user array and update accordingly
         Scanner s = new Scanner(System.in);
-        GenericAccount other_acc = transferToOther_helper();
+        Customer other_user = transferToOther_helper();
+        String message = "Which account of " + other_user.getUsername() + " would you like to transfer to?";
+        System.out.println(message);
+        String other_acc_name = s.next();
+        GenericAccount other_acc = other_user.getAccountByName(other_acc_name);
         System.out.println("How much would you like to transfer?");
         Double amount = s.nextDouble();
         transferBetweenHelper(other_acc, amount, other_acc.owner.getUsername());
         lastTransReverter = () -> revertTransferOther();
+        ATM_machine.update_user(other_user);
     }
 
     void revertTransferOther() {
