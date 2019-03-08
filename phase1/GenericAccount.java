@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class GenericAccount extends TextInterface {
+public class GenericAccount extends TextInterface {
 
     Customer owner;
     double balance;
@@ -225,18 +225,10 @@ public abstract class GenericAccount extends TextInterface {
         return bill_split;
     }
 
-    /*
-    * Internal methods.
-    */
-
-    // Set the balance of the account
-    void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    // Return the amount the was last transferred, with appropriate sign.
+    // Return the amount the was last transferred.
     Double getLastAmount() {
         Matcher m = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+").matcher(getLatestTransaction());
+        Double amount;
         if (m.find()) {
             return Double.valueOf(m.group(0));
         }
@@ -245,18 +237,9 @@ public abstract class GenericAccount extends TextInterface {
         }
     }
 
-
-    // True if asset account, false is debt account
-    void setAsset(boolean asset) {
-        this.asset = asset;
-    }
-
-    double getBalance() {
-        return balance;
-    }
-
-    boolean isAsset() {
-        return asset;
+    // Set the balance of the account
+    void setBalance(double balance) {
+        this.balance = balance;
     }
 
     // Returns the latest transaction.
@@ -264,17 +247,8 @@ public abstract class GenericAccount extends TextInterface {
 
 
     //Get a string representation
-    abstract String getSummary();
-
-    //Update UserArray in ATM after a transaction
-    void updateUsersArray(Customer u) {
-        /*
-        TODO should find entry of user in array and update that index.
-        TODO Need to be able to compare between users.
-         */
+    String getSummary() {
+        return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
+                + "Asset: " + asset + "Balance: " + balance + "Last Transaction: " + lastTransText;
     }
-
-
-    // Get date account was created.
-    abstract Calendar getCreation_date();
 }
