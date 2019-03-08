@@ -38,7 +38,7 @@ public class CustomerMenu extends TextInterface{
         System.out.println("$"+total);
     }
 
-    public void viewAccount(int i) {
+    private void viewAccount(int i) {
         GenericAccount account = customer.getAccounts().get(i);
         new AccountMenu(account).showMenu();
     }
