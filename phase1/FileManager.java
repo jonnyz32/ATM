@@ -7,28 +7,28 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class FileManager {
-    private File allTransactions;
-    private File deposits;
-    private File withdrawals;
-    private static File bills;
-    private File balanceHistory;
-    private static File accounts;
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private String username;
-    private double balance;
+//    private File allTransactions;
+//    private File deposits;
+//    private File withdrawals;
+//    private File balanceHistory;
+//    private static File accounts;
+//    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
+//    private String username;
+//    private double balance;
+      private static File bills;
+      private static File userFile;
 
-    FileManager(String username, String accountType){
+    FileManager(){
 
-        decimalFormat.setRoundingMode(RoundingMode.CEILING);
+//        decimalFormat.setRoundingMode(RoundingMode.CEILING);
 //        createAccount(username, accountType);
 //        this.balance = initializeBalance();
-        this.bills = new File("group_0331\\phase1\\bills.txt");
-        System.out.println(bills.exists());
+        bills = new File("phase1\\bills.txt");
+        userFile = new File("phase1/users.txt");//        System.out.println(bills.exists());
 
     }
 
-    public static ArrayList<ATM_User> retrieveUsers(){
-        File userFile = new File("group_0331/phase1/users.txt");
+    static ArrayList<ATM_User> retrieveUsers(){
         try {
             FileInputStream file = new FileInputStream(userFile);
             ObjectInputStream objectStream = new ObjectInputStream(file);
@@ -43,8 +43,8 @@ public class FileManager {
         return null;
     }
 
-    public static void saveUsers(ArrayList<ATM_User> users){
-        File userFile = new File("group_0331/phase1/users.txt");
+    static void saveUsers(ArrayList<ATM_User> users){
+        File userFile = new File("phase1/users.txt");
         try {
             FileOutputStream file = new FileOutputStream(userFile);
             ObjectOutputStream objectStream = new ObjectOutputStream(file);
@@ -97,8 +97,7 @@ public class FileManager {
 
 
 
-
-     ArrayList<int[]> readDeposits(String depositFile){
+     static ArrayList<int[]> readDeposits(String depositFile){
 
         ArrayList<int[]> allDeposits = new ArrayList<>();
          try {
@@ -125,23 +124,14 @@ public class FileManager {
     }
 
 
-
-
-
-
-    double getBalance(){
-            return this.balance;
-        }
-
-
     public static void main(String[] args) {
-        FileManager f = new FileManager("user2","chequing");
+        FileManager f = new FileManager();
         Date d = new Date();
         double amount = 2745.635;
-        System.out.println("Starting balance is " + f.getBalance());
-//        f.depositMoney(amount, d);
-//        f.withdrawMoney(123.45, d);
-        System.out.println("Ending balance is " + f.getBalance());
+//        System.out.println("Starting balance is " + f.getBalance());
+////        f.depositMoney(amount, d);
+////        f.withdrawMoney(123.45, d);
+//        System.out.println("Ending balance is " + f.getBalance());
 //        System.out.println(f.getLatestTransactions());
 //        System.out.println(f.readDeposits(f.balanceHistory));
         System.out.println(f.bills.exists());
@@ -158,7 +148,7 @@ public class FileManager {
         System.out.println(FileManager.retrieveUsers());
         System.out.println(FileManager.retrieveUsers().get(0).getUsername());
         System.out.println(System.getProperty("user.dir"));
-        ArrayList<int[]> testdepostist = f.readDeposits("group_0331/phase1/depositFile.txt");
+        ArrayList<int[]> testdepostist = f.readDeposits("phase1/depositFile.txt");
         for(int i = 0; i< testdepostist.size(); i++){
             System.out.println(Arrays.toString(testdepostist.get(i)));
         }
@@ -170,14 +160,14 @@ public class FileManager {
 //    private void createAccount(String username, String accountType){
 //
 //            this.username = username;
-//            File user = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType);
+//            File user = new File("phase1\\accounts\\" + username + "\\" + accountType);
 //            user.mkdirs();
 //
 //
-//            this.allTransactions = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\allTransactions.txt");
-//            this.deposits = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\deposits.txt");
-//            this.withdrawals = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\withdrawals.txt");
-//            this.balanceHistory = new File("group_0331\\phase1\\accounts\\" + username + "\\" + accountType + "\\balanceHistory.txt");
+//            this.allTransactions = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\allTransactions.txt");
+//            this.deposits = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\deposits.txt");
+//            this.withdrawals = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\withdrawals.txt");
+//            this.balanceHistory = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\balanceHistory.txt");
 //
 //    }
 
