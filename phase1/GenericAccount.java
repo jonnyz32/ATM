@@ -12,13 +12,13 @@ public abstract class GenericAccount extends TextInterface {
     double balance;
     boolean asset;
     String name;
-    ArrayList<Double> past_trans;
+    ArrayList<String> past_trans;
     Calendar creation_date;
 
     //ToDo: How to track last transaction?
     Runnable lastTransReverter;
     // lastTrans is negative if money was taking out and positive if money went in
-    Double lastTrans;
+    String lastTrans;
     String lastTransText;
     GenericAccount lastTransOtherAcc;
 
@@ -35,8 +35,8 @@ public abstract class GenericAccount extends TextInterface {
 
     void showLastTransaction() {
         System.out.println("Last Transaction:");
-        lastTransText = getLatestTransaction().toString();
-        System.out.println(lastTransText + "in" + name);
+        lastTransText = getLatestTransaction();
+        System.out.println(lastTransText);
     }
 
     void showBalance() {
@@ -72,19 +72,17 @@ public abstract class GenericAccount extends TextInterface {
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()+twenties);
         ATM_machine.setFifties(ATM_machine.getNumFifties()+fifties);
 
-        lastTrans = (double) total;
-        past_trans.add(lastTrans);
         lastTransReverter = ()-> revertDeposit();
-        lastTransText = "Deposited cash amount of $"+lastTrans;
+        lastTransText = "Deposited cash amount of $"+total + " to " + name;
+        past_trans.add(lastTrans);
         lastTransOtherAcc = null;
     }
     void revertDeposit() {
         if(asset) {
-            balance -= getLatestTransaction();
+            balance -= getLastAmount();
         } else {
-            balance += getLatestTransaction();
+            balance += getLastAmount();
         }
-        lastTransText = "Reverted cash deposit of $"+ getLatestTransaction();
         lastTrans = past_trans.get(past_trans.size() - 2);
         past_trans.remove(past_trans.size() - 1);
     }
@@ -96,31 +94,32 @@ public abstract class GenericAccount extends TextInterface {
         Double amount = i.nextDouble();
         System.out.println("Account to transfer to?");
         String other_acc_name = i.next();
-        GenericAccount other_acc = owner.getbyname(other_acc_name);
-        lastTrans = amount;
+        GenericAccount other_acc = owner.getAccountByName(other_acc_name);
+        // Maybe print an error message if other_acc_name does not exist.
+        lastTransText = "Transferred $" + Math.abs(amount) + " From:" + name + " to "+other_acc.name;
         // Add this transaction to this account
         if (asset) {
             balance -= amount;
-            past_trans.add(-amount);
+            past_trans.add(lastTransText);
         }
         else {
             balance += amount;
-            past_trans.add(-amount);
+            past_trans.add(lastTransText);
         }
         if (other_acc.asset) {
             other_acc.balance += amount;
-            other_acc.past_trans.add(amount);
+            other_acc.past_trans.add(lastTransText);
         }
         else {
             other_acc.balance -= amount;
-            other_acc.past_trans.add(amount);
+            other_acc.past_trans.add(lastTransText);
 
         }
         lastTransReverter = ()-> revertSelfTransfer();
-        lastTransText = "Transferred $"+lastTrans+" to "+other_acc.name;
         //ToDo: Presumably, this influences the other account's last transaction too. Have to to that.
     }
     void revertSelfTransfer() {
+        String other_acc = lastTransText;
 
 
     }
@@ -153,6 +152,16 @@ public abstract class GenericAccount extends TextInterface {
         this.balance = balance;
     }
 
+    // Return the amount the was last transferred, with appropriate sign.
+    Double getLastAmount() {
+        String[] a = lastTransText.split(" ");
+        String s1 = a[0].split(" ")[a.length - 1];
+        return Double.valueOf(s1.substring(1));
+
+
+    }
+
+
     // True if asset account, false is debt account
     void setAsset(boolean asset) {
         this.asset = asset;
@@ -173,7 +182,7 @@ public abstract class GenericAccount extends TextInterface {
     abstract void transferOut(double amount);
 
     // Returns the latest transaction.
-    Double getLatestTransaction() {return past_trans.get(past_trans.size() - 1);}
+    String getLatestTransaction() {return past_trans.get(past_trans.size() - 1);}
 
 
     //Get a string representation
