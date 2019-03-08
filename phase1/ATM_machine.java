@@ -47,13 +47,19 @@ public class ATM_machine extends TextInterface {
     static void logIn() {
         Scanner s = new Scanner(System.in);
         System.out.println("Input your username");
-        String user = s.nextLine();
+        String userName = s.nextLine();
         System.out.println("Input your password");
         String pass = s.nextLine();
         for (int i = 0; i < users.size(); i++){
-            if(users.get(i).getUsername().equals(user) && users.get(i).getPassword().equals(pass)){
+            if(users.get(i).getUsername().equals(userName) && users.get(i).getPassword().equals(pass)){
                 System.out.println("Success!");
-                users.get(i).showMenu();
+                ATM_User user = users.get(i);
+                if(user instanceof Customer) {
+                    new CustomerMenu((Customer) user).showMenu();
+                }
+                else if(user instanceof BankManager){
+                    new BankManagerMenu((BankManager) user).showMenu();
+                }
             }
         }
     }
