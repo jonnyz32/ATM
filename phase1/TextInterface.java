@@ -5,14 +5,16 @@ import java.util.Scanner;
 
 class TextInterface {
 
-    String header;
-    String footer;
-    ArrayList<Action> actions;
+    private String header;
+    private String footer;
+    private ArrayList<Action> actions;
     boolean active;
+    private TextInterface previous;
 
-    public static Scanner in = new Scanner(System.in);
+    private static Scanner in = new Scanner(System.in);
 
-    public TextInterface() {
+    public TextInterface(TextInterface previous) {
+        this.previous = previous;
         actions = new ArrayList<Action>();
         addAction(0, ()->exit(), "Back");
     }
@@ -32,10 +34,11 @@ class TextInterface {
     }
 
     public void exit() {
+        previous.showMenu();
         active = false;
     }
 
-    public void showMenu() {
+    void showMenu() {
         active = true;
         System.out.println(header);
         for(int i=0;i<actions.size();i++) {

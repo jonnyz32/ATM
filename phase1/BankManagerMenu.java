@@ -4,8 +4,8 @@ public class BankManagerMenu extends TextInterface{
 
     private BankManager bankManager;
 
-    public BankManagerMenu(BankManager bankManager){
-        super();
+    public BankManagerMenu(BankManager bankManager, TextInterface previous){
+        super(previous);
         this.bankManager = bankManager;
         addAction(1, ()->setSystemDate(), "Set system date");
         addAction(2, ()->addBills(), "Restock bills");

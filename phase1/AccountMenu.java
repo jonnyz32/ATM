@@ -4,7 +4,8 @@ public class AccountMenu extends TextInterface{
 
     private GenericAccount account;
 
-    public AccountMenu(GenericAccount account){
+    public AccountMenu(GenericAccount account, TextInterface previous){
+        super(previous);
         this.account = account;
         addAction(1, ()->showBalance(), "View Balance");
         addAction(2, ()->getLastTransaction(), "See Last Transaction");

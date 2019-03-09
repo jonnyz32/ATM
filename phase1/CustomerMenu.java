@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class CustomerMenu extends TextInterface{
     private Customer customer;
 
-    public CustomerMenu(Customer customer){
-        super();
+    public CustomerMenu(Customer customer, TextInterface previous){
+        super(previous);
         this.customer = customer;
         addAction(1, ()->getFullSummary(), "Get account summary");
         addAction(2, ()->requestAccount(), "Request account creation");
@@ -40,6 +40,6 @@ public class CustomerMenu extends TextInterface{
 
     private void viewAccount(int i) {
         GenericAccount account = customer.getAccounts().get(i);
-        new AccountMenu(account).showMenu();
+        new AccountMenu(account, this).showMenu();
     }
 }

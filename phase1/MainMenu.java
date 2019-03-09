@@ -2,7 +2,7 @@ import java.util.Calendar;
 
 public class MainMenu extends TextInterface{
     public MainMenu(){
-        super();
+        super(null);
         addAction(1, ()->login(), "Login to an account");
     }
 
@@ -15,11 +15,11 @@ public class MainMenu extends TextInterface{
         if ((user != null) && (user.getPassword().equals(password))){
             if (user instanceof Customer) {
                 System.out.println("Login successful");
-                new CustomerMenu((Customer) user).showMenu();
+                new CustomerMenu((Customer) user, this).showMenu();
             }
             else if (user instanceof BankManager) {
                 System.out.println("Login successful");
-                new BankManagerMenu((BankManager) user).showMenu();
+                new BankManagerMenu((BankManager) user, this).showMenu();
             }
             else{
                 System.out.println("This should never, ever, happen.");
