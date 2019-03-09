@@ -29,7 +29,6 @@ public class ATM_machine extends TextInterface {
         //addAction(1, ()->logIn(), "Log In");
         //showMenu();
         logIn();
-        System.out.println(System.getProperty("user.dir"));
     }
 
     public void exit() {
