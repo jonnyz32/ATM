@@ -20,13 +20,18 @@ public class Customer extends ATM_User {
 
 	void addAccount(String account) {
 		if(account.equals("Chequing")) {
-			accounts.add(new ChequingAcc());
+			if (account.length() == 0) {
+				// the first account is the primary account
+				accounts.add(new ChequingAcc(getUsername(), this, true));
+			} else {
+				accounts.add(new ChequingAcc(getUsername(), this, false));
+			}
 		} else if(account.equals("Credit")) {
-			accounts.add(new CreditCardAcc());
+			accounts.add(new CreditCardAcc(getUsername(), this));
 		} else if(account.equals("CreditLine")) {
-			accounts.add(new CreditLineAcc());
+			accounts.add(new CreditLineAcc(getUsername(), this));
 		} else if(account.equals("Savings")) {
-			accounts.add(new SavingAcc());
+			accounts.add(new SavingAcc(getUsername(), this));
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");
 		}
@@ -68,7 +73,7 @@ public class Customer extends ATM_User {
 				return a;
 			}
 		}
-		return new ChequingAcc();
+		return new ChequingAcc(getUsername(), this, false);
 	}
 
 	/*
