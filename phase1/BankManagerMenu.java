@@ -22,6 +22,7 @@ public class BankManagerMenu extends TextInterface{
         System.out.println("Input day:");
         int day = Integer.parseInt(nextLine());
         bankManager.setSystemDate(year, month, day);
+        showMenu();
     }
 
     private void addBills(){
@@ -32,6 +33,7 @@ public class BankManagerMenu extends TextInterface{
         if(bankManager.addBills(type, num)==-1){
             System.out.println("ERROR: Invalid input");
         }
+        showMenu();
     }
 
     private void undoTransaction(){
@@ -40,6 +42,7 @@ public class BankManagerMenu extends TextInterface{
         System.out.println("Input account name:");
         String account = nextLine();
         bankManager.undoTransaction(username, account);
+        showMenu();
     }
 
     private void approveAccount(){
@@ -52,6 +55,7 @@ public class BankManagerMenu extends TextInterface{
         System.out.println("Input id to approve:");
         int target = Integer.parseInt(nextLine());
         bankManager.approveAccount(target);
+        showMenu();
     }
 
     private void createNewCustomer(){
@@ -60,5 +64,6 @@ public class BankManagerMenu extends TextInterface{
         System.out.println("Input password:");
         String password = nextLine();
         bankManager.createNewCustomer(username, password);
+        showMenu();
     }
 }
