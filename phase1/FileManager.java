@@ -120,7 +120,7 @@ public class FileManager {
 
     static void writeBills(int[] billList){
         try {
-            FileWriter file = new FileWriter(bills);
+            FileWriter file = new FileWriter("phase1/bills.txt");
             BufferedWriter writer = new BufferedWriter(file);
 
             for(int i = 0; i < billList.length; i++) {
