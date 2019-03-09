@@ -12,8 +12,7 @@ public class MainMenu extends TextInterface{
         System.out.println("Input password:");
         String password = nextLine();
         ATM_User user = ATM_machine.getUser(username);
-        if (user!= null &&
-                user.getPassword() == password){
+        if ((user != null) && (user.getPassword().equals(password))){
             if (user instanceof Customer) {
                 System.out.println("Login successful");
                 new CustomerMenu((Customer) user).showMenu();
@@ -21,6 +20,9 @@ public class MainMenu extends TextInterface{
             else if (user instanceof BankManager) {
                 System.out.println("Login successful");
                 new BankManagerMenu((BankManager) user).showMenu();
+            }
+            else{
+                System.out.println("This should never, ever, happen.");
             }
         }
         else{
