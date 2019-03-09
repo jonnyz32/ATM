@@ -243,6 +243,14 @@ public class GenericAccount extends TextInterface implements Serializable {
         }
     }
 
+    boolean isAsset() {
+        return this.asset;
+    }
+
+    Double getBalance() {
+        return this.balance;
+    }
+
     // Set the balance of the account
     void setBalance(double balance) {
         this.balance = balance;
