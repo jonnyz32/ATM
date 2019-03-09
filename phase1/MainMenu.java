@@ -33,7 +33,7 @@ public class MainMenu extends TextInterface{
 
     @Override
     public void exit() {
-        ATM_machine.exit();
+        ATM_machine.onExit();
         active = false;
     }
 }

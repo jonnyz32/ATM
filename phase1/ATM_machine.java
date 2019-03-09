@@ -31,7 +31,7 @@ public class ATM_machine{
         new MainMenu().showMenu();
     }
 
-    static public void exit() {
+    static public void onExit() {
         FileManager.writeBills(bills);
         FileManager.saveUsers(users);
         if (date.get(Calendar.DAY_OF_MONTH) == 1){
