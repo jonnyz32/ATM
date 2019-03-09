@@ -23,6 +23,7 @@ public class CustomerMenu extends TextInterface{
     private void getFullSummary() {
         String summary = customer.getFullSummary();
         System.out.println(summary);
+        showMenu();
     }
 
     private void requestAccount(){
@@ -30,16 +31,19 @@ public class CustomerMenu extends TextInterface{
                 "Which type of account?");
         String accountType = nextLine();
         customer.requestAccount(accountType);
+        showMenu();
     }
 
     private void getNetTotal(){
         double total = customer.getNetTotal();
         System.out.println("Your net total is :");
         System.out.println("$"+total);
+        showMenu();
     }
 
     private void viewAccount(int i) {
         GenericAccount account = customer.getAccounts().get(i);
         new AccountMenu(account, this).showMenu();
+        showMenu();
     }
 }
