@@ -1,3 +1,5 @@
+import sun.applet.Main;
+
 import javax.xml.soap.Text;
 import java.io.*;
 
@@ -26,10 +28,7 @@ public class ATM_machine{
         if(users.size()==0) {
             users.add(new BankManager("manager","password"));
         }
-        //addAction(1, ()->logIn(), "Log In");
-        //showMenu();
-        logIn();
-        System.out.println(System.getProperty("user.dir"));
+        new MainMenu().showMenu();
     }
 
     static public void exit() {
@@ -37,30 +36,10 @@ public class ATM_machine{
         FileManager.saveUsers(users);
         if (date.get(Calendar.DAY_OF_MONTH) == 1){
             for(int i = 0; i < users.size(); i++){
-                //user.Interest();
+                //user.interest();
             }
         }
         //TODO: Add proper on-exit behaviors.
-    }
-
-    static void logIn() {
-        Scanner s = new Scanner(System.in);
-        System.out.println("Input your username");
-        String userName = s.nextLine();
-        System.out.println("Input your password");
-        String pass = s.nextLine();
-        for (int i = 0; i < users.size(); i++){
-            if(users.get(i).getUsername().equals(userName) && users.get(i).getPassword().equals(pass)){
-                System.out.println("Success!");
-                ATM_User user = users.get(i);
-                if(user instanceof Customer) {
-                    new CustomerMenu((Customer) user).showMenu();
-                }
-                else if(user instanceof BankManager){
-                    new BankManagerMenu((BankManager) user).showMenu();
-                }
-            }
-        }
     }
 
     static void checkForAlert(){

@@ -15,11 +15,17 @@ public class MainMenu extends TextInterface{
         if (user!= null &&
                 user.getPassword() == password){
             if (user instanceof Customer) {
+                System.out.println("Login successful");
                 new CustomerMenu((Customer) user).showMenu();
             }
             else if (user instanceof BankManager) {
+                System.out.println("Login successful");
                 new BankManagerMenu((BankManager) user).showMenu();
             }
+        }
+        else{
+            System.out.println("Invalid entry");
+            showMenu();
         }
     }
 
