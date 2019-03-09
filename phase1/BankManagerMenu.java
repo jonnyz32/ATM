@@ -11,7 +11,7 @@ public class BankManagerMenu extends TextInterface{
         addAction(2, ()->addBills(), "Restock bills");
         addAction(3, ()->undoTransaction(), "Undo a customer transaction");
         addAction(4, ()->approveAccount(), "Approve an account request");
-        addAction(5, ()->createNewCustomer(), "Create a new customer account");
+        addAction(5, ()->createNewCustomer(), "Create a new customer");
     }
 
     private void setSystemDate(){
