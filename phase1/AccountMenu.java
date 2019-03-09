@@ -7,6 +7,8 @@ public class AccountMenu extends TextInterface{
     public AccountMenu(GenericAccount account, TextInterface previous){
         super(previous);
         this.account = account;
+        header = "Account Menu";
+        footer = "Choose an option:";
         addAction(1, ()->showBalance(), "View Balance");
         addAction(2, ()->getLastTransaction(), "See Last Transaction");
         addAction(3, ()->depositCash(), "Deposit Cash");

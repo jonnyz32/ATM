@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 class TextInterface {
 
-    private String header;
-    private String footer;
-    private ArrayList<Action> actions;
+    String header;
+    String footer;
+    ArrayList<Action> actions;
     boolean active;
     private TextInterface previous;
 

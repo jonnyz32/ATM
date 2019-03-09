@@ -1,8 +1,13 @@
-import java.util.Calendar;
+import java.util.ArrayList;
 
 public class MainMenu extends TextInterface{
+
     public MainMenu(){
         super(null);
+        actions.clear();
+        header = "Main Menu";
+        footer = "Choose an option:";
+        addAction(0, ()->exit(), "Shut down");
         addAction(1, ()->login(), "Login to an account");
     }
 

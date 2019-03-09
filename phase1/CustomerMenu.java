@@ -6,6 +6,8 @@ public class CustomerMenu extends TextInterface{
     public CustomerMenu(Customer customer, TextInterface previous){
         super(previous);
         this.customer = customer;
+        header = "Customer Menu";
+        footer = "Choose an option:";
         addAction(1, ()->getFullSummary(), "Get account summary");
         addAction(2, ()->requestAccount(), "Request account creation");
         addAction(3, ()->getNetTotal(), "Get net total");
