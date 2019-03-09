@@ -66,6 +66,7 @@ public class Customer extends ATM_User {
 
     /**
      * Gets an account given the name.
+	 * Assume account exists.
      */
 	GenericAccount getAccountByName(String name) {
 		for (GenericAccount a: accounts) {
@@ -73,6 +74,7 @@ public class Customer extends ATM_User {
 				return a;
 			}
 		}
+		//This should never be reached.
 		return new ChequingAcc(getUsername(), this, false);
 	}
 

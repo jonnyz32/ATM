@@ -1,12 +1,10 @@
 // A class for the credit line
 
 import java.util.*;
-//TEST PUSH
 public class CreditLineAcc extends GenericAccount {
 
 
     public CreditLineAcc(String name_p, Customer o) {
-        super();
         name = name_p;
         owner = o;
         past_trans = new ArrayList<String>();

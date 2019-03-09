@@ -6,7 +6,6 @@ public class CreditCardAcc extends GenericAccount {
 
 
     public CreditCardAcc(String name_p, Customer o) {
-        super();
         name = name_p;
         owner = o;
         past_trans = new ArrayList<String>();

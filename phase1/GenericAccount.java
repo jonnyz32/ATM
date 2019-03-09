@@ -19,10 +19,6 @@ public class GenericAccount implements Serializable {
     Runnable lastTransReverter;
     String lastTransText;
 
-    public GenericAccount() {
-        super();
-    }
-
     //Updates this balance and other balance
     void transferBetweenHelper(GenericAccount other_acc, Double amount, String u) {
         if (asset) {
@@ -77,7 +73,6 @@ public class GenericAccount implements Serializable {
 
     void transferToSelf(double amount, String other_acc_name) {
         GenericAccount other_acc = owner.getAccountByName(other_acc_name);
-        // Maybe print an error message if other_acc_name does not exist.
         // Add this transaction to this account
         transferBetweenHelper(other_acc, amount, "");
         lastTransReverter = ()-> revertSelfTransfer();
@@ -111,6 +106,16 @@ public class GenericAccount implements Serializable {
     }
 
     void revertTransferOther() {
+        // Need to get other user that should be in last transaction text
+        // Then change both accounts
+        String[] other_a = lastTransText.split(" ");
+        Double amount = getLastAmount();
+        String other_s = other_a[other_a.length - 2].replace(":", "");
+        String other_acc_s = other_a[other_a.length - 1];
+        Customer other_u = (Customer) ATM_machine.getUser(other_s);
+        GenericAccount other_acc = other_u.getAccountByName(other_acc_s);
+
+
 
 
 

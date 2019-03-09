@@ -5,7 +5,6 @@ import java.util.*;
 public class SavingAcc extends GenericAccount {
 
     public SavingAcc(String name_p, Customer o) {
-        super();
         name = name_p;
         owner = o;
         past_trans = new ArrayList<String>();
