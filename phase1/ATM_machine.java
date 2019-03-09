@@ -6,7 +6,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 
-public class ATM_machine extends TextInterface {
+public class ATM_machine{
 
     static ArrayList<ATM_User> users = new ArrayList<ATM_User>();
     //the final ints represent the indexes in an array of bill quantities, with the index corresponding to their
@@ -32,8 +32,7 @@ public class ATM_machine extends TextInterface {
         System.out.println(System.getProperty("user.dir"));
     }
 
-    public void exit() {
-        active = false;
+    static public void exit() {
         FileManager.writeBills(bills);
         FileManager.saveUsers(users);
         if (date.get(Calendar.DAY_OF_MONTH) == 1){
