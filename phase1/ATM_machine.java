@@ -25,14 +25,9 @@ public class ATM_machine{
         //TODO: increment date
         bills = FileManager.retrieveBills();
         users = FileManager.retrieveUsers();
-//        if(users.size()==0) {
+        if(users.size()==0) {
             users.add(new BankManager("manager","password"));
-            for (ATM_User user: users){
-                System.out.println(user.getUsername());
-                System.out.println(user.getPassword());
-            }
-            System.out.println(getUser("manager").getPassword());
-//        }
+        }
         new MainMenu().showMenu();
     }
 
