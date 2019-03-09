@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 public class MainMenu extends TextInterface{
     public MainMenu(){
         super();
@@ -22,7 +24,8 @@ public class MainMenu extends TextInterface{
     }
 
     @Override
-    public void exit(){
-        System.out.println("This is unimplemented"); // TODO: Figure out an exit strategy
+    public void exit() {
+        ATM_machine.exit();
+        active = false;
     }
 }
