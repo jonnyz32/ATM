@@ -67,7 +67,10 @@ public class BankManager extends ATM_User{
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
     void undoTransaction(String username, String account){
-
+        if (ATM_machine.getUser(username) instanceof Customer){
+            Customer target = (Customer) ATM_machine.getUser(username);
+            GenericAccount targetacc = target.getAccountByName(account);
+        }
     }
 
     /**
