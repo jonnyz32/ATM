@@ -20,6 +20,7 @@ public class AccountMenu extends TextInterface{
         System.out.println("Last Transaction:");
         String latest = account.getLatestTransaction().toString();
         System.out.println(latest + "in" + account.name);
+        showMenu();
     }
 
     private void showBalance() {
@@ -31,6 +32,7 @@ public class AccountMenu extends TextInterface{
         }
         System.out.println(" balance of:");
         System.out.println("$"+account.getBalance());
+        showMenu();
     }
 
     private void depositCash(){
@@ -43,6 +45,7 @@ public class AccountMenu extends TextInterface{
         System.out.println("How many Fifties?");
         int fifties = nextInt();
         account.depositCash(fives, tens, twenties, fifties);
+        showMenu();
     }
 
     private void transferToSelf(){
@@ -51,6 +54,7 @@ public class AccountMenu extends TextInterface{
         System.out.println("Account to transfer to?");
         String other_acc_name = nextLine();
         account.transferToSelf(amount, other_acc_name);
+        showMenu();
     }
 
     private Customer transferToOther_helper() {
@@ -83,6 +87,7 @@ public class AccountMenu extends TextInterface{
         System.out.println("How much would you like to transfer?");
         double amount = nextDouble();
         account.transferToOther(other_user, other_acc, amount);
+        showMenu();
     }
 
     private void transferToExternal(){
@@ -91,6 +96,7 @@ public class AccountMenu extends TextInterface{
         System.out.println("How much are you paying?");
         double amount = nextDouble();
         account.transferToExternal(name, amount);
+        showMenu();
     }
 
     private void withdraw(){
@@ -98,5 +104,6 @@ public class AccountMenu extends TextInterface{
         System.out.println("Amount should be a multiple of 5");
         int amount = nextInt();
         account.withdraw(amount);
+        showMenu();
     }
 }
