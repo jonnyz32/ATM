@@ -7,18 +7,18 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class FileManager {
-//    private File allTransactions;
+    //    private File allTransactions;
 //    private File deposits;
 //    private File withdrawals;
 //    private File balanceHistory;
 //    private static File accounts;
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
-//    private String username;
+    //    private String username;
 //    private double balance;
-      private static File bills;
-      private static File userFile;
-      private static File outgoing;
-      private static File alerts;
+    private static File bills;
+    private static File userFile;
+    private static File outgoing;
+    private static File alerts;
 
     FileManager(){
 
@@ -35,7 +35,7 @@ public class FileManager {
 
     static ArrayList<ATM_User> retrieveUsers(){
         try {
-            FileInputStream file = new FileInputStream(userFile);
+            FileInputStream file = new FileInputStream(new File("phase1/users.txt"));
             ObjectInputStream objectStream = new ObjectInputStream(file);
 
             ArrayList users = (ArrayList) objectStream.readObject();
@@ -43,16 +43,16 @@ public class FileManager {
             return users;
         }
         catch (IOException | ClassNotFoundException x){
-            x.printStackTrace();
+            System.out.println("Users can't be located");
+            return new ArrayList<>();
         }
-        return null;
     }
 
-        static void writeOutgoing(String username, String destination, double amount){
+    static void writeOutgoing(String username, String destination, double amount){
         try {
 //            balance += amount;
 
-            Writer writer = new BufferedWriter(new FileWriter(outgoing, true));
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase1/outgoing.txt"), true));
 //            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
             writer.write(String.format("%s, %s, %s\n", username, destination, decimalFormat.format(amount)));
 
@@ -78,12 +78,12 @@ public class FileManager {
     static void writeAlerts(ArrayList<int[]> alertList){
         try {
 
-            Writer writer = new BufferedWriter(new FileWriter(alerts, true));
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase1/alerts.txt"), true));
 
             for (int[] x: alertList){
 
-                    writer.write(String.format("Number of %d dollar bills has fallen below 20. Current number: %d\n", x[0], x[1]));
-                }
+                writer.write(String.format("Number of %d dollar bills has fallen below 20. Current number: %d\n", x[0], x[1]));
+            }
 
             writer.close();
 
@@ -98,7 +98,7 @@ public class FileManager {
         try {
             int i = 0;
             int[] billList = new int[4];
-            FileReader file = new FileReader(bills);
+            FileReader file = new FileReader(new File("phase1/bills.txt"));
             BufferedReader reader = new BufferedReader(file);
 
             String numBillsText = reader.readLine();
@@ -135,10 +135,10 @@ public class FileManager {
 
 
 
-     static ArrayList<int[]> readDeposits(String depositFile){
+    static ArrayList<int[]> readDeposits(String depositFile){
 
         ArrayList<int[]> allDeposits = new ArrayList<>();
-         try {
+        try {
             FileReader file = new FileReader(depositFile);
             BufferedReader reader = new BufferedReader(file);
             String temp = reader.readLine();
@@ -190,7 +190,7 @@ public class FileManager {
         ArrayList<ATM_User> userlist = new ArrayList<>();
         userlist.add(user1);
         userlist.add(user2);
-        FileManager.saveUsers(userlist);
+//        FileManager.saveUsers(userlist);
         System.out.println(FileManager.retrieveUsers());
         System.out.println(FileManager.retrieveUsers().get(0).getUsername());
         System.out.println(System.getProperty("user.dir"));
