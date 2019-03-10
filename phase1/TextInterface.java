@@ -1,7 +1,6 @@
 
 import java.lang.Runnable;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class TextInterface {
@@ -69,7 +68,7 @@ class TextInterface {
                 int input = in.nextInt();
                 in.nextLine();
                 return input;
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 System.out.println("Invalid input, try again");
                 in.nextLine();
             }
@@ -81,7 +80,7 @@ class TextInterface {
                 double input = in.nextDouble();
                 in.nextLine();
                 return input;
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 System.out.println("Invalid input, try again");
                 in.nextLine();
             }

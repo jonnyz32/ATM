@@ -15,41 +15,31 @@ public class Customer extends ATM_User implements Serializable {
 		accounts = new ArrayList<>();
 	}
 
-    /**
-     * Requests the creation of an account of type accountName
-     * @return Returns true on success, false on failure.
-     */
-	boolean requestAccount(String type, String name){
-		if (type.equals("Chequing")
-            || type.equals("Credit")
-            || type.equals("CreditLine")
-            || type.equals("Savings")
-        ) {
-            BankManager.requestAccount(this.getUsername(), type, name);
-            return true;
-        }
-        return false;
+	void requestAccount(String accountName){
+		BankManager.requestAccount(this.getUsername(), accountName);
 	}
 
-	boolean addAccount(String type, String name) {
+	void addAccount(String accountName) {
+	    String type = accountName.split(" ")[1].substring(1);
+	    String name = accountName.split(" ")[0];
 		if(type.equals("Chequing")) {
 		    // Check if there are other chequing accounts.
 		    for (GenericAccount a: accounts) {
 		        if (a instanceof ChequingAcc) {
 		            accounts.add(new ChequingAcc(name, this, false));
+		            return;
                 }
 			}
             accounts.add(new ChequingAcc(name, this, true));
-		} else if(type.equals("Credit")) {
+		} else if(type.equals("credit")) {
 			accounts.add(new CreditCardAcc(name, this));
-		} else if(type.equals("CreditLine")) {
+		} else if(type.equals("creditline")) {
 			accounts.add(new CreditLineAcc(name, this));
-		} else if(type.equals("Savings")) {
+		} else if(type.equals("savings")) {
 			accounts.add(new SavingAcc(name, this));
 		} else {
-			return false;
+			System.out.println("ERROR: INVALID ACCOUNT TYPE");
 		}
-		return true;
 	}
 
 	ArrayList<GenericAccount> getAccounts(){

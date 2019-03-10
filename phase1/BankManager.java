@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 public class BankManager extends ATM_User{
 
     /**
-     * Requests are stored as a Pair<String username, String type, String accountName>
+     * Requests are stored as a AccountRequest<String username, String type, String accountName>
      */
     private static List<AccountRequest<String, String, String>> requests = new ArrayList<>();
 
