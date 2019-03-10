@@ -29,9 +29,15 @@ public class BankManager extends ATM_User{
     /**
      * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
-    void setSystemDate(int year, int month, int day){
-        Calendar time = new GregorianCalendar(year, month-1, day);
-        ATM_machine.setTime(time);
+    boolean setSystemDate(int year, int month, int day){
+        try{
+            Calendar time = new GregorianCalendar(year, month - 1, day);
+            ATM_machine.setTime(time);
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     /**
