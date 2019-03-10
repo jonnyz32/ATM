@@ -16,3 +16,5 @@ username: manager and password: password. From the bank manager's account you ha
 option to create new users accounts and to approve different types of accounts that users
 have requested. After creating a user you can logout from bankmanager and login to that 
 user's account if you wish.
+
+FOr reverting
