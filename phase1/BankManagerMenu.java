@@ -48,7 +48,7 @@ public class BankManagerMenu extends TextInterface{
     }
 
     private void approveAccount(){
-        List<AccountRequest<String, String, String>> requests = BankManager.getRequests();
+        List<AccountRequest> requests = BankManager.getRequests();
         int i = 0;
         if (requests.size() < 1){
             System.out.println("No requests available");
@@ -56,8 +56,7 @@ public class BankManagerMenu extends TextInterface{
             return;
         }
 
-        for(AccountRequest<String, String, String> request: requests){
-            String name = request.getName();
+        for(AccountRequest request: requests){
             String type = request.getType();
             System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
             i++;

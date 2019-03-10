@@ -20,7 +20,7 @@ public class Customer extends ATM_User implements Serializable {
 	}
 
 	boolean addAccount(String type, String name) {
-		if(type.equals("Chequing")) {
+		if(type.equals("chequing")) {
 		    // Check if there are other chequing accounts.
 		    for (GenericAccount a: accounts) {
 		        if (a instanceof ChequingAcc) {
