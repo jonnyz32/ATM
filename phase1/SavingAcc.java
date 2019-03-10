@@ -22,5 +22,15 @@ public class SavingAcc extends GenericAccount implements Serializable {
         ATM_machine.update_user(owner);
     }
 
+    @Override
+    void withdraw(int amount){
+        if (balance >= amount){
+            super.withdraw(amount);
+        }
+        else{
+            System.out.println("You don't have enough money to withdraw this much! Balance: " + balance);
+        }
+    }
+
 
 }
