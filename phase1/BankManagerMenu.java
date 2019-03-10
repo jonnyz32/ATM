@@ -51,7 +51,9 @@ public class BankManagerMenu extends TextInterface{
         List<Pair<String,String>> requests = BankManager.getRequests();
         int i = 0;
         for(Pair<String, String> request: requests){
-            System.out.println(i + ": " + request.getLeft() + " requests a " + request.getRight().split(" ")[1].substring(1) + " account");
+            String name  = request.getRight();
+            String type = name.split(" ")[1].substring(1);
+            System.out.println(i + ": " + request.getLeft() + " requests a " + type + " account");
             i++;
         }
         System.out.println("Input id to approve:");

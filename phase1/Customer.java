@@ -21,13 +21,16 @@ public class Customer extends ATM_User {
 	void addAccount(String accountName) {
 	    String type = accountName.split(" ")[1].substring(1);
 		if(type.equals("Chequing")) {
-			if (type.length() == 0) {
-				// the first account is the primary account
-                // ToDO check this condition by iterating in accounts.
-				accounts.add(new ChequingAcc(accountName, this, true));
-			} else {
-				accounts.add(new ChequingAcc(accountName, this, false));
+		    // Check if there are other chequing accounts.
+		    for (GenericAccount a: accounts) {
+		        String type_a = a.name.split(" ")[1].substring(1);
+		        if (type_a.equals("Chequing")) {
+		            accounts.add(new ChequingAcc(accountName, this, true));
+		            a.name = "(Primary)" + a.name;
+		            return;
+                }
 			}
+            accounts.add(new ChequingAcc(accountName, this, false));
 		} else if(type.equals("Credit")) {
 			accounts.add(new CreditCardAcc(accountName, this));
 		} else if(type.equals("CreditLine")) {
