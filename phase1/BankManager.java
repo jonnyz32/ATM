@@ -76,20 +76,19 @@ public class BankManager extends ATM_User{
     /**
      * Approves a customer's account creation request.
      */
-    void approveAccount(int id){
+    boolean approveAccount(int id){
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
         if (ATM_machine.getUser(username) instanceof Customer){
             Customer user = (Customer) ATM_machine.getUser(username);
             if(user.addAccount(type, name)) {
-                System.out.println("Approved");
+                requests.remove(id);
+                return true;
             }
         }
-        else{
-            requests.remove(id);
-            System.out.println("ERROR: Request not valid");
-        }
+        requests.remove(id);
+        return false;
     }
 
     /**

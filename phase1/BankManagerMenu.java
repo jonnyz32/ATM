@@ -50,16 +50,29 @@ public class BankManagerMenu extends TextInterface{
     private void approveAccount(){
         List<AccountRequest<String, String, String>> requests = BankManager.getRequests();
         int i = 0;
+        if (requests.size() < 1){
+            System.out.println("No requests available");
+            showMenu();
+            return;
+        }
+
         for(AccountRequest<String, String, String> request: requests){
             String name = request.getName();
             String type = request.getType();
             System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
             i++;
         }
+
         System.out.println("Input id to approve:");
         int target = nextInt();
-        bankManager.approveAccount(target);
-        showMenu();
+        if(bankManager.approveAccount(target)){
+            System.out.println("Request approved");
+            showMenu();
+        }
+        else{
+            System.out.println("Error: Request not valid");
+            showMenu();
+        }
     }
 
     private void createNewCustomer(){
