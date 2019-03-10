@@ -156,7 +156,7 @@ public abstract class GenericAccount implements Serializable {
         FileManager.writeOutgoing(owner.getUsername(), name, amount);
     }
 
-    void withdraw(int amount) {
+    boolean withdraw(int amount) {
         int[] bills = get_bill_split(amount);
         int fifties = bills[0];
         int twenties = bills[1];
@@ -177,6 +177,7 @@ public abstract class GenericAccount implements Serializable {
 
         FileManager.writeBills(billFile);
         FileManager.checkForAlert();
+        return true;
     }
 
     int[] get_bill_split(int amount) {

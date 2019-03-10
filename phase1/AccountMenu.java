@@ -92,6 +92,7 @@ public abstract class AccountMenu extends TextInterface{
         System.out.println("Amount should be a multiple of 5");
         int amount = nextInt();
         account.withdraw(amount);
+        System.out.println("You don't have enough money to withdraw this much! Balance: " + account.getBalance());
         showMenu();
     }
 }

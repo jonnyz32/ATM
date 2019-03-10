@@ -24,12 +24,13 @@ public class ChequingAcc extends GenericAccount implements Serializable {
     }
 
     @Override
-    void withdraw(int amount){
+    boolean withdraw(int amount){
         if (balance + 100 >= amount){
             super.withdraw(amount);
+            return true;
         }
         else{
-            System.out.println("You don't have enough money to withdraw this much! Balance: " + balance);
+            return false;
         }
     }
 
