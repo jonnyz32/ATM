@@ -44,7 +44,7 @@ public class CustomerMenu extends TextInterface{
         }
         System.out.println("What would you like to name your " + accountType + " account? (alphanumeric no spaces)");
         String accountName = nextLine();
-        customer.requestAccount(accountName + " -" + accountType);
+        customer.requestAccount(accountType, accountName);
         System.out.println("Request sent!");
         showMenu();
     }
