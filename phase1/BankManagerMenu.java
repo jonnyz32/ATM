@@ -18,20 +18,20 @@ public class BankManagerMenu extends TextInterface{
 
     private void setSystemDate(){
         System.out.println("Input year:");
-        int year = Integer.parseInt(nextLine());
+        int year = nextInt();
         System.out.println("Input month:");
-        int month = Integer.parseInt(nextLine());
+        int month = nextInt();
         System.out.println("Input day:");
-        int day = Integer.parseInt(nextLine());
+        int day = nextInt();
         bankManager.setSystemDate(year, month, day);
         showMenu();
     }
 
     private void addBills(){
         System.out.println("What kind?");
-        int type = Integer.parseInt(nextLine());
+        int type = nextInt();
         System.out.println("How many?");
-        int num = Integer.parseInt(nextLine());
+        int num = nextInt();
         if(bankManager.addBills(type, num)==-1){
             System.out.println("ERROR: Invalid input");
         }
@@ -57,7 +57,7 @@ public class BankManagerMenu extends TextInterface{
             i++;
         }
         System.out.println("Input id to approve:");
-        int target = Integer.parseInt(nextLine());
+        int target = nextInt();
         bankManager.approveAccount(target);
         showMenu();
     }

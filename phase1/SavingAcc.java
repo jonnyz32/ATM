@@ -1,8 +1,9 @@
 // A class for savings accounts
 
+import java.io.Serializable;
 import java.util.*;
 
-public class SavingAcc extends GenericAccount {
+public class SavingAcc extends GenericAccount implements Serializable {
 
     public SavingAcc(String name_p, Customer o) {
         name = name_p;
@@ -13,7 +14,7 @@ public class SavingAcc extends GenericAccount {
         creation_date = new GregorianCalendar();
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
-        type = " (Savings)";
+        type = "(Savings)";
     }
 
     void increase_interest() {

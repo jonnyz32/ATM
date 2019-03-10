@@ -54,6 +54,7 @@ public class AccountMenu extends TextInterface{
         System.out.println("Amount to transfer?");
         double amount = nextDouble();
         System.out.println("Account to transfer to?");
+        //TODO add options
         String other_acc_name = nextLine();
         account.transferToSelf(amount, other_acc_name);
         showMenu();
