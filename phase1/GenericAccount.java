@@ -1,6 +1,7 @@
 // An abstract Class for Acounts
 
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,12 +61,17 @@ public class GenericAccount implements Serializable {
         ATM_machine.update_user(owner);
     }
 
-//    void deposit_from_file() {
-//        ArrayList<int[]> a = FileManager.readDeposits("phase1/deposits.txt");
-//        for (int[] i_a: a) {
-//        }
-//
-//    }
+    void deposit_from_file() {
+        int[] deposit = FileManager.readDeposits();
+        if (deposit[1] == 0){
+            depositCash(deposit[2], deposit[3], deposit[4], deposit[5]);
+        }
+        else {
+                depositCheque((double) deposit[0]);
+            }
+        }
+
+
 
     void depositCheque(Double amount) {
         if(asset) {
