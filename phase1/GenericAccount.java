@@ -15,6 +15,7 @@ public class GenericAccount implements Serializable {
     String name;
     ArrayList<String> past_trans;
     Calendar creation_date;
+    String type;
 
     Runnable lastTransReverter;
     String lastTransText;

@@ -18,7 +18,7 @@ public class CustomerMenu extends TextInterface{
         ArrayList<GenericAccount> accounts = customer.getAccounts();
         for(int i=0;i<accounts.size();i++) {
             final int f = i; //Because the input needs to be final.
-            addAction(i+a, ()->viewAccount(f), "Account: "+accounts.get(i).name);
+            addAction(i+a, ()->viewAccount(f), "Account: "+accounts.get(i).name + accounts.get(i).type);
         }
     }
 
