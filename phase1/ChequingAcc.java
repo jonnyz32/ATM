@@ -1,8 +1,9 @@
 // A class for Chequing accounts
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ChequingAcc extends GenericAccount {
+public class ChequingAcc extends GenericAccount implements Serializable {
     final boolean primary;
 
     public ChequingAcc(String name_p, Customer o, boolean primary_p) {
