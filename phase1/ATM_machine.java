@@ -15,7 +15,7 @@ public class ATM_machine{
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
-        //TODO: increment date
+        date.add(Calendar.DAY_OF_MONTH, 1);
         bills = FileManager.retrieveBills();
         users = FileManager.retrieveUsers();
         if(users.size()==0) {
@@ -24,17 +24,25 @@ public class ATM_machine{
         new MainMenu().showMenu();
     }
 
-    static public void onExit() {
+    public void onExit() {
         FileManager.writeBills(bills);
         FileManager.saveUsers(users);
-        if (date.get(Calendar.DAY_OF_MONTH) == 1){
-            for(int i = 0; i < users.size(); i++){
-                //user.interest();
-            }
-        }
-        //TODO: Add proper on-exit behaviors.
+        checkInterest();
     }
 
+    private void checkInterest(){
+        if (date.get(Calendar.DAY_OF_MONTH) == 1){
+            for(int i = 0; i < users.size(); i++){
+                if (users.get(i) instanceof Customer){
+                    for(int j = 0; j < ((Customer) users.get(i)).getAccounts().size(); j++){
+                        if (((Customer) users.get(i)).getAccounts().get(j) instanceof SavingAcc){
+                            ((SavingAcc) ((Customer) users.get(i)).getAccounts().get(j)).increase_interest();
+                        }
+                    }
+                }
+            }
+        }
+    }
     static void checkForAlert(){
         HashMap<Integer, Integer> billsMap = new HashMap<>();
         billsMap.put(0,5);
