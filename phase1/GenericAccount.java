@@ -170,6 +170,14 @@ public class GenericAccount implements Serializable {
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()- twenties);
         ATM_machine.setTens(ATM_machine.getNumTens() - tens);
         ATM_machine.setFives(ATM_machine.getNumFives()- fives);
+
+        int[] billFile = FileManager.retrieveBills();
+        billFile[0] = billFile[0] + fives;
+        billFile[1] = billFile[1] + tens;
+        billFile[2] = billFile[2] + twenties;
+        billFile[3] = billFile[3] + fifties;
+
+        FileManager.writeBills(billFile);
         FileManager.checkForAlert();
     }
 

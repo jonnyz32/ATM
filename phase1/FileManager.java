@@ -10,19 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class FileManager {
-    //    private File allTransactions;
-//    private File deposits;
-//    private File withdrawals;
-//    private File balanceHistory;
-//    private static File accounts;
+
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    //    private String username;
-//    private double balance;
-    private static File bills;
-
     private static int lineCount = 0;
-
-
     static void checkForAlert(){
         HashMap<Integer, Integer> billsMap = new HashMap<>();
         billsMap.put(0,5);
@@ -174,47 +164,47 @@ public class FileManager {
     }
 
 
-    public static void main(String[] args) {
-        FileManager f = new FileManager();
-//        ArrayList<int[]> testArray = new ArrayList<>();
-//        testArray.add(new int[]{5,15});
-//        testArray.add(new int[]{10,23});
-//        testArray.add(new int[]{20,12});
-//        testArray.add(new int[]{50,65});
-
-        Date d = new Date();
-        double amount = 2745.635;
-//        System.out.println("Starting balance is " + f.getBalance());
-////        f.depositMoney(amount, d);
-////        f.withdrawMoney(123.45, d);
-//        System.out.println("Ending balance is " + f.getBalance());
-//        System.out.println(f.getLatestTransactions());
-//        System.out.println(f.readDeposits(f.balanceHistory));
-        System.out.println(f.bills.exists());
-        System.out.println(f.bills.getAbsoluteFile());
-        System.out.println(Arrays.toString(FileManager.retrieveBills()));
-        FileManager.writeOutgoing("user1", "uofT", 1223);
-//        FileManager.writeAlerts(testArray);
-
-
-        ATM_User user1 = new ATM_User("user1", "pass1");
-        ATM_User user2 = new ATM_User("user2", "pass2");
-        ArrayList<ATM_User> userlist = new ArrayList<>();
-        userlist.add(user1);
-        userlist.add(user2);
-        FileManager.saveUsers(userlist);
-        System.out.println(new File("phase1/users.txt").exists());
-        System.out.println(FileManager.retrieveUsers());
-//        System.out.println(FileManager.retrieveUsers().get(0).getUsername());
-        System.out.println(System.getProperty("user.dir"));
-        File depositFile = new File("phase1/depositFile.txt");
-        System.out.println(depositFile.exists());
-        System.out.println(Arrays.toString(FileManager.readDeposits()));
-//        for(int i = 0; i< testdepostist.size(); i++){
-//            System.out.println(Arrays.toString(testdepostist.get(i)));
-//        }
-
-        FileManager.writeBills(new int[]{10,1598,1,25});
-
-    }
+//    public static void main(String[] args) {
+//        FileManager f = new FileManager();
+////        ArrayList<int[]> testArray = new ArrayList<>();
+////        testArray.add(new int[]{5,15});
+////        testArray.add(new int[]{10,23});
+////        testArray.add(new int[]{20,12});
+////        testArray.add(new int[]{50,65});
+//
+//        Date d = new Date();
+//        double amount = 2745.635;
+////        System.out.println("Starting balance is " + f.getBalance());
+//////        f.depositMoney(amount, d);
+//////        f.withdrawMoney(123.45, d);
+////        System.out.println("Ending balance is " + f.getBalance());
+////        System.out.println(f.getLatestTransactions());
+////        System.out.println(f.readDeposits(f.balanceHistory));
+//        System.out.println(f.bills.exists());
+//        System.out.println(f.bills.getAbsoluteFile());
+//        System.out.println(Arrays.toString(FileManager.retrieveBills()));
+//        FileManager.writeOutgoing("user1", "uofT", 1223);
+////        FileManager.writeAlerts(testArray);
+//
+//
+//        ATM_User user1 = new ATM_User("user1", "pass1");
+//        ATM_User user2 = new ATM_User("user2", "pass2");
+//        ArrayList<ATM_User> userlist = new ArrayList<>();
+//        userlist.add(user1);
+//        userlist.add(user2);
+//        FileManager.saveUsers(userlist);
+//        System.out.println(new File("phase1/users.txt").exists());
+//        System.out.println(FileManager.retrieveUsers());
+////        System.out.println(FileManager.retrieveUsers().get(0).getUsername());
+//        System.out.println(System.getProperty("user.dir"));
+//        File depositFile = new File("phase1/depositFile.txt");
+//        System.out.println(depositFile.exists());
+//        System.out.println(Arrays.toString(FileManager.readDeposits()));
+////        for(int i = 0; i< testdepostist.size(); i++){
+////            System.out.println(Arrays.toString(testdepostist.get(i)));
+////        }
+//
+//        FileManager.writeBills(new int[]{10,1598,1,25});
+//
+//    }
 }
