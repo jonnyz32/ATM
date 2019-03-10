@@ -3,7 +3,7 @@
 import java.util.*;
 
 public class ChequingAcc extends GenericAccount {
-    boolean primary;
+    final boolean primary;
 
     public ChequingAcc(String name_p, Customer o, boolean primary_p) {
         name = name_p;
@@ -15,6 +15,10 @@ public class ChequingAcc extends GenericAccount {
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
         primary = primary_p;
+    }
+
+    boolean isPrimary() {
+        return primary;
     }
 
 
