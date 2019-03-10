@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class BankManagerMenu extends TextInterface{
@@ -23,7 +24,12 @@ public class BankManagerMenu extends TextInterface{
         int month = nextInt();
         System.out.println("Input day:");
         int day = nextInt();
-        bankManager.setSystemDate(year, month, day);
+        if (bankManager.setSystemDate(year, month, day)) {
+            System.out.println("System time set to: " + ATM_machine.getTimeFormatted());
+        }
+        else{
+            System.out.println("Invalid date entry");
+        }
         showMenu();
     }
 
@@ -32,8 +38,12 @@ public class BankManagerMenu extends TextInterface{
         int type = nextInt();
         System.out.println("How many?");
         int num = nextInt();
-        if(bankManager.addBills(type, num)==-1){
+        int result = bankManager.addBills(type, num);
+        if(result == -1){
             System.out.println("ERROR: Invalid input");
+        }
+        else{
+            System.out.println("New number: " + result + " bills");
         }
         showMenu();
     }
