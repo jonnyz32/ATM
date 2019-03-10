@@ -19,13 +19,13 @@ public class Customer extends ATM_User implements Serializable {
      * Requests the creation of an account of type accountName
      * @return Returns true on success, false on failure.
      */
-	boolean requestAccount(String type, String accountName){
-		if (accountName.equals("Chequing")
-            || accountName.equals("Credit")
-            || accountName.equals("CreditLine")
-            || accountName.equals("Savings")
+	boolean requestAccount(String type, String name){
+		if (type.equals("Chequing")
+            || type.equals("Credit")
+            || type.equals("CreditLine")
+            || type.equals("Savings")
         ) {
-            BankManager.requestAccount(this.getUsername(), type, accountName);
+            BankManager.requestAccount(this.getUsername(), type, name);
             return true;
         }
         return false;

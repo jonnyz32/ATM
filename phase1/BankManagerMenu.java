@@ -52,7 +52,7 @@ public class BankManagerMenu extends TextInterface{
         int i = 0;
         for(AccountRequest<String, String, String> request: requests){
             String name = request.getName();
-            String type = name.split(" ")[1].substring(1);
+            String type = request.getType();
             System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
             i++;
         }
