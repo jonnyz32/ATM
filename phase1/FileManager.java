@@ -1,3 +1,5 @@
+import jdk.internal.org.objectweb.asm.Handle;
+
 import java.io.*;
 import java.lang.reflect.Array;
 import java.math.RoundingMode;
@@ -5,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 public class FileManager {
     //    private File allTransactions;
@@ -120,13 +123,21 @@ public class FileManager {
 
     static void writeBills(int[] billList){
         try {
+            HashMap<Integer, Integer> billMap = new HashMap<>();
+            billMap.put(0, 5);
+            billMap.put(1, 10);
+            billMap.put(2, 20);
+            billMap.put(3, 50);
+
+
             FileWriter file = new FileWriter("phase1/bills.txt");
             BufferedWriter writer = new BufferedWriter(file);
 
             for(int i = 0; i < billList.length; i++) {
-                String newLine = String.valueOf(billList[i]);
+                String newLine = String.format("%d:%d\n",billMap.get(i), billList[i]);
                 writer.write(newLine);
             }
+            writer.close();
         } catch (IOException e) {
             System.out.println("File could not be found");
         }
@@ -135,7 +146,7 @@ public class FileManager {
 
 
 
-    static ArrayList<int[]> readDeposits(String depositFile){
+    static ArrayList<int[]> readDeposits(File depositFile){
 
         ArrayList<int[]> allDeposits = new ArrayList<>();
         try {
@@ -164,11 +175,11 @@ public class FileManager {
 
     public static void main(String[] args) {
         FileManager f = new FileManager();
-        ArrayList<int[]> testArray = new ArrayList<>();
-        testArray.add(new int[]{5,15});
-        testArray.add(new int[]{10,23});
-        testArray.add(new int[]{20,12});
-        testArray.add(new int[]{50,65});
+//        ArrayList<int[]> testArray = new ArrayList<>();
+//        testArray.add(new int[]{5,15});
+//        testArray.add(new int[]{10,23});
+//        testArray.add(new int[]{20,12});
+//        testArray.add(new int[]{50,65});
 
         Date d = new Date();
         double amount = 2745.635;
@@ -180,9 +191,9 @@ public class FileManager {
 //        System.out.println(f.readDeposits(f.balanceHistory));
         System.out.println(f.bills.exists());
         System.out.println(f.bills.getAbsoluteFile());
-        System.out.println(Arrays.toString(f.retrieveBills()));
+        System.out.println(Arrays.toString(FileManager.retrieveBills()));
         FileManager.writeOutgoing("user1", "uofT", 1223);
-        FileManager.writeAlerts(testArray);
+//        FileManager.writeAlerts(testArray);
 
 
         ATM_User user1 = new ATM_User("user1", "pass1");
@@ -194,10 +205,15 @@ public class FileManager {
         System.out.println(FileManager.retrieveUsers());
         System.out.println(FileManager.retrieveUsers().get(0).getUsername());
         System.out.println(System.getProperty("user.dir"));
-        ArrayList<int[]> testdepostist = f.readDeposits("phase1/depositFile.txt");
+        File depositFile = new File("phase1/depositFile.txt");
+        System.out.println(depositFile.exists());
+        ArrayList<int[]> testdepostist = FileManager.readDeposits(depositFile);
         for(int i = 0; i< testdepostist.size(); i++){
             System.out.println(Arrays.toString(testdepostist.get(i)));
         }
+
+        FileManager.writeBills(new int[]{10,1598,1,25});
+        ATM_machine.checkForAlert();
 
 
 
