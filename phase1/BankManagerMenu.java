@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class BankManagerMenu extends TextInterface{
@@ -24,7 +25,7 @@ public class BankManagerMenu extends TextInterface{
         System.out.println("Input day:");
         int day = nextInt();
         if (bankManager.setSystemDate(year, month, day)) {
-            System.out.println(ATM_machine.getTime());
+            System.out.println("System time set to: " + ATM_machine.getTimeFormatted());
         }
         else{
             System.out.println("Invalid date entry");
