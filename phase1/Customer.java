@@ -15,13 +15,23 @@ public class Customer extends ATM_User implements Serializable {
 		accounts = new ArrayList<>();
 	}
 
-	void requestAccount(String accountName){
-		BankManager.requestAccount(this.getUsername(), accountName);
+    /**
+     * Requests the creation of an account of type accountName
+     * @return Returns true on success, false on failure.
+     */
+	boolean requestAccount(String type, String accountName){
+		if (accountName.equals("Chequing")
+            || accountName.equals("Credit")
+            || accountName.equals("CreditLine")
+            || accountName.equals("Savings")
+        ) {
+            BankManager.requestAccount(this.getUsername(), type, accountName);
+            return true;
+        }
+        return false;
 	}
 
-	void addAccount(String accountName) {
-	    String type = accountName.split(" ")[1].substring(1);
-	    String name = accountName.split(" ")[0];
+	void addAccount(String type, String name) {
 		if(type.equals("Chequing")) {
 		    // Check if there are other chequing accounts.
 		    for (GenericAccount a: accounts) {
