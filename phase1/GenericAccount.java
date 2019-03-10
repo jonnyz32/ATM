@@ -59,6 +59,14 @@ public class GenericAccount implements Serializable {
         past_trans.add(lastTransText);
 
         ATM_machine.update_user(owner);
+        int[] bills = FileManager.retrieveBills();
+        bills[0] = bills[0] + fives;
+        bills[1] = bills[1] + tens;
+        bills[2] = bills[2] + twenties;
+        bills[3] = bills[3] + fifties;
+
+        FileManager.writeBills(bills);
+
     }
 
     void deposit_from_file() {
@@ -162,6 +170,7 @@ public class GenericAccount implements Serializable {
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()- twenties);
         ATM_machine.setTens(ATM_machine.getNumTens() - tens);
         ATM_machine.setFives(ATM_machine.getNumFives()- fives);
+        FileManager.checkForAlert();
     }
 
     int[] get_bill_split(int amount) {

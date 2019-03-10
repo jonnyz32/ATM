@@ -5,7 +5,3 @@ Josiah Jon Friesen		ATM Class
 Ignacio Acosta Hennandez	Debt and Asset Accounts
 Philip Borui Cai		Account Superclass & BankManager subclass
 Connor William Ferwerda		TextInterface Interface
-Number of 5 dollar bills has fallen below 20. Current number: 15
-Number of 10 dollar bills has fallen below 20. Current number: 23
-Number of 20 dollar bills has fallen below 20. Current number: 12
-Number of 50 dollar bills has fallen below 20. Current number: 65
