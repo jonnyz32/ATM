@@ -25,17 +25,17 @@ public class FileManager {
 //        decimalFormat.setRoundingMode(RoundingMode.CEILING);
 //        createAccount(username, accountType);
 //        this.balance = initializeBalance();
-        bills = new File("./bills.txt");
-        userFile = new File("./users.txt");
-        outgoing = new File("./outgoing.txt");
-        alerts = new File("./alerts.txt");
+        bills = new File("phase1/bills.txt");
+        userFile = new File("phase1/users.txt");
+        outgoing = new File("phase1/outgoing.txt");
+        alerts = new File("phase1/alerts.txt");
         //       System.out.println(bills.exists());
 
     }
 
     static ArrayList<ATM_User> retrieveUsers(){
         try {
-            FileInputStream file = new FileInputStream(new File("./users.txt"));
+            FileInputStream file = new FileInputStream(new File("phase1/users.txt"));
             ObjectInputStream objectStream = new ObjectInputStream(file);
 
             ArrayList users = (ArrayList) objectStream.readObject();
@@ -52,7 +52,7 @@ public class FileManager {
         try {
 //            balance += amount;
 
-            Writer writer = new BufferedWriter(new FileWriter(new File("./outgoing.txt"), true));
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase1/outgoing.txt"), true));
 //            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
             writer.write(String.format("%s, %s, %s\n", username, destination, decimalFormat.format(amount)));
 
@@ -64,7 +64,7 @@ public class FileManager {
     }
 
     static void saveUsers(ArrayList<ATM_User> users){
-        File userFile = new File("./users.txt");
+        File userFile = new File("phase1/users.txt");
         try {
             FileOutputStream file = new FileOutputStream(userFile);
             ObjectOutputStream objectStream = new ObjectOutputStream(file);
@@ -78,7 +78,7 @@ public class FileManager {
     static void writeAlerts(ArrayList<int[]> alertList){
         try {
 
-            Writer writer = new BufferedWriter(new FileWriter(new File("./alerts.txt"), true));
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase1/alerts.txt"), true));
 
             for (int[] x: alertList){
 
@@ -98,7 +98,7 @@ public class FileManager {
         try {
             int i = 0;
             int[] billList = new int[4];
-            FileReader file = new FileReader(new File("./bills.txt"));
+            FileReader file = new FileReader(new File("phase1/bills.txt"));
             BufferedReader reader = new BufferedReader(file);
 
             String numBillsText = reader.readLine();
@@ -120,7 +120,7 @@ public class FileManager {
 
     static void writeBills(int[] billList){
         try {
-            FileWriter file = new FileWriter("./bills.txt");
+            FileWriter file = new FileWriter("phase1/bills.txt");
             BufferedWriter writer = new BufferedWriter(file);
 
             for(int i = 0; i < billList.length; i++) {
