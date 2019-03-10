@@ -63,27 +63,23 @@ class TextInterface {
         return in.nextLine();
     }
     public static int nextInt() {
-        try {
-            int input = in.nextInt();
-            in.nextLine();
-            return input;
-        }
-        catch(Exception e){
-            System.out.println("Invalid input, try again");
-            in.nextLine();
-            return nextInt();
+        while(true) {
+            try {
+                int input = in.nextInt();
+                return input;
+            } catch (Exception e) {
+                System.out.println("Invalid input, try again");
+            }
         }
     }
     public static double nextDouble() {
-        try {
-            double input = in.nextDouble();
-            in.nextLine();
-            return input;
-        }
-        catch(Exception e) {
-            System.out.println("Invalid input, try again");
-            in.nextLine();
-            return nextInt();
+        while(true) {
+            try {
+                double input = in.nextDouble();
+                return input;
+            } catch (Exception e) {
+                System.out.println("Invalid input, try again");
+            }
         }
     }
 }
