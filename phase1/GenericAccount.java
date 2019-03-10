@@ -60,6 +60,13 @@ public class GenericAccount implements Serializable {
         ATM_machine.update_user(owner);
     }
 
+    void deposit_from_file() {
+        ArrayList<int[]> a = FileManager.readDeposits("phase1/deposits.txt");
+        for (int[] i_a: a) {
+        }
+
+    }
+
     void depositCheque(Double amount) {
         if(asset) {
             balance += amount;
