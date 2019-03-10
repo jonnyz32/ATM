@@ -1,14 +1,12 @@
 // An abstract Class for Acounts
 
-
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GenericAccount implements Serializable {
+public abstract class GenericAccount implements Serializable {
 
     Customer owner;
     double balance;
