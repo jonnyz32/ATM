@@ -70,6 +70,8 @@ public class BankManager extends ATM_User{
         if (ATM_machine.getUser(username) instanceof Customer){
             Customer target = (Customer) ATM_machine.getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
+            Thread t = new Thread(targetacc.lastTransReverter);
+            t.start();
         }
     }
 
