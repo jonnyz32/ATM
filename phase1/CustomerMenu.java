@@ -29,12 +29,23 @@ public class CustomerMenu extends TextInterface{
     }
 
     private void requestAccount(){
-        System.out.println("Options: Chequing, Credit, CreditLine, Savings\n" +
+        System.out.println("Options: chequing, credit, creditline, savings\n" +
                 "Which type of account?");
-        String accountType = nextLine();
-        System.out.println("How would you like to name your " + accountType + " account? (alphanumeric no spaces)");
+        String accountType = "InvalidAccount";
+        boolean loop = true;
+        String[] validAccounts = {"chequing","credit","creditline","savings"};
+        while(loop) {
+            accountType = nextLine().toLowerCase();
+            for(String va : validAccounts) {
+                if(va.equals(accountType)) {
+                    loop=false;
+                }
+            }
+        }
+        System.out.println("What would you like to name your " + accountType + " account? (alphanumeric no spaces)");
         String accountName = nextLine();
         customer.requestAccount(accountName + " -" + accountType);
+        System.out.println("Request sent!");
         showMenu();
     }
 

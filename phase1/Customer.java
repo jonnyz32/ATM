@@ -31,11 +31,11 @@ public class Customer extends ATM_User implements Serializable {
                 }
 			}
             accounts.add(new ChequingAcc(name, this, true));
-		} else if(type.equals("Credit")) {
+		} else if(type.equals("credit")) {
 			accounts.add(new CreditCardAcc(name, this));
-		} else if(type.equals("CreditLine")) {
+		} else if(type.equals("creditline")) {
 			accounts.add(new CreditLineAcc(name, this));
-		} else if(type.equals("Savings")) {
+		} else if(type.equals("savings")) {
 			accounts.add(new SavingAcc(name, this));
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");
