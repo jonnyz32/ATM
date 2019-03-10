@@ -18,7 +18,7 @@ public class CustomerMenu extends TextInterface{
         ArrayList<GenericAccount> accounts = customer.getAccounts();
         for(int i=0;i<accounts.size();i++) {
             final int f = i; //Because the input needs to be final.
-            addAction(i+a, ()->viewAccount(f), "Account: "+accounts.get(i).name);
+            addAction(i+a, ()->viewAccount(f), "Account: "+accounts.get(i).name + accounts.get(i).type);
         }
     }
 
@@ -32,7 +32,9 @@ public class CustomerMenu extends TextInterface{
         System.out.println("Options: Chequing, Credit, CreditLine, Savings\n" +
                 "Which type of account?");
         String accountType = nextLine();
-        customer.requestAccount(accountType);
+        System.out.println("How would you like to name your " + accountType + " account? (alphanumeric no spaces)");
+        String accountName = nextLine();
+        customer.requestAccount(accountName + " -" + accountType);
         showMenu();
     }
 

@@ -1,7 +1,8 @@
 // A class for the credit line
 
+import java.io.Serializable;
 import java.util.*;
-public class CreditLineAcc extends GenericAccount {
+public class CreditLineAcc extends GenericAccount implements Serializable {
 
 
     public CreditLineAcc(String name_p, Customer o) {
@@ -13,5 +14,6 @@ public class CreditLineAcc extends GenericAccount {
         creation_date = new GregorianCalendar();
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
+        type = " (CreditLine)";
     }
 }

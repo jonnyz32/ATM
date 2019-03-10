@@ -13,6 +13,13 @@ public class SavingAcc extends GenericAccount {
         creation_date = new GregorianCalendar();
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
+        type = " (Savings)";
     }
+
+    void increase_interest() {
+        balance += balance * 0.001;
+        ATM_machine.update_user(owner);
+    }
+
 
 }
