@@ -66,8 +66,10 @@ class TextInterface {
         while(true) {
             try {
                 int input = in.nextInt();
+                in.nextLine();
                 return input;
             } catch (Exception e) {
+                in.nextLine();
                 System.out.println("Invalid input, try again");
             }
         }
@@ -76,8 +78,10 @@ class TextInterface {
         while(true) {
             try {
                 double input = in.nextDouble();
+                in.nextLine();
                 return input;
             } catch (Exception e) {
+                in.nextLine();
                 System.out.println("Invalid input, try again");
             }
         }
