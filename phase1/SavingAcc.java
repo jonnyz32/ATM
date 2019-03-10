@@ -15,4 +15,9 @@ public class SavingAcc extends GenericAccount {
         past_trans.add(lastTransText);
     }
 
+    void increase_interest() {
+        balance += balance * 0.001;
+    }
+
+
 }
