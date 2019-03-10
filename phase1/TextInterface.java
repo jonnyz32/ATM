@@ -45,14 +45,13 @@ class TextInterface {
             Action a = actions.get(i);
             System.out.println(a.text+"\t"+a.ID);
         }
-        System.out.println(footer);
 
         Scanner in = new Scanner(System.in);
         while(active) {
-            Action a = a = getAction(in.nextInt());
+            Action a = getAction(nextInt());
             while (a == null) {
                 System.out.println("Invalid Button. Try Again.");
-                a = getAction(in.nextInt());
+                a = getAction(nextInt());
             }
             a.action.run();
         }
@@ -64,9 +63,27 @@ class TextInterface {
         return in.nextLine();
     }
     public static int nextInt() {
-        return in.nextInt();
+        try {
+            int input = in.nextInt();
+            in.nextLine();
+            return input;
+        }
+        catch(Exception e){
+            System.out.println("Invalid input, try again");
+            in.nextLine();
+            return nextInt();
+        }
     }
     public static double nextDouble() {
-        return in.nextDouble();
+        try {
+            double input = in.nextDouble();
+            in.nextLine();
+            return input;
+        }
+        catch(Exception e) {
+            System.out.println("Invalid input, try again");
+            in.nextLine();
+            return nextInt();
+        }
     }
 }
