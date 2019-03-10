@@ -82,7 +82,9 @@ public class BankManager extends ATM_User{
         String name = requests.get(id).getName();
         if (ATM_machine.getUser(username) instanceof Customer){
             Customer user = (Customer) ATM_machine.getUser(username);
-            user.addAccount(type, name);
+            if(user.addAccount(type, name)) {
+                System.out.println("Approved");
+            }
         }
         else{
             requests.remove(id);

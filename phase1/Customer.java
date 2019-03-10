@@ -31,13 +31,12 @@ public class Customer extends ATM_User implements Serializable {
         return false;
 	}
 
-	void addAccount(String type, String name) {
+	boolean addAccount(String type, String name) {
 		if(type.equals("Chequing")) {
 		    // Check if there are other chequing accounts.
 		    for (GenericAccount a: accounts) {
 		        if (a instanceof ChequingAcc) {
 		            accounts.add(new ChequingAcc(name, this, false));
-		            return;
                 }
 			}
             accounts.add(new ChequingAcc(name, this, true));
@@ -48,8 +47,9 @@ public class Customer extends ATM_User implements Serializable {
 		} else if(type.equals("Savings")) {
 			accounts.add(new SavingAcc(name, this));
 		} else {
-			System.out.println("ERROR: INVALID ACCOUNT TYPE");
+			return false;
 		}
+		return true;
 	}
 
 	ArrayList<GenericAccount> getAccounts(){
