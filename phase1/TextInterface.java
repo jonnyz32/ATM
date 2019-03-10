@@ -59,32 +59,30 @@ class TextInterface {
 
 
 
-    String nextLine() {
+    public static String nextLine() {
         return in.nextLine();
     }
-
     public static int nextInt() {
         while(true) {
             try {
                 int input = in.nextInt();
                 in.nextLine();
                 return input;
-            } catch (Exception e) {
-                in.nextLine();
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid input, try again");
+                in.nextLine();
             }
         }
     }
-
     public static double nextDouble() {
-        while(true) {
+        while (true) {
             try {
                 double input = in.nextDouble();
                 in.nextLine();
                 return input;
-            } catch (Exception e) {
-                in.nextLine();
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid input, try again");
+                in.nextLine();
             }
         }
     }
