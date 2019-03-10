@@ -62,19 +62,16 @@ public class GenericAccount implements Serializable {
     }
 
     void deposit_from_file() {
-        File f = new File("phase1/deposits.txt");
-        ArrayList<int[]> a = FileManager.readDeposits(f);
-        for (int[] i_a: a) {
-            if (i_a[1] == 0) {
-                depositCheque((double) i_a[0]);
+        int[] deposit = FileManager.readDeposits();
+        if (deposit[1] == 0){
+            depositCash(deposit[2], deposit[3], deposit[4], deposit[5]);
+        }
+        else {
+                depositCheque((double) deposit[0]);
             }
-            else {
-                depositCash(i_a[2], i_a[3], i_a[4], i_a[5]);
-            }
-
         }
 
-    }
+
 
     void depositCheque(Double amount) {
         if(asset) {
