@@ -52,13 +52,21 @@ public class GenericAccount implements Serializable {
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()+twenties);
         ATM_machine.setFifties(ATM_machine.getNumFifties()+fifties);
 
-        FileManager.writeOutgoing(owner.getUsername(), name, total);
-
         lastTransReverter = ()-> revertDeposit();
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
         past_trans.add(lastTransText);
 
         ATM_machine.update_user(owner);
+    }
+
+    void depositCheque(Double amount) {
+        if(asset) {
+            balance += amount;
+        } else {
+            balance -= amount;
+        }
+        lastTransText = "Deposited cheque of $"+ amount + " to: " + name;
+        lastTransReverter = ()-> revertDeposit();
     }
     void revertDeposit() {
         if(asset) {
@@ -78,16 +86,15 @@ public class GenericAccount implements Serializable {
         lastTransReverter = ()-> revertSelfTransfer();
 
     }
-    void revertSelfTransfer() {
-        String other_acc_name = lastTransText.split(" ")[lastTransText.length() - 1];
-        Double amount = getLastAmount();
-        GenericAccount other_acc = owner.getAccountByName(other_acc_name);
+
+    void revert_between_h (GenericAccount other_acc,Double amount) {
         if (asset) {
             balance += amount;
         }
         else {
-            balance -=amount;
+        balance -=amount;
         }
+
         if (other_acc.asset) {
             other_acc.balance -= amount;
         }
@@ -95,7 +102,13 @@ public class GenericAccount implements Serializable {
             other_acc.balance += amount;
         }
         past_trans.remove(past_trans.size() - 1);
-        lastTransText = getLatestTransaction();
+        lastTransText = getLatestTransaction();}
+
+    void revertSelfTransfer() {
+        String other_acc_name = lastTransText.split(" ")[lastTransText.length() - 1];
+        Double amount = getLastAmount();
+        GenericAccount other_acc = owner.getAccountByName(other_acc_name);
+        revert_between_h(other_acc, amount);
         ATM_machine.update_user(owner);
     }
 
@@ -106,26 +119,21 @@ public class GenericAccount implements Serializable {
     }
 
     void revertTransferOther() {
-        // Need to get other user that should be in last transaction text
-        // Then change both accounts
         String[] other_a = lastTransText.split(" ");
         Double amount = getLastAmount();
         String other_s = other_a[other_a.length - 2].replace(":", "");
         String other_acc_s = other_a[other_a.length - 1];
         Customer other_u = (Customer) ATM_machine.getUser(other_s);
         GenericAccount other_acc = other_u.getAccountByName(other_acc_s);
-
-
-
-
-
-
+        revert_between_h(other_acc, amount);
+        ATM_machine.update_user(owner);
+        ATM_machine.update_user(other_u);
     }
 
     void transferToExternal(String name, double amount) {
         if(asset) {balance-=amount;}
         else {balance+=amount;}
-        //Todo: output to outbound.txt and update user entry
+        FileManager.writeOutgoing(owner.getUsername(), name, amount);
     }
 
     void withdraw(int amount) {
@@ -190,6 +198,6 @@ public class GenericAccount implements Serializable {
     //Get a string representation
     String getSummary() {
         return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
-                + "Asset: " + asset + "Balance: " + balance + "Last Transaction: " + lastTransText;
+                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Last Transaction: " + lastTransText;
     }
 }

@@ -14,24 +14,28 @@ public class Customer extends ATM_User {
 		accounts = new ArrayList<>();
 	}
 
-	void requestAccount(String accountType){
-		BankManager.requestAccount(this.getUsername(), accountType);
+	void requestAccount(String accountName){
+		BankManager.requestAccount(this.getUsername(), accountName);
 	}
 
-	void addAccount(String account) {
-		if(account.equals("Chequing")) {
-			if (account.length() == 0) {
-				// the first account is the primary account
-				accounts.add(new ChequingAcc(getUsername(), this, true));
-			} else {
-				accounts.add(new ChequingAcc(getUsername(), this, false));
+	void addAccount(String accountName) {
+	    String type = accountName.split(" ")[1].substring(1);
+	    String name = accountName.split(" ")[0];
+		if(type.equals("Chequing")) {
+		    // Check if there are other chequing accounts.
+		    for (GenericAccount a: accounts) {
+		        if (a instanceof ChequingAcc) {
+		            accounts.add(new ChequingAcc(name, this, false));
+		            return;
+                }
 			}
-		} else if(account.equals("Credit")) {
-			accounts.add(new CreditCardAcc(getUsername(), this));
-		} else if(account.equals("CreditLine")) {
-			accounts.add(new CreditLineAcc(getUsername(), this));
-		} else if(account.equals("Savings")) {
-			accounts.add(new SavingAcc(getUsername(), this));
+            accounts.add(new ChequingAcc(name, this, true));
+		} else if(type.equals("Credit")) {
+			accounts.add(new CreditCardAcc(name, this));
+		} else if(type.equals("CreditLine")) {
+			accounts.add(new CreditLineAcc(name, this));
+		} else if(type.equals("Savings")) {
+			accounts.add(new SavingAcc(name, this));
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");
 		}
@@ -69,13 +73,14 @@ public class Customer extends ATM_User {
 	 * Assume account exists.
      */
 	GenericAccount getAccountByName(String name) {
+		GenericAccount account = new ChequingAcc("BAD", this, false);
 		for (GenericAccount a: accounts) {
 			if (a.name.equals(name)) {
-				return a;
+				account =  a;
+				break;
 			}
 		}
-		//This should never be reached.
-		return new ChequingAcc(getUsername(), this, false);
+		return account;
 	}
 
 	/*

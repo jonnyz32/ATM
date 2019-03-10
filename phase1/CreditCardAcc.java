@@ -1,8 +1,9 @@
 // A super class for debt accounts.
 
+import java.io.Serializable;
 import java.util.*;
 
-public class CreditCardAcc extends GenericAccount {
+public class CreditCardAcc extends GenericAccount implements Serializable {
 
 
     public CreditCardAcc(String name_p, Customer o) {

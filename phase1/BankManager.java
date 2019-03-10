@@ -22,8 +22,8 @@ public class BankManager extends ATM_User{
     /**
      * Adds a request for the account of the specified type.
      */
-    static void requestAccount(String username, String type){
-        requests.add(new Pair<>(username, type));
+    static void requestAccount(String username, String name){
+        requests.add(new Pair<>(username, name));
     }
 
     /**
@@ -78,10 +78,10 @@ public class BankManager extends ATM_User{
      */
     void approveAccount(int id){
         String username = requests.get(id).getLeft();
-        String account = requests.get(id).getRight();
+        String account_name = requests.get(id).getRight();
         if (ATM_machine.getUser(username) instanceof Customer){
             Customer user = (Customer) ATM_machine.getUser(username);
-            user.addAccount(account);
+            user.addAccount(account_name);
         }
         else{
             requests.remove(id);
