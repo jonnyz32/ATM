@@ -16,7 +16,7 @@ public class ChequingAcc extends GenericAccount implements Serializable {
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
         primary = primary_p;
-        type = "(Chequing)";
+        type = " (Chequing)";
     }
 
     boolean isPrimary() {
