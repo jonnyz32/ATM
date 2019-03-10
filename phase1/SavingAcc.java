@@ -17,6 +17,7 @@ public class SavingAcc extends GenericAccount {
 
     void increase_interest() {
         balance += balance * 0.001;
+        ATM_machine.update_user(owner);
     }
 
 
