@@ -24,13 +24,13 @@ public class ATM_machine{
         new MainMenu().showMenu();
     }
 
-    public void onExit() {
+    static public void onExit() {
         FileManager.writeBills(bills);
         FileManager.saveUsers(users);
         checkInterest();
     }
 
-    private void checkInterest(){
+    static void checkInterest(){
         if (date.get(Calendar.DAY_OF_MONTH) == 1){
             for(int i = 0; i < users.size(); i++){
                 if (users.get(i) instanceof Customer){

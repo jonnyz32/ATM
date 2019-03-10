@@ -32,7 +32,9 @@ public class CustomerMenu extends TextInterface{
         System.out.println("Options: Chequing, Credit, CreditLine, Savings\n" +
                 "Which type of account?");
         String accountType = nextLine();
-        customer.requestAccount(accountType);
+        System.out.println("How would you like to name your " + accountType + " account? (alphanumeric no spaces)");
+        String accountName = nextLine();
+        customer.requestAccount(accountName + " -" + accountType);
         showMenu();
     }
 
