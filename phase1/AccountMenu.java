@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class AccountMenu extends TextInterface{
+public abstract class AccountMenu extends TextInterface{
 
     private GenericAccount account;
 
@@ -9,23 +9,16 @@ public class AccountMenu extends TextInterface{
         this.account = account;
         header = "Account Menu";
         footer = "Choose an option:";
-        addAction(1, ()->showBalance(), "View Balance");
-        addAction(2, ()->getLastTransaction(), "See Last Transaction");
-        addAction(3, ()->depositCash(), "Deposit Cash");
-        addAction(4, ()->transferToSelf(), "Transfer to another account");
-        addAction(5, ()->transferToOther(), "Transfer to another user");
-        addAction(6, ()->transferToExternal(), "Pay external bill");
-        addAction(7, ()->withdraw(), "Withdraw money");
     }
 
-    private void getLastTransaction(){
+    void getLastTransaction(){
         System.out.println("Last Transaction:");
         String latest = account.getLatestTransaction().toString();
         System.out.println(latest + "in" + account.name);
         showMenu();
     }
 
-    private void showBalance() {
+    void showBalance() {
         System.out.print("This account has a ");
         if(account.isAsset()) {
             System.out.print("debit");
@@ -37,7 +30,7 @@ public class AccountMenu extends TextInterface{
         showMenu();
     }
 
-    private void depositCash(){
+    void depositCash(){
         System.out.println("How many Fives?");
         int fives = nextInt();
         System.out.println("How many Tens?");
@@ -50,7 +43,7 @@ public class AccountMenu extends TextInterface{
         showMenu();
     }
 
-    private void transferToSelf(){
+    void transferToSelf(){
         System.out.println("Amount to transfer?");
         double amount = nextDouble();
         System.out.println("Account to transfer to?");
@@ -81,7 +74,7 @@ public class AccountMenu extends TextInterface{
         return other_user;
     }
 
-    private void transferToOther(){
+    void transferToOther(){
         Customer other_user = transferToOther_helper();
         String message = "Which account of " + other_user.getUsername() + " would you like to transfer to?";
         System.out.println(message);
@@ -93,7 +86,7 @@ public class AccountMenu extends TextInterface{
         showMenu();
     }
 
-    private void transferToExternal(){
+    void transferToExternal(){
         System.out.println("What bill would you like to pay?");
         String name = nextLine();
         System.out.println("How much are you paying?");
@@ -102,7 +95,7 @@ public class AccountMenu extends TextInterface{
         showMenu();
     }
 
-    private void withdraw(){
+    void withdraw(){
         System.out.println("How much would you like to withdraw?");
         System.out.println("Amount should be a multiple of 5");
         int amount = nextInt();

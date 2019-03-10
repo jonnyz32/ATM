@@ -19,22 +19,25 @@ public class FileManager {
     //    private String username;
 //    private double balance;
     private static File bills;
-    private static File userFile;
-    private static File outgoing;
-    private static File alerts;
 
     private static int lineCount = 0;
-    FileManager(){
 
-//        decimalFormat.setRoundingMode(RoundingMode.CEILING);
-//        createAccount(username, accountType);
-//        this.balance = initializeBalance();
-        bills = new File("phase1/bills.txt");
-        userFile = new File("phase1/users.txt");
-        outgoing = new File("phase1/outgoing.txt");
-        alerts = new File("phase1/alerts.txt");
-        //       System.out.println(bills.exists());
 
+    static void checkForAlert(){
+        HashMap<Integer, Integer> billsMap = new HashMap<>();
+        billsMap.put(0,5);
+        billsMap.put(1,10);
+        billsMap.put(2, 20);
+        billsMap.put(3, 50);
+
+        int[] bills = FileManager.retrieveBills();
+        ArrayList<int[]> alerts = new ArrayList<>();
+        for (int i = 0; i < 4; i++){
+            if (bills[i] < 20){
+                alerts.add(new int[]{billsMap.get(i),bills[i]});
+            }
+        }
+        FileManager.writeAlerts(alerts);
     }
 
     static ArrayList<ATM_User> retrieveUsers(){
@@ -145,8 +148,6 @@ public class FileManager {
     }
 
 
-
-
     static int[] readDeposits(){
 
         int[] depositArrayNum = new int[6];
@@ -214,119 +215,6 @@ public class FileManager {
 //        }
 
         FileManager.writeBills(new int[]{10,1598,1,25});
-        ATM_machine.checkForAlert();
-
-
 
     }
-
-//    private void createAccount(String username, String accountType){
-//
-//            this.username = username;
-//            File user = new File("phase1\\accounts\\" + username + "\\" + accountType);
-//            user.mkdirs();
-//
-//
-//            this.allTransactions = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\allTransactions.txt");
-//            this.deposits = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\deposits.txt");
-//            this.withdrawals = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\withdrawals.txt");
-//            this.balanceHistory = new File("phase1\\accounts\\" + username + "\\" + accountType + "\\balanceHistory.txt");
-//
-//    }
-
-//    void depositMoney(double amount, Date date){
-//        try {
-//            balance += amount;
-//
-//            Writer writer = new BufferedWriter(new FileWriter(deposits, true));
-////            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
-//            writer.write(decimalFormat.format(amount) + " " + date + "\n");
-//
-//            writer.close();
-//
-//            writer = new BufferedWriter(new FileWriter(allTransactions, true));
-////            writer.write(String.format("" +
-////                    "Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
-//
-//            writer.write(decimalFormat.format(amount) + " " + date + "\n");
-//            writer.close();
-//
-//            writer = new BufferedWriter(new FileWriter(balanceHistory, true));
-////            writer.write(Double.toString(balance) + "\n" +"hello");
-//            writer.write(decimalFormat.format(balance) + "\n");
-//            writer.close();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    void withdrawMoney(double amount, Date date){
-//        try {
-//            balance -= amount;
-//            Writer writer = new BufferedWriter(new FileWriter(withdrawals, true));
-////            writer.write(String.format("Withdrew %s dollars on %tc \n", decimalFormat.format(amount), date));
-//            writer.write(decimalFormat.format(amount * -1) +" " + date + "\n");
-//
-//            writer.close();
-//
-//            writer = new BufferedWriter(new FileWriter(allTransactions, true));
-////            writer.write(String.format("" +
-//////                    "Withdrew %s dollars on %tc \n", decimalFormat.format(amount), date));
-//
-//            writer.write(decimalFormat.format(amount * -1) + " " + date +"\n");
-//
-//            writer.close();
-//
-//            writer = new BufferedWriter(new FileWriter(balanceHistory, true));
-//            writer.write(decimalFormat.format(balance) + "\n");
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    // void CustomerRequestsBankAccountCreation(String username, String bankAccountType)
-
-
-//
-//    private double initializeBalance() {
-//        try {
-//            FileReader file = new FileReader(balanceHistory);
-//            BufferedReader reader = new BufferedReader(file);
-//
-//            String balance = reader.readLine();
-//            String temp = "0.0";
-//            while (balance != null) {
-//                temp = balance;
-//                balance = reader.readLine();
-//            }
-//            return Double.parseDouble(temp);
-//
-//        } catch (IOException e) {
-//            System.out.println("File could not be found");
-//
-//            return 0.0;
-//        }
-//    }
-
-    //    private double getLatestTransactions(){
-//        try {
-//            FileReader file = new FileReader(allTransactions);
-//            BufferedReader reader = new BufferedReader(file);
-//
-//            String transaction = reader.readLine();
-//            String temp = "0.0";
-//            while (transaction != null) {
-//                temp = transaction;
-//                transaction = reader.readLine();
-//            }
-//            return Double.parseDouble(temp.split(" ")[0]);
-//
-//        } catch (IOException e) {
-//            System.out.println("File could not be found");
-//
-//            return 0.0;
-//        }
-//    }
 }

@@ -29,12 +29,23 @@ public class CustomerMenu extends TextInterface{
     }
 
     private void requestAccount(){
-        System.out.println("Options: Chequing, Credit, CreditLine, Savings\n" +
+        System.out.println("Options: chequing, credit, creditline, savings\n" +
                 "Which type of account?");
-        String accountType = nextLine();
-        System.out.println("How would you like to name your " + accountType + " account? (alphanumeric no spaces)");
+        String accountType = "InvalidAccount";
+        boolean loop = true;
+        String[] validAccounts = {"chequing","credit","creditline","savings"};
+        while(loop) {
+            accountType = nextLine().toLowerCase();
+            for(String va : validAccounts) {
+                if(va.equals(accountType)) {
+                    loop=false;
+                }
+            }
+        }
+        System.out.println("What would you like to name your " + accountType + " account? (alphanumeric no spaces)");
         String accountName = nextLine();
-        customer.requestAccount(accountName + " -" + accountType);
+        customer.requestAccount(accountType, accountName);
+        System.out.println("Request sent!");
         showMenu();
     }
 
@@ -47,7 +58,17 @@ public class CustomerMenu extends TextInterface{
 
     private void viewAccount(int i) {
         GenericAccount account = customer.getAccounts().get(i);
-        new AccountMenu(account, this).showMenu();
-        showMenu();
+        if (account instanceof ChequingAcc) {
+            new ChequingMenu(account, this).showMenu();
+        }
+        else if(account instanceof SavingAcc){
+            new SavingsMenu(account, this).showMenu();
+        }
+        else if(account instanceof CreditCardAcc){
+            new CreditCardMenu(account, this).showMenu();
+        }
+        else if(account instanceof CreditLineAcc){
+            new CreditLineMenu(account, this).showMenu();
+        }
     }
 }

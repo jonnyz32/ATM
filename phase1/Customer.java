@@ -15,31 +15,29 @@ public class Customer extends ATM_User implements Serializable {
 		accounts = new ArrayList<>();
 	}
 
-	void requestAccount(String accountName){
-		BankManager.requestAccount(this.getUsername(), accountName);
+	void requestAccount(String type, String name){
+		BankManager.requestAccount(this.getUsername(), type, name);
 	}
 
-	void addAccount(String accountName) {
-	    String type = accountName.split(" ")[1].substring(1);
-	    String name = accountName.split(" ")[0];
-		if(type.equals("Chequing")) {
+	boolean addAccount(String type, String name) {
+		if(type.equals("chequing")) {
 		    // Check if there are other chequing accounts.
 		    for (GenericAccount a: accounts) {
 		        if (a instanceof ChequingAcc) {
 		            accounts.add(new ChequingAcc(name, this, false));
-		            return;
                 }
 			}
             accounts.add(new ChequingAcc(name, this, true));
-		} else if(type.equals("Credit")) {
+		} else if(type.equals("credit")) {
 			accounts.add(new CreditCardAcc(name, this));
-		} else if(type.equals("CreditLine")) {
+		} else if(type.equals("creditline")) {
 			accounts.add(new CreditLineAcc(name, this));
-		} else if(type.equals("Savings")) {
+		} else if(type.equals("savings")) {
 			accounts.add(new SavingAcc(name, this));
 		} else {
-			System.out.println("ERROR: INVALID ACCOUNT TYPE");
+			return false;
 		}
+		return true;
 	}
 
 	ArrayList<GenericAccount> getAccounts(){

@@ -7,23 +7,23 @@ import java.util.GregorianCalendar;
 public class BankManager extends ATM_User{
 
     /**
-     * Requests are stored as a Pair<String username, String type>
+     * Requests are stored as a AccountRequest<String username, String type, String accountName>
      */
-    private static List<Pair<String, String>> requests = new ArrayList<>();
+    private static List<AccountRequest> requests = new ArrayList<>();
 
     public BankManager(String username, String password){
         super(username, password);
     }
 
-    static List<Pair<String, String>> getRequests(){
+    static List<AccountRequest> getRequests(){
         return requests;
     }
 
     /**
      * Adds a request for the account of the specified type.
      */
-    static void requestAccount(String username, String name){
-        requests.add(new Pair<>(username, name));
+    static void requestAccount(String username, String type, String accountName){
+        requests.add(new AccountRequest(username, type, accountName));
     }
 
     /**
@@ -78,17 +78,19 @@ public class BankManager extends ATM_User{
     /**
      * Approves a customer's account creation request.
      */
-    void approveAccount(int id){
-        String username = requests.get(id).getLeft();
-        String account_name = requests.get(id).getRight();
+    boolean approveAccount(int id){
+        String username = requests.get(id).getUser();
+        String type = requests.get(id).getType();
+        String name = requests.get(id).getName();
         if (ATM_machine.getUser(username) instanceof Customer){
             Customer user = (Customer) ATM_machine.getUser(username);
-            user.addAccount(account_name);
+            if(user.addAccount(type, name)) {
+                requests.remove(id);
+                return true;
+            }
         }
-        else{
-            requests.remove(id);
-            System.out.println("ERROR: USER NOT VALID");
-        }
+        requests.remove(id);
+        return false;
     }
 
     /**

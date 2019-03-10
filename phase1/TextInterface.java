@@ -68,7 +68,7 @@ class TextInterface {
                 int input = in.nextInt();
                 in.nextLine();
                 return input;
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 System.out.println("Invalid input, try again");
                 in.nextLine();
             }
@@ -80,7 +80,7 @@ class TextInterface {
                 double input = in.nextDouble();
                 in.nextLine();
                 return input;
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 System.out.println("Invalid input, try again");
                 in.nextLine();
             }
