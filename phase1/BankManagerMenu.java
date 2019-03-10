@@ -64,6 +64,11 @@ public class BankManagerMenu extends TextInterface{
 
         System.out.println("Input id to approve:");
         int target = nextInt();
+        while (target>=requests.size()){
+            System.out.println("Invalid id, try again.");
+            target = nextInt();
+        }
+
         if(bankManager.approveAccount(target)){
             System.out.println("Request approved");
             showMenu();
