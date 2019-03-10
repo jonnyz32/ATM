@@ -30,16 +30,8 @@ public abstract class AccountMenu extends TextInterface{
         showMenu();
     }
 
-    void depositCash(){
-        System.out.println("How many Fives?");
-        int fives = nextInt();
-        System.out.println("How many Tens?");
-        int tens = nextInt();
-        System.out.println("How many Twenties?");
-        int twenties = nextInt();
-        System.out.println("How many Fifties?");
-        int fifties = nextInt();
-        account.depositCash(fives, tens, twenties, fifties);
+    void depositFromFile(){
+        account.depositFromFile();
         showMenu();
     }
 

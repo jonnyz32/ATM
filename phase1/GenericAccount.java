@@ -69,7 +69,7 @@ public class GenericAccount implements Serializable {
 
     }
 
-    void deposit_from_file() {
+    void depositFromFile() {
         int[] deposit = FileManager.readDeposits();
         if (deposit[1] == 0){
             depositCash(deposit[2], deposit[3], deposit[4], deposit[5]);

@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -91,5 +92,10 @@ public class ATM_machine{
             }
             i += 1;
         }
+    }
+
+    static String getTimeFormatted(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        return sdf.format(ATM_machine.getTime().getTime());
     }
 }
