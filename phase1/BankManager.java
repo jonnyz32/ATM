@@ -94,7 +94,13 @@ public class BankManager extends ATM_User{
     /**
      * Creates a new customer with the given login credentials.
      */
-    void createNewCustomer(String username, String password){
-        ATM_machine.addCustomer(username, password);
+    boolean createNewCustomer(String username, String password){
+        try {
+            ATM_machine.addCustomer(username, password);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 }
