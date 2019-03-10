@@ -58,7 +58,17 @@ public class CustomerMenu extends TextInterface{
 
     private void viewAccount(int i) {
         GenericAccount account = customer.getAccounts().get(i);
-        new AccountMenu(account, this).showMenu();
-        showMenu();
+        if (account instanceof ChequingAcc) {
+            new ChequingMenu(account, this).showMenu();
+        }
+        else if(account instanceof SavingAcc){
+            new SavingsMenu(account, this).showMenu();
+        }
+        else if(account instanceof CreditCardAcc){
+            new CreditCardMenu(account, this).showMenu();
+        }
+        else if(account instanceof CreditLineAcc){
+            new CreditLineMenu(account, this).showMenu();
+        }
     }
 }
