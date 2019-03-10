@@ -59,9 +59,10 @@ class TextInterface {
 
 
 
-    public static String nextLine() {
+    String nextLine() {
         return in.nextLine();
     }
+
     public static int nextInt() {
         while(true) {
             try {
@@ -74,6 +75,7 @@ class TextInterface {
             }
         }
     }
+
     public static double nextDouble() {
         while(true) {
             try {
