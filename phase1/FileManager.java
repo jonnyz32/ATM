@@ -23,6 +23,7 @@ public class FileManager {
     private static File outgoing;
     private static File alerts;
 
+    private static int lineCount = 0;
     FileManager(){
 
 //        decimalFormat.setRoundingMode(RoundingMode.CEILING);
@@ -146,30 +147,29 @@ public class FileManager {
 
 
 
-    static ArrayList<int[]> readDeposits(File depositFile){
+    static int[] readDeposits(){
 
-        ArrayList<int[]> allDeposits = new ArrayList<>();
+        int[] depositArrayNum = new int[6];
         try {
-            FileReader file = new FileReader(depositFile);
+            FileReader file = new FileReader(new File("phase1/deposits.txt"));
             BufferedReader reader = new BufferedReader(file);
-            String temp = reader.readLine();
-            while (temp != null){
-                String[] depositArrayString = temp.split(",");
-                int[] depositArrayNum = new int[7];
-                for (int x = 0; x < 7; x++){
+            String current = reader.readLine();
+            int count = 0;
+            String prev ="";
+            while (current != null || count == lineCount) {
+                prev = current;
+                current = reader.readLine();
+
+                count += 1;
+            }
+                String[] depositArrayString = prev.split(",");
+                for (int x = 0; x < 6; x++){
                     depositArrayNum[x] = Integer.parseInt(depositArrayString[x]);
                 }
-                allDeposits.add(depositArrayNum);
-                temp = reader.readLine();
-            }
-
-        } catch (IOException e) {
-            System.out.println("File could not be found");
-
-            return null;
+                return depositArrayNum;
+            } catch (IOException e) {
+            return new int[6];
         }
-
-        return allDeposits;
     }
 
 
@@ -201,16 +201,17 @@ public class FileManager {
         ArrayList<ATM_User> userlist = new ArrayList<>();
         userlist.add(user1);
         userlist.add(user2);
-//        FileManager.saveUsers(userlist);
+        FileManager.saveUsers(userlist);
+        System.out.println(new File("phase1/users.txt").exists());
         System.out.println(FileManager.retrieveUsers());
-        System.out.println(FileManager.retrieveUsers().get(0).getUsername());
+//        System.out.println(FileManager.retrieveUsers().get(0).getUsername());
         System.out.println(System.getProperty("user.dir"));
         File depositFile = new File("phase1/depositFile.txt");
         System.out.println(depositFile.exists());
-        ArrayList<int[]> testdepostist = FileManager.readDeposits(depositFile);
-        for(int i = 0; i< testdepostist.size(); i++){
-            System.out.println(Arrays.toString(testdepostist.get(i)));
-        }
+        System.out.println(Arrays.toString(FileManager.readDeposits()));
+//        for(int i = 0; i< testdepostist.size(); i++){
+//            System.out.println(Arrays.toString(testdepostist.get(i)));
+//        }
 
         FileManager.writeBills(new int[]{10,1598,1,25});
         ATM_machine.checkForAlert();
