@@ -1,11 +1,12 @@
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Customer extends ATM_User {
+public class Customer extends ATM_User implements Serializable {
 	private ArrayList<GenericAccount> accounts;
 
 	// Initialize new customer
