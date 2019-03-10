@@ -20,23 +20,22 @@ public class Customer extends ATM_User {
 
 	void addAccount(String accountName) {
 	    String type = accountName.split(" ")[1].substring(1);
+	    String name = accountName.split(" ")[0];
 		if(type.equals("Chequing")) {
 		    // Check if there are other chequing accounts.
 		    for (GenericAccount a: accounts) {
-		        String type_a = a.name.split(" ")[1].substring(1);
-		        if (type_a.equals("Chequing")) {
-		            accounts.add(new ChequingAcc(accountName, this, true));
-		            a.name = "(Primary)" + a.name;
+		        if (a instanceof ChequingAcc) {
+		            accounts.add(new ChequingAcc(name, this, false));
 		            return;
                 }
 			}
-            accounts.add(new ChequingAcc(accountName, this, false));
+            accounts.add(new ChequingAcc(name, this, true));
 		} else if(type.equals("Credit")) {
-			accounts.add(new CreditCardAcc(accountName, this));
+			accounts.add(new CreditCardAcc(name, this));
 		} else if(type.equals("CreditLine")) {
-			accounts.add(new CreditLineAcc(accountName, this));
+			accounts.add(new CreditLineAcc(name, this));
 		} else if(type.equals("Savings")) {
-			accounts.add(new SavingAcc(accountName, this));
+			accounts.add(new SavingAcc(name, this));
 		} else {
 			System.out.println("ERROR: INVALID ACCOUNT TYPE");
 		}
@@ -74,13 +73,14 @@ public class Customer extends ATM_User {
 	 * Assume account exists.
      */
 	GenericAccount getAccountByName(String name) {
+		GenericAccount account = new ChequingAcc("BAD", this, false);
 		for (GenericAccount a: accounts) {
 			if (a.name.equals(name)) {
-				return a;
+				account =  a;
+				break;
 			}
 		}
-		//This should never be reached.
-		return new ChequingAcc(getUsername(), this, false);
+		return account;
 	}
 
 	/*
