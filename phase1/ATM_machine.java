@@ -25,10 +25,6 @@ public class ATM_machine{
     static public void onExit() {
         FileManager.writeBills(bills);
         userManager.saveUsers();
-        checkInterest();
-    }
-
-    static void checkInterest(){
         userManager.checkInterest();
     }
 
