@@ -1,4 +1,6 @@
-public class AccountRequest {
+import java.io.Serializable;
+
+public class AccountRequest implements Serializable {
     private final String user;
     private final String type;
     private final String name;

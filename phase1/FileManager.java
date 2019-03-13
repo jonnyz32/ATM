@@ -1,13 +1,6 @@
-import jdk.internal.org.objectweb.asm.Handle;
-
 import java.io.*;
-import java.lang.reflect.Array;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class FileManager {
 
@@ -60,7 +53,7 @@ public class FileManager {
         }
     }
 
-    static void saveUsers(ArrayList<ATM_User> users){
+    static void saveUsers(List<ATM_User> users){
         File userFile = new File("phase1/users.txt");
         try {
             FileOutputStream file = new FileOutputStream(userFile);

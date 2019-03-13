@@ -50,20 +50,15 @@ public abstract class AccountMenu extends TextInterface{
         System.out.println("Who would you like to transfer to");
         String other_username = nextLine();
         boolean other_exists = false;
-        Customer other_user = null;
-        ArrayList<ATM_User> all_users = ATM_machine.users;
-        for (ATM_User u: all_users) {
-            if (u.getUsername().equals(other_username)) {
-                other_user = (Customer) u;
-                other_exists = true;
-                break;
-            }
-        }
-        if (!other_exists) {
+        ATM_User other_user = ATM_machine.getUser(other_username);
+        if (other_user == null) {
             System.out.println("That username does not exist, please try another user.");
             transferToOther_helper();
         }
-        return other_user;
+        if (other_user instanceof Customer) {
+            return (Customer) other_user;
+        }
+        return null;
     }
 
     void transferToOther(){

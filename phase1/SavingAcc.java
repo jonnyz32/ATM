@@ -19,7 +19,6 @@ public class SavingAcc extends GenericAccount implements Serializable {
 
     void increase_interest() {
         balance += balance * 0.001;
-        ATM_machine.update_user(owner);
     }
 
     @Override
