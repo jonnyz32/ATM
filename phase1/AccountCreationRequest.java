@@ -1,11 +1,11 @@
 import java.io.Serializable;
 
-public class AccountRequest implements Serializable {
+public class AccountCreationRequest implements Serializable {
     private final String user;
     private final String type;
     private final String name;
 
-    public AccountRequest(String user, String type, String name) {
+    public AccountCreationRequest(String user, String type, String name) {
         this.user = user;
         this.type = type;
         this.name = name;

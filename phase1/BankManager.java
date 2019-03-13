@@ -7,15 +7,15 @@ import java.util.GregorianCalendar;
 public class BankManager extends ATM_User{
 
     /**
-     * Requests are stored as a AccountRequest<String username, String type, String accountName>
+     * Requests are stored as a AccountCreationRequest<String username, String type, String accountName>
      */
-    private static List<AccountRequest> requests = new ArrayList<>();
+    private static List<AccountCreationRequest> requests = new ArrayList<>();
 
     public BankManager(String username, String password){
         super(username, password);
     }
 
-    static List<AccountRequest> getRequests(){
+    static List<AccountCreationRequest> getRequests(){
         return requests;
     }
 
@@ -23,7 +23,7 @@ public class BankManager extends ATM_User{
      * Adds a request for the account of the specified type.
      */
     static void requestAccount(String username, String type, String accountName){
-        requests.add(new AccountRequest(username, type, accountName));
+        requests.add(new AccountCreationRequest(username, type, accountName));
     }
 
     /**

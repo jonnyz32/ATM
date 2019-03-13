@@ -1,4 +1,3 @@
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class BankManagerMenu extends TextInterface{
@@ -58,7 +57,7 @@ public class BankManagerMenu extends TextInterface{
     }
 
     private void approveAccount(){
-        List<AccountRequest> requests = BankManager.getRequests();
+        List<AccountCreationRequest> requests = BankManager.getRequests();
         int i = 0;
         if (requests.size() < 1){
             System.out.println("No requests available");
@@ -66,7 +65,7 @@ public class BankManagerMenu extends TextInterface{
             return;
         }
 
-        for(AccountRequest request: requests){
+        for(AccountCreationRequest request: requests){
             String type = request.getType();
             System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
             i++;
