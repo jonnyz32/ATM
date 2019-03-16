@@ -29,11 +29,9 @@ public class ChequingAcc extends GenericAccount implements Serializable {
         if (balance + maxDebt >= amount){
             balance -= amount;
             return super.withdraw(amount);
-
         }
-        else{
-            return false;
-        }
+        System.out.println("You don't have enough money remaining to withdraw that much! Balance: " + balance);
+        return false;
     }
 
 

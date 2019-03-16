@@ -26,6 +26,8 @@ public class CreditCardAcc extends GenericAccount implements Serializable{
             balance += amount;
             return super.withdraw(amount);
         }
+        System.out.println("You don't have enough remaining credit to withdraw that much! Remaining credit: " +
+                (maxDebt - balance));
         return false;
     }
 }

@@ -29,9 +29,9 @@ public class SavingAcc extends GenericAccount implements Serializable {
             super.withdraw(amount);
             return true;
         }
-        else{
-            return false;
-        }
+
+        System.out.println("You don't have enough money remaining to withdraw that much! Balance: " + balance);
+        return false;
     }
 
 
