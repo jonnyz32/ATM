@@ -3,7 +3,7 @@
 import java.io.Serializable;
 import java.util.*;
 
-public class CreditCardAcc extends GenericAccount {
+public class CreditCardAcc extends GenericAccount implements Serializable{
     private final int maxDebt = 3000;
 
 
