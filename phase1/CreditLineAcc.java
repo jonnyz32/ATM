@@ -3,6 +3,7 @@
 import java.io.Serializable;
 import java.util.*;
 public class CreditLineAcc extends GenericAccount implements Serializable {
+    private final int maxDebt = 10000;
 
 
     public CreditLineAcc(String name_p, Customer o) {
@@ -15,5 +16,14 @@ public class CreditLineAcc extends GenericAccount implements Serializable {
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
         type = " (CreditLine)";
+    }
+
+    @Override
+    boolean withdraw(int amount){
+        if (balance + amount <= maxDebt){
+            balance += amount;
+            return super.withdraw(amount);
+        }
+        return false;
     }
 }

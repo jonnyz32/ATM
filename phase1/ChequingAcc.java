@@ -5,6 +5,7 @@ import java.util.*;
 
 public class ChequingAcc extends GenericAccount implements Serializable {
     final boolean primary;
+    private final int maxDebt = 100;
 
     public ChequingAcc(String name_p, Customer o, boolean primary_p) {
         name = name_p;
@@ -25,9 +26,10 @@ public class ChequingAcc extends GenericAccount implements Serializable {
 
     @Override
     boolean withdraw(int amount){
-        if (balance + 100 >= amount){
-            super.withdraw(amount);
-            return true;
+        if (balance + maxDebt >= amount){
+            balance -= amount;
+            return super.withdraw(amount);
+
         }
         else{
             return false;

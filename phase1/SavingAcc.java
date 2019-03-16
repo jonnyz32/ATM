@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class SavingAcc extends GenericAccount implements Serializable {
+    private final int maxDebt = 0;
+
 
     public SavingAcc(String name_p, Customer o) {
         name = name_p;
@@ -23,7 +25,7 @@ public class SavingAcc extends GenericAccount implements Serializable {
 
     @Override
     boolean withdraw(int amount){
-        if (balance >= amount){
+        if (balance + maxDebt >= amount){
             super.withdraw(amount);
             return true;
         }

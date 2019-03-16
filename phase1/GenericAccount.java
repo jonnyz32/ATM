@@ -155,7 +155,7 @@ public abstract class GenericAccount implements Serializable {
         int twenties = bills[1];
         int tens = bills[2];
         int fives = bills[3];
-        balance -= (fifties*50 + twenties*20 + tens*10 + fives*5);
+//        balance -= (fifties*50 + twenties*20 + tens*10 + fives*5);
 
         ATM_machine.setFifties(ATM_machine.getNumFifties() - fifties);
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()- twenties);
@@ -163,10 +163,10 @@ public abstract class GenericAccount implements Serializable {
         ATM_machine.setFives(ATM_machine.getNumFives()- fives);
 
         int[] billFile = FileManager.retrieveBills();
-        billFile[0] = billFile[0] + fives;
-        billFile[1] = billFile[1] + tens;
-        billFile[2] = billFile[2] + twenties;
-        billFile[3] = billFile[3] + fifties;
+        billFile[0] = billFile[0] - fives;
+        billFile[1] = billFile[1] - tens;
+        billFile[2] = billFile[2] - twenties;
+        billFile[3] = billFile[3] - fifties;
 
         FileManager.writeBills(billFile);
         FileManager.checkForAlert();

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class CreditCardAcc extends GenericAccount {
+    private final int maxDebt = 3000;
+
 
 
     public CreditCardAcc(String name_p, Customer o) {
@@ -16,5 +18,14 @@ public class CreditCardAcc extends GenericAccount {
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
         type = " (CreditCard)";
+    }
+
+    @Override
+    boolean withdraw(int amount){
+        if (balance + amount <= maxDebt){
+            balance += amount;
+            return super.withdraw(amount);
+        }
+        return false;
     }
 }

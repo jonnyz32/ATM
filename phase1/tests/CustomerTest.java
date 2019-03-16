@@ -1,11 +1,11 @@
 
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class CustomerTest {
@@ -19,7 +19,7 @@ public class CustomerTest {
 	public void testAddAccount(){
 		customer.addAccount("chequing", "c_account");
 		Assert.assertEquals(1, customer.getAccounts().size());
-		assertTrue(customer.getAccounts().get(0) instanceof ChequingAcc);
+		Assert.assertTrue(customer.getAccounts().get(0) instanceof ChequingAcc);
 	}
 
 	@Test
