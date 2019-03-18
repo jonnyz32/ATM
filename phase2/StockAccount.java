@@ -15,4 +15,6 @@ public class StockAccount extends GenericAccount implements Serializable {
 		past_trans.add(lastTransText);
 		type = "(Stock)";
 	}
+
+
 }
