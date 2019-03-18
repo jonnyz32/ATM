@@ -40,8 +40,8 @@ public class FileManagerTest {
 
     @Test
     public void retrieveUsers() {
-        ATM_User user1 = new ATM_User("user1", "pass1");
-        ATM_User user2 = new ATM_User("user2", "pass2");
+        Customer user1 = new Customer("user1", "pass1");
+        Customer user2 = new Customer("user2", "pass2");
         ArrayList<ATM_User> userList = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);

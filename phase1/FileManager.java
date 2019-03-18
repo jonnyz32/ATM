@@ -6,6 +6,7 @@ public class FileManager {
 
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private static int lineCount = 0;
+
     static void checkForAlert(){
         HashMap<Integer, Integer> billsMap = new HashMap<>();
         billsMap.put(0,5);
@@ -155,6 +156,8 @@ public class FileManager {
             return new int[6];
         }
     }
+
+
 
 
 //    public static void main(String[] args) {
