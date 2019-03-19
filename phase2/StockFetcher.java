@@ -2,23 +2,29 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.util.HashMap;
 
-import com.google.gson.JsonArray;
+
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class StockFetcher {
-	private String apiKey = "240UNLH6CSLKUUKH";
+	private static String apiKey = "240UNLH6CSLKUUKH";
 
 	public StockFetcher(String apiKey){
 		this.apiKey = apiKey;
 	}
 
-	private String generateEndpoint(String symbol){
+	private static String generateEndpoint(String symbol){
 		return "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + symbol + "&apikey=" + apiKey;
 	}
 
-	public StringBuffer getCurrentStockPrice(String symbol) throws IOException {
+	private static JsonObject stringToJson(String str){
+		return new JsonParser().parse(str).getAsJsonObject();
+	}
+
+	public static HashMap getCurrentStockInfo(String symbol) throws IOException {
 		URL url = new URL(generateEndpoint(symbol));
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -34,8 +40,28 @@ public class StockFetcher {
 
 		con.disconnect();
 
-		return content;
+		return jsonStockInfoToDict(stringToJson(content.toString()).get("Global Quote").getAsJsonObject());
+	}
+
+	public static HashMap jsonStockInfoToDict(JsonObject apiJson){
+		HashMap<String, Double> hashmap = new HashMap();
+		hashmap.put("open", apiJson.get("02. open").getAsDouble());
+		hashmap.put("high", apiJson.get("03. high").getAsDouble());
+		hashmap.put("low", apiJson.get("04. low").getAsDouble());
+		hashmap.put("price", apiJson.get("05. price").getAsDouble());
+		hashmap.put("volume", apiJson.get("06. volume").getAsDouble());
+		hashmap.put("change", apiJson.get("09. change").getAsDouble());
+
+		return hashmap;
 	}
 
 
+
+	public static void main(String[] args){
+		try {
+			System.out.println(getCurrentStockInfo("MSFT"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
