@@ -3,7 +3,9 @@
 import java.io.Serializable;
 import java.util.*;
 
-public class CreditCardAcc extends GenericAccount {
+public class CreditCardAcc extends GenericAccount implements Serializable{
+    private final int maxDebt = 3000;
+
 
 
     public CreditCardAcc(String name_p, Customer o) {
@@ -16,5 +18,16 @@ public class CreditCardAcc extends GenericAccount {
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
         type = " (CreditCard)";
+    }
+
+    @Override
+    boolean withdraw(int amount){
+        if (balance + amount <= maxDebt){
+            balance += amount;
+            return super.withdraw(amount);
+        }
+        System.out.println("You don't have enough remaining credit to withdraw that much! Remaining credit: " +
+                (maxDebt - balance));
+        return false;
     }
 }
