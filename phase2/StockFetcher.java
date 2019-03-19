@@ -10,21 +10,21 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class StockFetcher {
-	private static String apiKey = "240UNLH6CSLKUUKH";
+	private String apiKey = "240UNLH6CSLKUUKH";
 
 	public StockFetcher(String apiKey){
 		this.apiKey = apiKey;
 	}
 
-	private static String generateEndpoint(String symbol){
+	private String generateEndpoint(String symbol){
 		return "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + symbol + "&apikey=" + apiKey;
 	}
 
-	private static JsonObject stringToJson(String str){
+	private JsonObject stringToJson(String str){
 		return new JsonParser().parse(str).getAsJsonObject();
 	}
 
-	public static HashMap getCurrentStockInfo(String symbol) throws IOException {
+	public HashMap getCurrentStockInfo(String symbol) throws IOException {
 		URL url = new URL(generateEndpoint(symbol));
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -43,7 +43,7 @@ public class StockFetcher {
 		return jsonStockInfoToDict(stringToJson(content.toString()).get("Global Quote").getAsJsonObject());
 	}
 
-	public static HashMap jsonStockInfoToDict(JsonObject apiJson){
+	public HashMap jsonStockInfoToDict(JsonObject apiJson){
 		HashMap<String, Double> hashmap = new HashMap();
 		hashmap.put("open", apiJson.get("02. open").getAsDouble());
 		hashmap.put("high", apiJson.get("03. high").getAsDouble());
@@ -57,11 +57,4 @@ public class StockFetcher {
 
 
 
-	public static void main(String[] args){
-		try {
-			System.out.println(getCurrentStockInfo("MSFT"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
