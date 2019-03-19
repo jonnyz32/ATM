@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class StockFetcher {
-	private String apiKey = "240UNLH6CSLKUUKH";
+	private String apiKey;
 
 	public StockFetcher(String apiKey){
 		this.apiKey = apiKey;
@@ -43,7 +43,7 @@ public class StockFetcher {
 		return jsonStockInfoToDict(stringToJson(content.toString()).get("Global Quote").getAsJsonObject());
 	}
 
-	public HashMap jsonStockInfoToDict(JsonObject apiJson){
+	private HashMap jsonStockInfoToDict(JsonObject apiJson){
 		HashMap<String, Double> hashmap = new HashMap();
 		hashmap.put("open", apiJson.get("02. open").getAsDouble());
 		hashmap.put("high", apiJson.get("03. high").getAsDouble());
