@@ -3,12 +3,12 @@
 public class Share {
 	private String symbol;
 	private double boughtAt;
-	private double amountOfSharesOwned;
+	private int amount;
 
-	public Share(String symbol, double boughtAt, double amountOfSharesOwned){
+	public Share(String symbol, double boughtAt, int amount){
 		this.symbol = symbol;
 		this.boughtAt = boughtAt;
-		this.amountOfSharesOwned = amountOfSharesOwned;
+		this.amount = amount;
 	}
 
 	public String getSymbol() {
@@ -20,14 +20,13 @@ public class Share {
 	}
 
 
-	public double getAmountOfSharesOwned() {
-		return amountOfSharesOwned;
+	public int getAmountOfShares() {
+		return amount;
 	}
 
 
-
 	public void removeShares(int numOfShares){
-		amountOfSharesOwned -= numOfShares;
+		amount-= numOfShares;
 	}
 
 }
