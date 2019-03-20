@@ -48,7 +48,24 @@ public class StockAccount extends GenericAccount implements Serializable {
 	}
 
 	public void sellShares(String symbol, int shares){
+		try {
+			double currentPrice = (double) stockFetcher.getCurrentStockInfo(symbol).get("price");
+			if (portfolio.containsKey(symbol)){
+				CompanyStock companyStock = portfolio.get(symbol);
+				if (companyStock.has(shares)){
+					companyStock.sell(shares);
+				} else{
+					System.out.println("You do not own enough shares.");
+				}
 
+			} else{
+				System.out.println("You do not own shares of this stock. ");
+			}
+
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void addToPortfolio(Share shares){
