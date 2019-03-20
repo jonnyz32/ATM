@@ -55,18 +55,18 @@ public abstract class GenericAccount implements Serializable {
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
         past_trans.add(lastTransText);
 
-        int[] bills = FileManager.retrieveBills();
+        int[] bills = ATM_machine.fileManager.retrieveBills();
         bills[0] = bills[0] + fives;
         bills[1] = bills[1] + tens;
         bills[2] = bills[2] + twenties;
         bills[3] = bills[3] + fifties;
 
-        FileManager.writeBills(bills);
+        ATM_machine.fileManager.writeBills(bills);
 
     }
 
     void depositFromFile() {
-        int[] deposit = FileManager.readDeposits();
+        int[] deposit = ATM_machine.fileManager.readDeposits();
         if (deposit[1] == 0){
             depositCash(deposit[2], deposit[3], deposit[4], deposit[5]);
         }
@@ -146,7 +146,7 @@ public abstract class GenericAccount implements Serializable {
     void transferToExternal(String name, double amount) {
         if(asset) {balance-=amount;}
         else {balance+=amount;}
-        FileManager.writeOutgoing(owner.getUsername(), name, amount);
+        ATM_machine.fileManager.writeOutgoing(owner.getUsername(), name, amount);
     }
 
     boolean withdraw(int amount) {
@@ -162,14 +162,14 @@ public abstract class GenericAccount implements Serializable {
         ATM_machine.setTens(ATM_machine.getNumTens() - tens);
         ATM_machine.setFives(ATM_machine.getNumFives()- fives);
 
-        int[] billFile = FileManager.retrieveBills();
+        int[] billFile = ATM_machine.fileManager.retrieveBills();
         billFile[0] = billFile[0] - fives;
         billFile[1] = billFile[1] - tens;
         billFile[2] = billFile[2] - twenties;
         billFile[3] = billFile[3] - fifties;
 
-        FileManager.writeBills(billFile);
-        FileManager.checkForAlert();
+        ATM_machine.fileManager.writeBills(billFile);
+        ATM_machine.fileManager.checkForAlert();
         return true;
     }
 

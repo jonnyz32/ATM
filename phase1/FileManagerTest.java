@@ -45,8 +45,8 @@ public class FileManagerTest {
         ArrayList<ATM_User> userList = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
-        FileManager.saveUsers(userList);
-        ArrayList<ATM_User> retrievedUsers = FileManager.retrieveUsers();
+        ATM_machine.fileManager.saveUsers(userList);
+        ArrayList<ATM_User> retrievedUsers = ATM_machine.fileManager.retrieveUsers();
         assertEquals("user1", retrievedUsers.get(0).getUsername());
         assertEquals("user2", retrievedUsers.get(1).getUsername());
 
@@ -65,7 +65,7 @@ public class FileManagerTest {
         alerts.add(new int[]{5, 15});
         alerts.add(new int[]{20, 19});
         alerts.add(new int[]{50, 10});
-        FileManager.writeAlerts(alerts);
+        ATM_machine.fileManager.writeAlerts(alerts);
         try {
             FileReader file = new FileReader(new File("phase1/deposits.txt"));
             BufferedReader reader = new BufferedReader(file);
@@ -79,8 +79,8 @@ public class FileManagerTest {
     @Test
     public void retrieveBills() {
         int[] testBills = new int[]{14,335,23,47};
-        FileManager.writeBills(testBills);
-        int[] bills = FileManager.retrieveBills();
+        ATM_machine.fileManager.writeBills(testBills);
+        int[] bills = ATM_machine.fileManager.retrieveBills();
         assertArrayEquals(testBills, bills);
     }
 

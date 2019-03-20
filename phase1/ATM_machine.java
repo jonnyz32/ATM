@@ -12,18 +12,20 @@ public class ATM_machine{
     final static int FIFTY = 3;
     private static int[] bills = new int[4];
     private static UserManager userManager;
+    static FileManager fileManager;
 
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
+        fileManager = new FileManager();
         date.add(Calendar.DAY_OF_MONTH, 1);
-        bills = FileManager.retrieveBills();
+        bills = fileManager.retrieveBills();
         userManager = new UserManager();
         new MainMenu().showMenu();
     }
 
     static public void onExit() {
-        FileManager.writeBills(bills);
+        fileManager.writeBills(bills);
         userManager.saveUsers();
         userManager.checkInterest();
     }

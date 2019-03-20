@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.GregorianCalendar;
 
-public class BankManager extends ATM_User{
+public class BankManager extends ATM_User implements IBankManager{
 
     /**
      * Requests are stored as a AccountCreationRequest<String username, String type, String accountName>
@@ -29,7 +29,7 @@ public class BankManager extends ATM_User{
     /**
      * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
-    boolean setSystemDate(int year, int month, int day){
+    public boolean setSystemDate(int year, int month, int day){
         try{
             Calendar time = new GregorianCalendar(year, month - 1, day);
             ATM_machine.setTime(time);
@@ -72,7 +72,7 @@ public class BankManager extends ATM_User{
     /**
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
-    void undoTransaction(String username, String account){
+    public void undoTransaction(String username, String account){
         if (ATM_machine.getUser(username) instanceof Customer){
             Customer target = (Customer) ATM_machine.getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
@@ -82,7 +82,7 @@ public class BankManager extends ATM_User{
     /**
      * Approves a customer's account creation request.
      */
-    boolean approveAccount(int id){
+    public boolean approveAccount(int id){
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();

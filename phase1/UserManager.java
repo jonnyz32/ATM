@@ -8,7 +8,7 @@ public class UserManager {
      * Manages ATM_users
      */
     public UserManager(){
-        users = FileManager.retrieveUsers();
+        users = ATM_machine.fileManager.retrieveUsers();
         if(users.size()==0) {
             users.add(new BankManager("manager","password"));
         }
@@ -26,7 +26,7 @@ public class UserManager {
     }
 
     void saveUsers(){
-        FileManager.saveUsers(users);
+        ATM_machine.fileManager.saveUsers(users);
     }
 
     void checkInterest(){
