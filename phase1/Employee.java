@@ -38,6 +38,4 @@ public class Employee extends Customer implements IEmployeePermissions{
             return false;
         }
     }
-
-
 }
