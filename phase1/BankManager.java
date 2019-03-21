@@ -44,7 +44,7 @@ public class BankManager extends ATM_User implements IBankManager{
      * Adds num bills of the specified type to the machine.
      * @return Returns the new number of bills, or -1 if the bill type cannot be found.
      */
-    int addBills(int type, int num){
+    public int addBills(int type, int num){
         int temp;
         if (type==5){
             temp = ATM_machine.getNumFives();
@@ -100,7 +100,7 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Creates a new customer with the given login credentials.
      */
-    boolean createNewCustomer(String username, String password){
+    public boolean createNewCustomer(String username, String password){
         try {
             ATM_machine.addCustomer(username, password);
             return true;

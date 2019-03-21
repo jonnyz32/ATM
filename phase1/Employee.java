@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Employee extends ATM_User implements IEmployeePermissions, IAccountHolder{
+public class Employee extends ATM_User implements IEmployee, IAccountHolder{
     private AccountHandler accountHandler;
 
     Employee(String username, String password){

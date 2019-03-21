@@ -1,4 +1,4 @@
-public interface IEmployeePermissions {
+public interface IEmployee extends IUser{
 
     default int addBills(int type, int num){
         int temp;
