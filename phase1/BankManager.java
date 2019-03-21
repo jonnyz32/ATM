@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.GregorianCalendar;
 
-public class BankManager extends ATM_User implements IBankManager{
+public class BankManager extends ATM_User implements IBankManager, IEmployeePermissions{
 
     /**
      * Requests are stored as a AccountCreationRequest<String username, String type, String accountName>
@@ -44,30 +44,6 @@ public class BankManager extends ATM_User implements IBankManager{
      * Adds num bills of the specified type to the machine.
      * @return Returns the new number of bills, or -1 if the bill type cannot be found.
      */
-    int addBills(int type, int num){
-        int temp;
-        if (type==5){
-            temp = ATM_machine.getNumFives();
-            ATM_machine.setFives(temp + num);
-            return temp+num;
-        }
-        if (type==10){
-            temp = ATM_machine.getNumTens();
-            ATM_machine.setTens(temp + num);
-            return temp+num;
-        }
-        if (type==20){
-            temp = ATM_machine.getNumTwenties();
-            ATM_machine.setTwenties(temp + num);
-            return temp+num;
-        }
-        if (type==50){
-            temp = ATM_machine.getNumFifties();
-            ATM_machine.setFifties(temp + num);
-            return temp+num;
-        }
-        return -1;
-    }
 
     /**
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
@@ -100,13 +76,5 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Creates a new customer with the given login credentials.
      */
-    boolean createNewCustomer(String username, String password){
-        try {
-            ATM_machine.addCustomer(username, password);
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
+
 }
