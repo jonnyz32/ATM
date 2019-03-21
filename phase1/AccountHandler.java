@@ -60,7 +60,7 @@ public class AccountHandler {
      * Gets an account given the name.
      * Assume account exists.
      */
-    GenericAccount getAccountByName(String name, Customer user) {
+    GenericAccount getAccountByName(String name) {
         GenericAccount account = new ChequingAcc("BAD", user, false);
         for (GenericAccount a: accounts) {
             if (a.name.equals(name)) {

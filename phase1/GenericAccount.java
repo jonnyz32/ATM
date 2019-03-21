@@ -128,7 +128,7 @@ public abstract class GenericAccount implements Serializable {
         revert_between_h(other_acc, amount);
     }
 
-    void transferToOther(Customer other_user, GenericAccount other_acc, double amount) {
+    void transferToOther(IAccountHolder other_user, GenericAccount other_acc, double amount) {
         transferBetweenHelper(other_acc, amount, other_acc.owner.getUsername());
         lastTransReverter = () -> revertTransferOther();
     }
@@ -138,7 +138,7 @@ public abstract class GenericAccount implements Serializable {
         Double amount = getLastAmount();
         String other_s = other_a[other_a.length - 2].replace(":", "");
         String other_acc_s = other_a[other_a.length - 1];
-        Customer other_u = (Customer) ATM_machine.getUser(other_s);
+        IAccountHolder other_u = (IAccountHolder) ATM_machine.getUser(other_s);
         GenericAccount other_acc = other_u.getAccountByName(other_acc_s);
         revert_between_h(other_acc, amount);
     }

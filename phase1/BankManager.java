@@ -74,7 +74,7 @@ public class BankManager extends ATM_User implements IBankManager{
      */
     public void undoTransaction(String username, String account){
         if (ATM_machine.getUser(username) instanceof IAccountHolder){
-            Customer target = (Customer) ATM_machine.getUser(username);
+            IAccountHolder target = (IAccountHolder) ATM_machine.getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
         }
     }
