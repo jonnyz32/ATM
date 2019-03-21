@@ -5,14 +5,18 @@ import org.junit.Test;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class FileManagerTest {
+    ATM_machine machine;
 
     @Before
     public void setUp() {
         try {
+            machine = new ATM_machine();
+            machine.fileManager = new FileManager();
 
             Writer writer = new BufferedWriter(new FileWriter(new File("phase1/users.txt")));
             writer.write("");
@@ -45,10 +49,10 @@ public class FileManagerTest {
         ArrayList<ATM_User> userList = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
-        ATM_machine.fileManager.saveUsers(userList);
-        ArrayList<ATM_User> retrievedUsers = ATM_machine.fileManager.retrieveUsers();
-        assertEquals("user1", retrievedUsers.get(0).getUsername());
-        assertEquals("user2", retrievedUsers.get(1).getUsername());
+        machine.fileManager.saveUsers(userList);
+        List retrievedUsers = machine.fileManager.retrieveUsers();
+        assertEquals("user1", ((Customer)retrievedUsers.get(0)).getUsername());
+        assertEquals("user2", ((Customer)retrievedUsers.get(1)).getUsername());
 
 
 
@@ -65,7 +69,7 @@ public class FileManagerTest {
         alerts.add(new int[]{5, 15});
         alerts.add(new int[]{20, 19});
         alerts.add(new int[]{50, 10});
-        ATM_machine.fileManager.writeAlerts(alerts);
+        machine.fileManager.writeAlerts(alerts);
         try {
             FileReader file = new FileReader(new File("phase1/deposits.txt"));
             BufferedReader reader = new BufferedReader(file);
@@ -79,8 +83,8 @@ public class FileManagerTest {
     @Test
     public void retrieveBills() {
         int[] testBills = new int[]{14,335,23,47};
-        ATM_machine.fileManager.writeBills(testBills);
-        int[] bills = ATM_machine.fileManager.retrieveBills();
+        machine.fileManager.writeBills(testBills);
+        int[] bills = machine.fileManager.retrieveBills();
         assertArrayEquals(testBills, bills);
     }
 
