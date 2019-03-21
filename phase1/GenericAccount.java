@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public abstract class GenericAccount implements Serializable {
 
-    Customer owner;
+    IAccountHolder owner;
     double balance;
     boolean asset;
     String name;

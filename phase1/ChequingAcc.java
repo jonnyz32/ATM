@@ -7,7 +7,7 @@ public class ChequingAcc extends GenericAccount implements Serializable {
     final boolean primary;
     private final int maxDebt = 100;
 
-    public ChequingAcc(String name_p, Customer o, boolean primary_p) {
+    public ChequingAcc(String name_p, IAccountHolder o, boolean primary_p) {
         name = name_p;
         owner = o;
         past_trans = new ArrayList<String>();

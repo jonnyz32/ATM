@@ -10,13 +10,13 @@ public class EmployeeTest {
     Employee e1;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         e1 = new Employee("employee1", "pass1");
 
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
@@ -36,7 +36,7 @@ public class EmployeeTest {
     public void createNewCustomer(){
         ATM_machine machine = new ATM_machine();
         e1.createNewCustomer("customer1","pass1");
-        assertEquals("customer1", machine.getUser("customer1").getUsername());
+        assertEquals("customer1", ATM_machine.getUser("customer1").getUsername());
     }
 
     @Test

@@ -6,7 +6,7 @@ public class CreditLineAcc extends GenericAccount implements Serializable {
     private final int maxDebt = 10000;
 
 
-    public CreditLineAcc(String name_p, Customer o) {
+    public CreditLineAcc(String name_p, IAccountHolder o) {
         name = name_p;
         owner = o;
         past_trans = new ArrayList<String>();

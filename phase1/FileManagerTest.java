@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class FileManagerTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         try {
 
             Writer writer = new BufferedWriter(new FileWriter(new File("phase1/users.txt")));
@@ -30,7 +30,7 @@ public class FileManagerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
 
     }
 

@@ -8,14 +8,14 @@ public class FileManager {
     private static int lineCount = 0;
 
     void checkForAlert(){
-        HashMap<Integer, Integer> billsMap = new HashMap<>();
+        Map<Integer, Integer> billsMap = new HashMap<>();
         billsMap.put(0,5);
         billsMap.put(1,10);
         billsMap.put(2, 20);
         billsMap.put(3, 50);
 
         int[] bills = retrieveBills();
-        ArrayList<int[]> alerts = new ArrayList<>();
+        List<int[]> alerts = new ArrayList<>();
         for (int i = 0; i < 4; i++){
             if (bills[i] < 20){
                 alerts.add(new int[]{billsMap.get(i),bills[i]});
@@ -24,7 +24,7 @@ public class FileManager {
         writeAlerts(alerts);
     }
 
-    ArrayList<ATM_User> retrieveUsers(){
+    ArrayList retrieveUsers(){
         try {
             FileInputStream file = new FileInputStream(new File("phase1/users.txt"));
             ObjectInputStream objectStream = new ObjectInputStream(file);
@@ -66,7 +66,7 @@ public class FileManager {
             x.printStackTrace();
         }
     }
-    void writeAlerts(ArrayList<int[]> alertList){
+    void writeAlerts(List<int[]> alertList){
         try {
 
             Writer writer = new BufferedWriter(new FileWriter(new File("phase1/alerts.txt"), true));
@@ -111,7 +111,7 @@ public class FileManager {
 
     void writeBills(int[] billList){
         try {
-            HashMap<Integer, Integer> billMap = new HashMap<>();
+            Map<Integer, Integer> billMap = new HashMap<>();
             billMap.put(0, 5);
             billMap.put(1, 10);
             billMap.put(2, 20);

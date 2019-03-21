@@ -7,7 +7,7 @@ public class SavingAcc extends GenericAccount implements Serializable {
     private final int maxDebt = 0;
 
 
-    public SavingAcc(String name_p, Customer o) {
+    public SavingAcc(String name_p, IAccountHolder o) {
         name = name_p;
         owner = o;
         past_trans = new ArrayList<String>();

@@ -13,7 +13,7 @@ public abstract class AccountMenu extends TextInterface{
 
     void getLastTransaction(){
         System.out.println("Last Transaction:");
-        String latest = account.getLatestTransaction().toString();
+        String latest = account.getLatestTransaction();
         System.out.println(latest + "in" + account.name);
         showMenu();
     }
