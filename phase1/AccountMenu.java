@@ -55,7 +55,7 @@ public abstract class AccountMenu extends TextInterface{
             System.out.println("That username does not exist, please try another user.");
             transferToOther_helper();
         }
-        if (other_user instanceof Customer) {
+        if (other_user instanceof IAccountHolder) {
             return (Customer) other_user;
         }
         return null;
