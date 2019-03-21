@@ -49,8 +49,8 @@ public class BankManager extends ATM_User implements IBankManager, IEmployeePerm
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
     public void undoTransaction(String username, String account){
-        if (ATM_machine.getUser(username) instanceof Customer){
-            Customer target = (Customer) ATM_machine.getUser(username);
+        if (ATM_machine.getUser(username) instanceof IAccountHolder){
+            IAccountHolder target = (IAccountHolder) ATM_machine.getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
         }
     }
@@ -62,8 +62,8 @@ public class BankManager extends ATM_User implements IBankManager, IEmployeePerm
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
-        if (ATM_machine.getUser(username) instanceof Customer){
-            Customer user = (Customer) ATM_machine.getUser(username);
+        if (ATM_machine.getUser(username) instanceof IAccountHolder){
+            IAccountHolder user = (IAccountHolder) ATM_machine.getUser(username);
             if(user.addAccount(type, name)) {
                 requests.remove(id);
                 return true;

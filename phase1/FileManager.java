@@ -24,12 +24,12 @@ public class FileManager {
         writeAlerts(alerts);
     }
 
-    List retrieveUsers(){
+    ArrayList retrieveUsers(){
         try {
             FileInputStream file = new FileInputStream(new File("phase1/users.txt"));
             ObjectInputStream objectStream = new ObjectInputStream(file);
 
-            List users = (ArrayList) objectStream.readObject();
+            ArrayList users = (ArrayList) objectStream.readObject();
             objectStream.close();
             return users;
         }

@@ -32,10 +32,10 @@ public class UserManager {
     void checkInterest(){
         if (ATM_machine.getTime().get(Calendar.DAY_OF_MONTH) == 1){
             for(int i = 0; i < users.size(); i++){
-                if (users.get(i) instanceof Customer){
-                    for(int j = 0; j < ((Customer) users.get(i)).getAccounts().size(); j++){
-                        if (((Customer) users.get(i)).getAccounts().get(j) instanceof SavingAcc){
-                            ((SavingAcc) ((Customer) users.get(i)).getAccounts().get(j)).increase_interest();
+                if (users.get(i) instanceof IAccountHolder){
+                    for(int j = 0; j < ((IAccountHolder) users.get(i)).getAccounts().size(); j++){
+                        if (((IAccountHolder) users.get(i)).getAccounts().get(j) instanceof SavingAcc){
+                            ((SavingAcc) ((IAccountHolder) users.get(i)).getAccounts().get(j)).increase_interest();
                         }
                     }
                 }

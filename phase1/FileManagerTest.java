@@ -13,7 +13,7 @@ public class FileManagerTest {
     ATM_machine machine;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         try {
             machine = new ATM_machine();
             machine.fileManager = new FileManager();
@@ -34,7 +34,7 @@ public class FileManagerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
 
     }
 

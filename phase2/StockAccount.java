@@ -10,7 +10,7 @@ public class StockAccount extends GenericAccount implements Serializable {
 	private StockFetcher stockFetcher;
 	private double profitFromTrading;
 
-	public StockAccount(String name_p, Customer o) {
+	public StockAccount(String name_p, IAccountHolder o) {
 		name = name_p;
 		owner = o;
 		past_trans = new ArrayList<String>();
