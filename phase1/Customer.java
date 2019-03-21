@@ -36,6 +36,6 @@ public class Customer extends ATM_User implements Serializable, IAccountHolder {
 	 * Assume account exists.
      */
 	public GenericAccount getAccountByName(String name) {
-		return accountHandler.getAccountByName(name, this);
+		return accountHandler.getAccountByName(name);
 	}
 }
