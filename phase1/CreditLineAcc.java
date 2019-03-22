@@ -15,7 +15,7 @@ public class CreditLineAcc extends GenericAccount implements Serializable {
         creation_date = new GregorianCalendar();
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
-        type = " (CreditLine)";
+        type = "CREDIT LINE";
     }
 
     @Override

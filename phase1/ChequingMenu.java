@@ -9,5 +9,6 @@ public class ChequingMenu extends AccountMenu{
         addAction(5, ()->transferToOther(), "Transfer to another user");
         addAction(6, ()->transferToExternal(), "Pay external bill");
         addAction(7, ()->withdraw(), "Withdraw money");
+        addAction(8, ()-> depositCash(), "Deposit Cash");
     }
 }

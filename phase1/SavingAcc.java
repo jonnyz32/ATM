@@ -16,7 +16,7 @@ public class SavingAcc extends GenericAccount implements Serializable {
         creation_date = new GregorianCalendar();
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
-        type = "(Savings)";
+        type = "SAVINGS";
     }
 
     void increase_interest() {

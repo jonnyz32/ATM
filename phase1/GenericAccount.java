@@ -1,6 +1,7 @@
 // An abstract Class for Acounts
 
 import java.io.Serializable;
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
@@ -31,7 +32,7 @@ public abstract class GenericAccount implements Serializable {
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()+twenties);
         ATM_machine.setFifties(ATM_machine.getNumFifties()+fifties);
 
-        lastTransReverter = ()-> revertDeposit();
+        lastTransReverter = (Runnable & Serializable) this::revertDeposit;
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
         past_trans.add(lastTransText);
 
@@ -62,7 +63,7 @@ public abstract class GenericAccount implements Serializable {
             balance -= amount;
         }
         lastTransText = "Deposited cheque of $"+ amount + " to: " + name;
-        lastTransReverter = ()-> revertDeposit();
+        lastTransReverter = (Runnable & Serializable) this::revertDeposit ;
     }
     void revertDeposit() {
         if(asset) {
@@ -151,6 +152,6 @@ public abstract class GenericAccount implements Serializable {
     //Get a string representation
     String getSummary() {
         return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
-                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Last Transaction: " + lastTransText;
+                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Last Transaction: " + getLatestTransaction();
     }
 }

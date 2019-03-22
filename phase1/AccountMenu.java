@@ -14,7 +14,7 @@ public abstract class AccountMenu extends TextInterface{
     void getLastTransaction(){
         System.out.println("Last Transaction:");
         String latest = account.getLatestTransaction();
-        System.out.println(latest + "in" + account.name);
+        System.out.println(latest);
         showMenu();
     }
 
@@ -32,6 +32,19 @@ public abstract class AccountMenu extends TextInterface{
 
     void depositFromFile(){
         account.depositFromFile();
+        showMenu();
+    }
+
+    void depositCash() {
+        System.out.println("How many fives?");
+        int fives = nextInt();
+        System.out.println("How many tens?");
+        int tens = nextInt();
+        System.out.println("How many twenties?");
+        int twenties = nextInt();
+        System.out.println("How many fifties?");
+        int fifties = nextInt();
+        account.depositCash(fives, tens, twenties, fifties);
         showMenu();
     }
 
