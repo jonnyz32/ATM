@@ -1,13 +1,13 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Employee extends ATM_User implements IEmployee, IAccountHolder{
-    private AccountHandler accountHandler;
+public class Employee extends ATM_User implements Serializable, IEmployee, IAccountHolder{
 
     Employee(String username, String password){
         super(username, password);
-        accountHandler = new AccountHandler(this);
     }
 
+    /*TODO: Delete these from here
     public void requestAccount(String type, String name){
         BankManager.requestAccount(this.getUsername(), type, name);
     }
@@ -32,5 +32,5 @@ public class Employee extends ATM_User implements IEmployee, IAccountHolder{
 
     public GenericAccount getAccountByName(String name) {
         return accountHandler.getAccountByName(name);
-    }
+    }*/
 }
