@@ -32,12 +32,6 @@ public class EmployeeTest {
 
     }
 
-    @Test
-    public void createNewCustomer(){
-        ATM_machine machine = new ATM_machine();
-        e1.createNewCustomer("customer1","pass1");
-        assertEquals("customer1", ATM_machine.getUser("customer1").getUsername());
-    }
 
     @Test
     public void requestAccount(){

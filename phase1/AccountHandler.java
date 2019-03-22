@@ -7,7 +7,7 @@ public class AccountHandler {
 
     AccountHandler(IAccountHolder user){
         this.user = user;
-        accounts = new ArrayList<GenericAccount>();
+        accounts = user.accounts;
     }
 
     boolean addAccount(String type, String name) {

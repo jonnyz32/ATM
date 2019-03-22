@@ -2,13 +2,18 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Customer extends ATM_User implements Serializable, IAccountHolder {
-	private AccountHandler accountHandler;
+	//private AccountHandler accountHandler;
+
+
 	// Initialize new customer
 	Customer(String username, String password){
 		super(username, password);
-		accountHandler = new AccountHandler(this);
+		//accountHandler = new AccountHandler(this);
 	}
 
+	//THESE METHODS ARE NOW PROVIDED BY IAccountHolder.
+	//TODO: Delete them from here.
+	/*
 	public void requestAccount(String type, String name){
 		BankManager.requestAccount(this.getUsername(), type, name);
 	}
@@ -31,11 +36,8 @@ public class Customer extends ATM_User implements Serializable, IAccountHolder {
         return accountHandler.getNetTotal();
     }
 
-    /**
-     * Gets an account given the name.
-	 * Assume account exists.
-     */
 	public GenericAccount getAccountByName(String name) {
 		return accountHandler.getAccountByName(name);
 	}
+	*/
 }
