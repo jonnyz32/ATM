@@ -19,26 +19,6 @@ public abstract class GenericAccount implements Serializable {
     Runnable lastTransReverter;
     String lastTransText;
 
-    //Updates this balance and other balance
-    void transferBetweenHelper(GenericAccount other_acc, Double amount, String u) {
-        if (asset) {
-            balance -= amount;
-        }
-        else {
-            balance += amount;
-        }
-        lastTransText = "Transferred $" + Math.abs(amount) + " From:" + name + " to " + u + ": " + other_acc.name;
-        past_trans.add(lastTransText);
-
-        // Run the transaction in the other acc
-        if (other_acc.asset) {
-            other_acc.balance += amount;
-        }
-        else {
-            other_acc.balance -= amount;
-        }
-    }
-
     void depositCash(int fives, int tens, int twenties, int fifties) {
         Double total = (double) (fives*5 + tens*10 + twenties*20 + fifties*50);
         if(asset) {
@@ -75,8 +55,6 @@ public abstract class GenericAccount implements Serializable {
             }
         }
 
-
-
     void depositCheque(Double amount) {
         if(asset) {
             balance += amount;
@@ -94,53 +72,6 @@ public abstract class GenericAccount implements Serializable {
         }
         past_trans.remove(past_trans.size() - 1);
         lastTransText = getLatestTransaction();
-    }
-
-    void transferToSelf(double amount, String other_acc_name) {
-        GenericAccount other_acc = owner.getAccountByName(other_acc_name);
-        // Add this transaction to this account
-        transferBetweenHelper(other_acc, amount, "");
-        lastTransReverter = ()-> revertSelfTransfer();
-
-    }
-
-    void revert_between_h (GenericAccount other_acc,Double amount) {
-        if (asset) {
-            balance += amount;
-        }
-        else {
-        balance -=amount;
-        }
-
-        if (other_acc.asset) {
-            other_acc.balance -= amount;
-        }
-        else {
-            other_acc.balance += amount;
-        }
-        past_trans.remove(past_trans.size() - 1);
-        lastTransText = getLatestTransaction();}
-
-    void revertSelfTransfer() {
-        String other_acc_name = lastTransText.split(" ")[lastTransText.length() - 1];
-        Double amount = getLastAmount();
-        GenericAccount other_acc = owner.getAccountByName(other_acc_name);
-        revert_between_h(other_acc, amount);
-    }
-
-    void transferToOther(IAccountHolder other_user, GenericAccount other_acc, double amount) {
-        transferBetweenHelper(other_acc, amount, other_acc.owner.getUsername());
-        lastTransReverter = () -> revertTransferOther();
-    }
-
-    void revertTransferOther() {
-        String[] other_a = lastTransText.split(" ");
-        Double amount = getLastAmount();
-        String other_s = other_a[other_a.length - 2].replace(":", "");
-        String other_acc_s = other_a[other_a.length - 1];
-        IAccountHolder other_u = (IAccountHolder) ATM_machine.getUser(other_s);
-        GenericAccount other_acc = other_u.getAccountByName(other_acc_s);
-        revert_between_h(other_acc, amount);
     }
 
     void transferToExternal(String name, double amount) {
@@ -192,7 +123,6 @@ public abstract class GenericAccount implements Serializable {
     // Return the amount the was last transferred.
     Double getLastAmount() {
         Matcher m = Pattern.compile("[-+]?[0-9]*\\.?[0-9]+").matcher(getLatestTransaction());
-        Double amount;
         if (m.find()) {
             return Double.valueOf(m.group(0));
         }

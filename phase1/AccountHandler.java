@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountHandler {
+public class AccountHandler implements Serializable {
     private ArrayList<GenericAccount> accounts;
     private IAccountHolder user;
 
@@ -11,14 +12,13 @@ public class AccountHandler {
     }
 
     boolean addAccount(String type, String name) {
-        if (type.equals("chequing")) {
-            // Check if there are other chequing accounts.
-            for (GenericAccount a : accounts) {
-                if (a instanceof ChequingAcc) {
-                    accounts.add(new ChequingAcc(name, user, false));
-                }
+        if (type.substring(0, 7).equals("chequing")) {
+            if (type.substring(8).equals("(primary)")) {
+                accounts.add(new ChequingAcc(name, user, true));
             }
-            accounts.add(new ChequingAcc(name, user, true));
+            else {
+                accounts.add(new ChequingAcc(name, user, false));
+            }
         } else if (type.equals("credit")) {
             accounts.add(new CreditCardAcc(name, user));
         } else if (type.equals("creditline")) {

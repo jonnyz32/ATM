@@ -42,6 +42,13 @@ public class CustomerMenu extends TextInterface{
                 }
             }
         }
+        if (accountType.equals("chequing")) {
+            System.out.println("Would you like to make this your primary account (yes or no)");
+            String ans = nextLine();
+            if (ans.equals("yes")) {
+                accountType += "(primary)";
+            }
+        }
         System.out.println("What would you like to name your " + accountType + " account? (alphanumeric no spaces)");
         String accountName = nextLine();
         customer.requestAccount(accountType, accountName);
