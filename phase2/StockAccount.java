@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -25,6 +26,42 @@ public class StockAccount extends GenericAccount implements Serializable {
 		profitFromTrading = 0.0;
 	}
 
+	public void viewPortfolio(){
+
+	}
+	public double checkSymbolPrice(String symbol){
+		try {
+			HashMap stockInfo = stockFetcher.getCurrentStockInfo(symbol);
+			double price = (double) stockInfo.get("price");
+			System.out.println(price);
+			return price;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return 0.0;
+		}
+	}
+	public void checkSymbolDetailedInfo(String symbol){
+		try {
+			HashMap stockInfo = stockFetcher.getCurrentStockInfo(symbol);
+			double price = (double) stockInfo.get("price");
+			double open = (double) stockInfo.get("open");
+			double high = (double) stockInfo.get("high");
+			double low = (double) stockInfo.get("low");
+			double volume = (double) stockInfo.get("volume");
+			double change = (double) stockInfo.get("change");
+
+
+			System.out.println("Price: " + price + " Open: " + open+ " High: " + high+ " Low: " + low+ " Volume"  + volume+ " Change:" + change);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void viewProfit(){
+		System.out.println(this.profitFromTrading);
+	}
+
 	public void purchaseShares(String symbol, int shares){
 		try {
 			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
@@ -48,27 +85,24 @@ public class StockAccount extends GenericAccount implements Serializable {
 	}
 
 	public void sellShares(String symbol, int shares){
-		try {
-			double currentPrice = (double) stockFetcher.getCurrentStockInfo(symbol).get("price");
-			if (portfolio.containsKey(symbol)){
-				CompanyStock companyStock = portfolio.get(symbol);
-				if (companyStock.has(shares)){
-					companyStock.sell(shares);
-				} else{
-					System.out.println("You do not own enough shares.");
-				}
-
+		double currentPrice = checkSymbolPrice(symbol);
+		if (portfolio.containsKey(symbol)){
+			CompanyStock companyStock = portfolio.get(symbol);
+			if (companyStock.has(shares)){
+				// update total profit made from trading
+				double totalCostOfBuyingTheseShares = companyStock.sell(shares);
+				double priceSoldFor = shares * currentPrice;
+				this.profitFromTrading += priceSoldFor - totalCostOfBuyingTheseShares;
 			} else{
-				System.out.println("You do not own shares of this stock. ");
+				System.out.println("You do not own enough shares.");
 			}
 
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		} else{
+			System.out.println("You do not own shares of this stock. ");
 		}
 	}
 
-	public void addToPortfolio(Share shares){
+	private void addToPortfolio(Share shares){
 		if (portfolio.containsKey(shares.getSymbol())){
 			portfolio.get(shares.getSymbol()).addShares(shares);
 		} else{

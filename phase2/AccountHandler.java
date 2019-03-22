@@ -1,8 +1,7 @@
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountHandler implements Serializable {
+public class AccountHandler {
     private ArrayList<GenericAccount> accounts;
     private IAccountHolder user;
 
@@ -12,45 +11,24 @@ public class AccountHandler implements Serializable {
     }
 
     boolean addAccount(String type, String name) {
-        if (type.length() >= 8){
-            if (type.substring(0, 8).equals("chequing")) {
-                if (type.length() != 8) {
-                    accounts.add(new ChequingAcc(name, user, true));
-                }
-                else {
+        if (type.equals("chequing")) {
+            // Check if there are other chequing accounts.
+            for (GenericAccount a : accounts) {
+                if (a instanceof ChequingAcc) {
                     accounts.add(new ChequingAcc(name, user, false));
                 }
             }
-        } else if (type.equalsIgnoreCase("CREDIT")) {
+            accounts.add(new ChequingAcc(name, user, true));
+        } else if (type.equals("credit")) {
             accounts.add(new CreditCardAcc(name, user));
-        } else if (type.equalsIgnoreCase("CREDITLINE")) {
+        } else if (type.equals("creditline")) {
             accounts.add(new CreditLineAcc(name, user));
-        } else if (type.equalsIgnoreCase("SAVINGS")) {
+        } else if (type.equals("savings")) {
             accounts.add(new SavingAcc(name, user));
         } else {
             return false;
         }
-        if (type.equals("chequing(primary)")) {
-            checkChequingPrimary(accounts, name);
-        }
         return true;
-    }
-
-    //Make sure there is only one primary account
-    //There should only be one other primary account because it gets checked everytime an account is created
-    void checkChequingPrimary(ArrayList<GenericAccount> accs, String name) {
-        int idx = 0;
-        for (GenericAccount a: accs) {
-            if (a.type.equals(" (Chequing)") && !a.name.equals(name) && ((ChequingAcc) a).isPrimary()) {
-                idx = accs.indexOf(a);
-                break;
-            }
-        }
-        if (idx != 0) {
-            ChequingAcc c = (ChequingAcc) accs.get(idx);
-            c.setPrimary(false);
-            accs.set(idx, c);
-        }
     }
 
     ArrayList<GenericAccount> getAccounts() {
