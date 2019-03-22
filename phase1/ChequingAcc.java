@@ -5,8 +5,9 @@ import java.util.*;
 
 public class ChequingAcc extends GenericAccount implements Serializable {
     final boolean primary;
+    private final int maxDebt = 100;
 
-    public ChequingAcc(String name_p, Customer o, boolean primary_p) {
+    public ChequingAcc(String name_p, IAccountHolder o, boolean primary_p) {
         name = name_p;
         owner = o;
         past_trans = new ArrayList<String>();
@@ -21,6 +22,16 @@ public class ChequingAcc extends GenericAccount implements Serializable {
 
     boolean isPrimary() {
         return primary;
+    }
+
+    @Override
+    boolean withdraw(int amount){
+        if (balance + maxDebt >= amount){
+            balance -= amount;
+            return super.withdraw(amount);
+        }
+        System.out.println("You don't have enough money remaining to withdraw that much! Balance: " + balance);
+        return false;
     }
 
 

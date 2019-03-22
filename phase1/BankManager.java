@@ -4,18 +4,18 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.GregorianCalendar;
 
-public class BankManager extends ATM_User{
+public class BankManager extends ATM_User implements IBankManager{
 
     /**
-     * Requests are stored as a AccountRequest<String username, String type, String accountName>
+     * Requests are stored as a AccountCreationRequest<String username, String type, String accountName>
      */
-    private static List<AccountRequest> requests = new ArrayList<>();
+    private static List<AccountCreationRequest> requests = new ArrayList<>();
 
     public BankManager(String username, String password){
         super(username, password);
     }
 
-    static List<AccountRequest> getRequests(){
+    static List<AccountCreationRequest> getRequests(){
         return requests;
     }
 
@@ -23,13 +23,13 @@ public class BankManager extends ATM_User{
      * Adds a request for the account of the specified type.
      */
     static void requestAccount(String username, String type, String accountName){
-        requests.add(new AccountRequest(username, type, accountName));
+        requests.add(new AccountCreationRequest(username, type, accountName));
     }
 
     /**
      * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
-    boolean setSystemDate(int year, int month, int day){
+    public boolean setSystemDate(int year, int month, int day){
         try{
             Calendar time = new GregorianCalendar(year, month - 1, day);
             ATM_machine.setTime(time);
@@ -44,7 +44,7 @@ public class BankManager extends ATM_User{
      * Adds num bills of the specified type to the machine.
      * @return Returns the new number of bills, or -1 if the bill type cannot be found.
      */
-    int addBills(int type, int num){
+    public int addBills(int type, int num){
         int temp;
         if (type==5){
             temp = ATM_machine.getNumFives();
@@ -72,9 +72,9 @@ public class BankManager extends ATM_User{
     /**
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
-    void undoTransaction(String username, String account){
-        if (ATM_machine.getUser(username) instanceof Customer){
-            Customer target = (Customer) ATM_machine.getUser(username);
+    public void undoTransaction(String username, String account){
+        if (ATM_machine.getUser(username) instanceof IAccountHolder){
+            IAccountHolder target = (IAccountHolder) ATM_machine.getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
             Thread t = new Thread(targetacc.lastTransReverter);
             t.start();
@@ -84,12 +84,12 @@ public class BankManager extends ATM_User{
     /**
      * Approves a customer's account creation request.
      */
-    boolean approveAccount(int id){
+    public boolean approveAccount(int id){
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
-        if (ATM_machine.getUser(username) instanceof Customer){
-            Customer user = (Customer) ATM_machine.getUser(username);
+        if (ATM_machine.getUser(username) instanceof IAccountHolder){
+            IAccountHolder user = (IAccountHolder) ATM_machine.getUser(username);
             if(user.addAccount(type, name)) {
                 requests.remove(id);
                 return true;
@@ -102,7 +102,7 @@ public class BankManager extends ATM_User{
     /**
      * Creates a new customer with the given login credentials.
      */
-    boolean createNewCustomer(String username, String password){
+    public boolean createNewCustomer(String username, String password){
         try {
             ATM_machine.addCustomer(username, password);
             return true;

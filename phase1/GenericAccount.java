@@ -1,16 +1,14 @@
 // An abstract Class for Acounts
 
-
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GenericAccount implements Serializable {
+public abstract class GenericAccount implements Serializable {
 
-    Customer owner;
+    IAccountHolder owner;
     double balance;
     boolean asset;
     String name;
@@ -39,7 +37,6 @@ public class GenericAccount implements Serializable {
         else {
             other_acc.balance -= amount;
         }
-        ATM_machine.update_user(owner);
     }
 
     void depositCash(int fives, int tens, int twenties, int fifties) {
@@ -58,19 +55,18 @@ public class GenericAccount implements Serializable {
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
         past_trans.add(lastTransText);
 
-        ATM_machine.update_user(owner);
-        int[] bills = FileManager.retrieveBills();
+        int[] bills = ATM_machine.fileManager.retrieveBills();
         bills[0] = bills[0] + fives;
         bills[1] = bills[1] + tens;
         bills[2] = bills[2] + twenties;
         bills[3] = bills[3] + fifties;
 
-        FileManager.writeBills(bills);
+        ATM_machine.fileManager.writeBills(bills);
 
     }
 
     void depositFromFile() {
-        int[] deposit = FileManager.readDeposits();
+        int[] deposit = ATM_machine.fileManager.readDeposits();
         if (deposit[1] == 0){
             depositCash(deposit[2], deposit[3], deposit[4], deposit[5]);
         }
@@ -98,7 +94,6 @@ public class GenericAccount implements Serializable {
         }
         past_trans.remove(past_trans.size() - 1);
         lastTransText = getLatestTransaction();
-        ATM_machine.update_user(owner);
     }
 
     void transferToSelf(double amount, String other_acc_name) {
@@ -131,13 +126,11 @@ public class GenericAccount implements Serializable {
         Double amount = getLastAmount();
         GenericAccount other_acc = owner.getAccountByName(other_acc_name);
         revert_between_h(other_acc, amount);
-        ATM_machine.update_user(owner);
     }
 
-    void transferToOther(Customer other_user, GenericAccount other_acc, double amount) {
+    void transferToOther(IAccountHolder other_user, GenericAccount other_acc, double amount) {
         transferBetweenHelper(other_acc, amount, other_acc.owner.getUsername());
         lastTransReverter = () -> revertTransferOther();
-        ATM_machine.update_user(other_user);
     }
 
     void revertTransferOther() {
@@ -145,32 +138,39 @@ public class GenericAccount implements Serializable {
         Double amount = getLastAmount();
         String other_s = other_a[other_a.length - 2].replace(":", "");
         String other_acc_s = other_a[other_a.length - 1];
-        Customer other_u = (Customer) ATM_machine.getUser(other_s);
+        IAccountHolder other_u = (IAccountHolder) ATM_machine.getUser(other_s);
         GenericAccount other_acc = other_u.getAccountByName(other_acc_s);
         revert_between_h(other_acc, amount);
-        ATM_machine.update_user(owner);
-        ATM_machine.update_user(other_u);
     }
 
     void transferToExternal(String name, double amount) {
         if(asset) {balance-=amount;}
         else {balance+=amount;}
-        FileManager.writeOutgoing(owner.getUsername(), name, amount);
+        ATM_machine.fileManager.writeOutgoing(owner.getUsername(), name, amount);
     }
 
-    void withdraw(int amount) {
+    boolean withdraw(int amount) {
         int[] bills = get_bill_split(amount);
         int fifties = bills[0];
         int twenties = bills[1];
         int tens = bills[2];
         int fives = bills[3];
-        balance -= (fifties*50 + twenties*20 + tens*10 + fives*5);
+//        balance -= (fifties*50 + twenties*20 + tens*10 + fives*5);
 
         ATM_machine.setFifties(ATM_machine.getNumFifties() - fifties);
         ATM_machine.setTwenties(ATM_machine.getNumTwenties()- twenties);
         ATM_machine.setTens(ATM_machine.getNumTens() - tens);
         ATM_machine.setFives(ATM_machine.getNumFives()- fives);
-        FileManager.checkForAlert();
+
+        int[] billFile = ATM_machine.fileManager.retrieveBills();
+        billFile[0] = billFile[0] - fives;
+        billFile[1] = billFile[1] - tens;
+        billFile[2] = billFile[2] - twenties;
+        billFile[3] = billFile[3] - fifties;
+
+        ATM_machine.fileManager.writeBills(billFile);
+        ATM_machine.fileManager.checkForAlert();
+        return true;
     }
 
     int[] get_bill_split(int amount) {

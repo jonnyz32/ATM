@@ -1,46 +1,30 @@
-import jdk.internal.org.objectweb.asm.Handle;
-
 import java.io.*;
-import java.lang.reflect.Array;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class FileManager {
-    //    private File allTransactions;
-//    private File deposits;
-//    private File withdrawals;
-//    private File balanceHistory;
-//    private static File accounts;
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    //    private String username;
-//    private double balance;
-    private static File bills;
 
+    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private static int lineCount = 0;
 
-
-    static void checkForAlert(){
-        HashMap<Integer, Integer> billsMap = new HashMap<>();
+    void checkForAlert(){
+        Map<Integer, Integer> billsMap = new HashMap<>();
         billsMap.put(0,5);
         billsMap.put(1,10);
         billsMap.put(2, 20);
         billsMap.put(3, 50);
 
-        int[] bills = FileManager.retrieveBills();
-        ArrayList<int[]> alerts = new ArrayList<>();
+        int[] bills = retrieveBills();
+        List<int[]> alerts = new ArrayList<>();
         for (int i = 0; i < 4; i++){
             if (bills[i] < 20){
                 alerts.add(new int[]{billsMap.get(i),bills[i]});
             }
         }
-        FileManager.writeAlerts(alerts);
+        writeAlerts(alerts);
     }
 
-    static ArrayList<ATM_User> retrieveUsers(){
+    ArrayList retrieveUsers(){
         try {
             FileInputStream file = new FileInputStream(new File("phase1/users.txt"));
             ObjectInputStream objectStream = new ObjectInputStream(file);
@@ -55,7 +39,7 @@ public class FileManager {
         }
     }
 
-    static void writeOutgoing(String username, String destination, double amount){
+    void writeOutgoing(String username, String destination, double amount){
         try {
 //            balance += amount;
 
@@ -70,7 +54,7 @@ public class FileManager {
         }
     }
 
-    static void saveUsers(ArrayList<ATM_User> users){
+    void saveUsers(List<ATM_User> users){
         File userFile = new File("phase1/users.txt");
         try {
             FileOutputStream file = new FileOutputStream(userFile);
@@ -82,7 +66,7 @@ public class FileManager {
             x.printStackTrace();
         }
     }
-    static void writeAlerts(ArrayList<int[]> alertList){
+    void writeAlerts(List<int[]> alertList){
         try {
 
             Writer writer = new BufferedWriter(new FileWriter(new File("phase1/alerts.txt"), true));
@@ -101,7 +85,7 @@ public class FileManager {
 
 
 
-    static int[] retrieveBills(){
+    int[] retrieveBills(){
         try {
             int i = 0;
             int[] billList = new int[4];
@@ -125,9 +109,9 @@ public class FileManager {
         }
     }
 
-    static void writeBills(int[] billList){
+    void writeBills(int[] billList){
         try {
-            HashMap<Integer, Integer> billMap = new HashMap<>();
+            Map<Integer, Integer> billMap = new HashMap<>();
             billMap.put(0, 5);
             billMap.put(1, 10);
             billMap.put(2, 20);
@@ -148,7 +132,7 @@ public class FileManager {
     }
 
 
-    static int[] readDeposits(){
+    int[] readDeposits(){
 
         int[] depositArrayNum = new int[6];
         try {
@@ -171,50 +155,5 @@ public class FileManager {
             } catch (IOException e) {
             return new int[6];
         }
-    }
-
-
-    public static void main(String[] args) {
-        FileManager f = new FileManager();
-//        ArrayList<int[]> testArray = new ArrayList<>();
-//        testArray.add(new int[]{5,15});
-//        testArray.add(new int[]{10,23});
-//        testArray.add(new int[]{20,12});
-//        testArray.add(new int[]{50,65});
-
-        Date d = new Date();
-        double amount = 2745.635;
-//        System.out.println("Starting balance is " + f.getBalance());
-////        f.depositMoney(amount, d);
-////        f.withdrawMoney(123.45, d);
-//        System.out.println("Ending balance is " + f.getBalance());
-//        System.out.println(f.getLatestTransactions());
-//        System.out.println(f.readDeposits(f.balanceHistory));
-        System.out.println(f.bills.exists());
-        System.out.println(f.bills.getAbsoluteFile());
-        System.out.println(Arrays.toString(FileManager.retrieveBills()));
-        FileManager.writeOutgoing("user1", "uofT", 1223);
-//        FileManager.writeAlerts(testArray);
-
-
-        ATM_User user1 = new ATM_User("user1", "pass1");
-        ATM_User user2 = new ATM_User("user2", "pass2");
-        ArrayList<ATM_User> userlist = new ArrayList<>();
-        userlist.add(user1);
-        userlist.add(user2);
-        FileManager.saveUsers(userlist);
-        System.out.println(new File("phase1/users.txt").exists());
-        System.out.println(FileManager.retrieveUsers());
-//        System.out.println(FileManager.retrieveUsers().get(0).getUsername());
-        System.out.println(System.getProperty("user.dir"));
-        File depositFile = new File("phase1/depositFile.txt");
-        System.out.println(depositFile.exists());
-        System.out.println(Arrays.toString(FileManager.readDeposits()));
-//        for(int i = 0; i< testdepostist.size(); i++){
-//            System.out.println(Arrays.toString(testdepostist.get(i)));
-//        }
-
-        FileManager.writeBills(new int[]{10,1598,1,25});
-
     }
 }

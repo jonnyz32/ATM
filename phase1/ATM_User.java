@@ -2,7 +2,7 @@
 
 import java.io.Serializable;
 
-public class ATM_User implements Serializable {
+public class ATM_User implements Serializable, IUser{
 
     /**
      * The user's username.
