@@ -17,7 +17,7 @@ public class CurrencyConverter {
         this.stockFetcher = stockFetcher;
     }
 
-    double convertCurrency(String currency, int amount) throws Exception{
+    double convertCurrency(String currency, double amount) throws Exception{
         return  amount * (double) stockFetcher.getCurrentStockInfo(currency).get("price");
     }
 }
