@@ -2,8 +2,11 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Customer extends ATM_User implements Serializable, IAccountHolder {
-	//private AccountHandler accountHandler;
 
+	private AccountHandler accountHandler = new AccountHandler(this);
+	public AccountHandler getHandler() {
+		return accountHandler;
+	}
 
 	// Initialize new customer
 	Customer(String username, String password){

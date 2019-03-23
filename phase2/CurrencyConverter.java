@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CurrencyConverter {
+public class CurrencyConverter implements Serializable {
     private StockFetcher stockFetcher;
 
     String currencySymbolGetter(String currency){

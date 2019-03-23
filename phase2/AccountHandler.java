@@ -1,13 +1,14 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountHandler {
+public class AccountHandler implements Serializable {
     private ArrayList<GenericAccount> accounts;
     private IAccountHolder user;
 
     AccountHandler(IAccountHolder user){
         this.user = user;
-        accounts = user.accounts;
+        accounts = new ArrayList<>();
     }
 
     boolean addAccount(String type, String name) {

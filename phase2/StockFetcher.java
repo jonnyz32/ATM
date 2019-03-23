@@ -4,11 +4,12 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-public class StockFetcher {
+public class StockFetcher implements Serializable {
 	private String apiKey;
 
 	public StockFetcher(String apiKey){
