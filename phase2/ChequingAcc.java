@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class ChequingAcc extends GenericAccount implements Serializable {
-    final boolean primary;
+    private boolean primary;
     private final int maxDebt = 100;
 
     public ChequingAcc(String name_p, IAccountHolder o, boolean primary_p) {
@@ -17,11 +17,15 @@ public class ChequingAcc extends GenericAccount implements Serializable {
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
         primary = primary_p;
-        type = " (Chequing)";
+        type = "CHEQUING";
     }
 
     boolean isPrimary() {
         return primary;
+    }
+
+    void setPrimary(boolean p) {
+        this.primary = p;
     }
 
     @Override
