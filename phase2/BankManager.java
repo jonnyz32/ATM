@@ -22,7 +22,7 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Adds a request for the account of the specified type.
      */
-    static void requestAccount(String username, String type, String accountName){
+    void requestAccount(String username, String type, String accountName){
         requests.add(new AccountCreationRequest(username, type, accountName));
     }
 
@@ -86,27 +86,20 @@ public class BankManager extends ATM_User implements IBankManager{
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
+        requests.remove(id);
         if (ATM_machine.getUser(username) instanceof IAccountHolder){
             IAccountHolder user = (IAccountHolder) ATM_machine.getUser(username);
-            if(user.addAccount(type, name)) {
-                requests.remove(id);
-                return true;
-            }
+            return(user.addAccount(type, name));
         }
-        requests.remove(id);
-        return false;
+        else {
+            return false;
+        }
     }
 
     /**
      * Creates a new customer with the given login credentials.
      */
     public boolean createNewCustomer(String username, String password){
-        try {
-            ATM_machine.addCustomer(username, password);
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
+        return ATM_machine.addCustomer(username, password);
     }
 }

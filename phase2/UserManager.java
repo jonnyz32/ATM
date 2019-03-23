@@ -43,7 +43,11 @@ public class UserManager {
         }
     }
 
-    void addCustomer(String username, String password){
-        users.add(new Customer(username, password));
+    boolean addCustomer(String username, String password){
+        boolean isFree = getUser(username)==null;
+        if(isFree) {
+            users.add(new Customer(username, password));
+        }
+        return isFree;
     }
 }

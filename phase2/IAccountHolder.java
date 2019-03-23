@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-interface IAccountHolder extends IUser{
+public interface IAccountHolder extends IUser{
 
-    ArrayList<GenericAccount> accounts = new ArrayList();
+    ArrayList<GenericAccount> accounts = new ArrayList<GenericAccount>();
 
     default void requestAccount(String type, String name) {
-        BankManager.requestAccount(this.getUsername(), type, name);
+        new BankManager("temp", "temp").requestAccount(this.getUsername(), type, name);
     }
 
     default boolean addAccount(String type, String name) {
