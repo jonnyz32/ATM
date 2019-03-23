@@ -66,7 +66,9 @@ public class BankManager extends ATM_User implements IBankManager{
             ATM_machine.setFifties(temp + num);
             return temp+num;
         }
-        return -1;
+        else {
+            return -1;
+        }
     }
 
     /**
