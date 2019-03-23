@@ -18,11 +18,11 @@ public class FileManagerTest {
             machine = new ATM_machine();
             machine.fileManager = new FileManager();
 
-            Writer writer = new BufferedWriter(new FileWriter(new File("phase1/users.txt")));
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase2/users.txt")));
             writer.write("");
             writer.close();
 
-            writer = new BufferedWriter(new FileWriter(new File("phase1/alerts.txt")));
+            writer = new BufferedWriter(new FileWriter(new File("phase2/alerts.txt")));
             writer.write("");
             writer.close();
 
@@ -71,7 +71,7 @@ public class FileManagerTest {
         alerts.add(new int[]{50, 10});
         machine.fileManager.writeAlerts(alerts);
         try {
-            FileReader file = new FileReader(new File("phase1/deposits.txt"));
+            FileReader file = new FileReader(new File("phase2/deposits.txt"));
             BufferedReader reader = new BufferedReader(file);
             String line = reader.readLine();
             assertNotNull(line);
