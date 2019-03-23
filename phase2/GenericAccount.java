@@ -1,5 +1,7 @@
 // An abstract Class for Acounts
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +17,9 @@ public abstract class GenericAccount implements Serializable {
     ArrayList<String> past_trans;
     Calendar creation_date;
     String type;
+    private StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
+    private CurrencyConverter currencyConverter = new CurrencyConverter(stockFetcher);
+
 
     Runnable lastTransReverter;
     String lastTransText;
@@ -64,6 +69,24 @@ public abstract class GenericAccount implements Serializable {
         ATM_machine.fileManager.writeBills(bills);
 
     }
+
+
+    void depositForeignCurrency(String currency, double amount) throws Exception{
+        double amountInCanadian = currencyConverter.convertCurrency(currency, amount);
+        balance += amountInCanadian;
+        lastTransText = String.format("Deposited $%d %s(%d Canadian) to %s",amount, currency, amountInCanadian, name);
+        //TODO I don't know what this line below does or if it should be here
+        lastTransReverter = ()-> revertDeposit();
+    }
+
+    void withdrawForeignCurrency(String currency, double amount) throws Exception{
+        double amountInCanadian = currencyConverter.convertCurrency(currency, amount);
+        balance -= amountInCanadian;
+        lastTransText = String.format("Withdrew $%d %s(%d Canadian) to %s",amount, currency, amountInCanadian, name);
+
+    }
+    
+
 
     void depositFromFile() {
         int[] deposit = ATM_machine.fileManager.readDeposits();
