@@ -42,7 +42,7 @@ public class BankManager extends ATM_User implements IBankManager{
 
     /**
      * Adds num bills of the specified type to the machine.
-     * @return Returns the new number of bills, or -1 if the bill type cannot be found.
+     * @return Returns the new bill total, or -1 if the bill type cannot be found.
      */
     public int addBills(int type, int num){
         int temp;
