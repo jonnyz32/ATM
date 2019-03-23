@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainMenu extends TextInterface{
+
+public class MainMenu extends TextInterface implements Serializable {
 
     public MainMenu(){
         super(null);

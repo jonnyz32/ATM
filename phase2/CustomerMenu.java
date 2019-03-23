@@ -18,7 +18,7 @@ public class CustomerMenu extends TextInterface{
         ArrayList<GenericAccount> accounts = customer.getHandler().getAccounts();
         for(int i=0;i<accounts.size();i++) {
             final int f = i; //Because the input needs to be final.
-            addAction(i+a, ()->viewAccount(f), "Account: "+accounts.get(i).name + accounts.get(i).type);
+            addAction(i+a, ()->viewAccount(f), "Account: "+accounts.get(i).name + " " + accounts.get(i).type);
         }
     }
 
@@ -40,6 +40,13 @@ public class CustomerMenu extends TextInterface{
                 if(va.equals(accountType)) {
                     loop=false;
                 }
+            }
+        }
+        if (accountType.equals("chequing")) {
+            System.out.println("Would you like to make this your primary account (yes or no)");
+            String ans = nextLine();
+            if (ans.equals("yes")) {
+                accountType += "(primary)";
             }
         }
         System.out.println("What would you like to name your " + accountType + " account? (alphanumeric no spaces)");
