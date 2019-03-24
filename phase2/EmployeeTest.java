@@ -23,9 +23,7 @@ public class EmployeeTest {
     public void addBills(){
         int[] bills = new int[]{ATM_machine.getNumFives(), ATM_machine.getNumTens(), ATM_machine.getNumTwenties(),
         ATM_machine.getNumFifties()};
-        e1.addBills(20, 17);
-        e1.addBills(10, 0);
-        e1.addBills(5,100000);
+        e1.addBills(100000, 0, 17, 0);
         assertArrayEquals(new int[]{bills[0] + 100000, bills[1], bills[2] + 17, bills[3]}, new
                 int[]{ATM_machine.getNumFives(), ATM_machine.getNumTens(), ATM_machine.getNumTwenties(),
                 ATM_machine.getNumFifties()});

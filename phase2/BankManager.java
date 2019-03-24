@@ -29,15 +29,9 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
-    public boolean setSystemDate(int year, int month, int day){
-        try{
-            Calendar time = new GregorianCalendar(year, month - 1, day);
-            ATM_machine.setTime(time);
-        }
-        catch (Exception e){
-            return false;
-        }
-        return true;
+    public void setSystemDate(int year, int month, int day) {
+        Calendar time = new GregorianCalendar(year, month - 1, day);
+        ATM_machine.setTime(time);
     }
 
     /**
@@ -55,24 +49,24 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Approves a customer's account creation request.
      */
-    public boolean approveAccount(int id){
+    public void approveAccount(int id) throws IllegalArgumentException{
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
         requests.remove(id);
         if (ATM_machine.getUser(username) instanceof IAccountHolder){
             IAccountHolder user = (IAccountHolder) ATM_machine.getUser(username);
-            return(user.addAccount(type, name));
+            user.addAccount(type, name);
         }
         else {
-            return false;
+            throw new IllegalArgumentException("Username not accepted");
         }
     }
 
     /**
      * Creates a new customer with the given login credentials.
      */
-    public boolean createNewCustomer(String username, String password){
-        return ATM_machine.addCustomer(username, password);
+    public void createNewCustomer(String username, String password){
+        ATM_machine.addCustomer(username, password);
     }
 }

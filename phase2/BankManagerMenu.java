@@ -23,10 +23,11 @@ public class BankManagerMenu extends TextInterface{
         int month = nextInt();
         System.out.println("Input day:");
         int day = nextInt();
-        if (bankManager.setSystemDate(year, month, day)) {
+        try {
+            bankManager.setSystemDate(year, month, day);
             System.out.println("System time set to: " + ATM_machine.getTimeFormatted());
         }
-        else{
+        catch(Exception e){
             System.out.println("Invalid date entry");
         }
         showMenu();
@@ -77,11 +78,12 @@ public class BankManagerMenu extends TextInterface{
             target = nextInt();
         }
 
-        if(bankManager.approveAccount(target)){
+        try{
+            bankManager.approveAccount(target);
             System.out.println("Request approved");
             showMenu();
         }
-        else{
+        catch(IllegalArgumentException e){
             System.out.println("Error: Request not valid");
             showMenu();
         }
