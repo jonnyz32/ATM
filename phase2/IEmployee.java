@@ -4,14 +4,7 @@ public interface IEmployee extends IUser{
         ATM_machine.depositBills(fives, tens, twenties, fifties);
     }
 
-    default boolean createNewCustomer(String username, String password){
-        try {
-            ATM_machine.addCustomer(username, password);
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
+    default void createNewCustomer(String username, String password) {
+        ATM_machine.addCustomer(username, password);
     }
-
 }
