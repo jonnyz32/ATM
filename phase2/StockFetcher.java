@@ -55,6 +55,13 @@ public class StockFetcher implements Serializable {
 		return hashmap;
 	}
 
+	public static void main(String[] args) throws Exception {
+		StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
+		System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
+		System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
+		System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
+		System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
+	}
 
 
 }
