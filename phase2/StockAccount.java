@@ -1,8 +1,5 @@
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 public class StockAccount extends GenericAccount implements Serializable {
@@ -12,15 +9,10 @@ public class StockAccount extends GenericAccount implements Serializable {
 	private double profitFromTrading;
 
 	public StockAccount(String name_p, IAccountHolder o) {
-		name = name_p;
-		owner = o;
-		past_trans = new ArrayList<String>();
-		balance = 0;
+		super(name_p, o);
 		asset = true;
-		creation_date = new GregorianCalendar();
-		lastTransText = "No transactions have been made";
-		past_trans.add(lastTransText);
 		type = "(Stock)";
+		withdrawable = new CannotWithdraw();
 		//////////////////////////////////////////////////////
 		stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
 		profitFromTrading = 0.0;
