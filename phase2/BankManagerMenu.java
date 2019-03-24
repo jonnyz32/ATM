@@ -33,17 +33,16 @@ public class BankManagerMenu extends TextInterface{
     }
 
     private void addBills(){
-        System.out.println("What kind?");
-        int type = nextInt();
-        System.out.println("How many?");
-        int num = nextInt();
-        int result = bankManager.addBills(type, num);
-        if(result == -1){
-            System.out.println("ERROR: Invalid input");
-        }
-        else{
-            System.out.println("New number: " + result + " bills");
-        }
+        System.out.println("How many fives?");
+        int fives = nextInt();
+        System.out.println("How many tens?");
+        int tens = nextInt();
+        System.out.println("How many twenties?");
+        int twenties = nextInt();
+        System.out.println("How many fifties?");
+        int fifties = nextInt();
+        bankManager.addBills(fives, tens, twenties, fifties);
+        System.out.println("Add success");
         showMenu();
     }
 

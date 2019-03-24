@@ -41,10 +41,7 @@ public abstract class GenericAccount implements Serializable {
         } else {
             balance -= total;
         }
-        ATM_machine.setFives(ATM_machine.getNumFives()+fives);
-        ATM_machine.setTens(ATM_machine.getNumTens()+tens);
-        ATM_machine.setTwenties(ATM_machine.getNumTwenties()+twenties);
-        ATM_machine.setFifties(ATM_machine.getNumFifties()+fifties);
+        ATM_machine.depositBills(fives, tens, twenties, fifties);
 
         lastTransReverter = (Runnable & Serializable) this::revertDeposit;
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
@@ -57,7 +54,6 @@ public abstract class GenericAccount implements Serializable {
         bills[3] = bills[3] + fifties;
 
         ATM_machine.fileManager.writeBills(bills);
-
     }
 
 

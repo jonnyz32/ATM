@@ -47,6 +47,7 @@ public class ATM_machine{
     static int getNumTwenties(){return bills[TWENTY];}
     static int getNumTens(){return bills[TEN];}
     static int getNumFives(){return bills[FIVE];}
+    static int[] getNumBills(){return bills;}
 
     //These methods will be called from inside the Manager class.
     static void setFifties(int numBills){
@@ -62,12 +63,12 @@ public class ATM_machine{
         bills[FIVE] = numBills;
     }
 
-    static void withdrawBills(int[] billsToRemove){
+    static void depositBills(int fives, int tens, int twenties, int fifties) {
+        int[] billsToAdd = {fives, tens, twenties, fifties};
         for(int i=0; i<4; i++) {
-            bills[i] -= billsToRemove[i];
+            bills[i] += billsToAdd[i];
         }
         ATM_machine.fileManager.writeBills(bills);
-        ATM_machine.fileManager.checkForAlert();
     }
 
     static void withdrawBills(int amount){
