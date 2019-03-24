@@ -47,23 +47,43 @@ public class ATM_machine{
     static int getNumTwenties(){return bills[TWENTY];}
     static int getNumTens(){return bills[TEN];}
     static int getNumFives(){return bills[FIVE];}
+    static int[] getNumBills(){return bills;}
 
-    //These methods will be called from inside the Manager class.
-    static void setFifties(int numBills){
-        bills[FIFTY] = numBills;
+    static void depositBills(int fives, int tens, int twenties, int fifties) {
+        int[] billsToAdd = {fives, tens, twenties, fifties};
+        for(int i=0; i<4; i++) {
+            bills[i] += billsToAdd[i];
+        }
+        ATM_machine.fileManager.writeBills(bills);
     }
-    static void setTwenties(int numBills){
-        bills[TWENTY] = numBills;
-    }
-    static void setTens(int numBills){
-        bills[TEN] = numBills;
-    }
-    static void setFives(int numBills){
-        bills[FIVE] = numBills;
+
+    static void withdrawBills(int amount){
+        int[] billsToRemove = get_bill_split(amount);
+        for(int i=0; i<4; i++) {
+            bills[i] -= billsToRemove[i];
+        }
+        ATM_machine.fileManager.writeBills(bills);
+        ATM_machine.fileManager.checkForAlert();
     }
 
     static String getTimeFormatted(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
         return sdf.format(ATM_machine.getTime().getTime());
+    }
+
+    static int[] get_bill_split(int amount) {
+        int[] bill_split = new int[4];
+        int fifties = amount / 50;
+        bill_split[0] = fifties;
+        int rem_50 = amount % 50;
+        int twenties = rem_50 / 20;
+        bill_split[1] = twenties;
+        int rem_10 = rem_50 % 20;
+        int tens = rem_10 / 10;
+        bill_split[2] = tens;
+        int rem_5 = rem_10 % 10;
+        int fives = rem_5 / 5;
+        bill_split[3] = fives;
+        return bill_split;
     }
 }

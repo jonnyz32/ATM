@@ -1,8 +1,5 @@
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 public class StockAccount extends GenericAccount implements Serializable {
@@ -12,22 +9,22 @@ public class StockAccount extends GenericAccount implements Serializable {
 	private double profitFromTrading;
 
 	public StockAccount(String name_p, IAccountHolder o) {
-		name = name_p;
-		owner = o;
-		past_trans = new ArrayList<String>();
-		balance = 0;
+		super(name_p, o);
 		asset = true;
-		creation_date = new GregorianCalendar();
-		lastTransText = "No transactions have been made";
-		past_trans.add(lastTransText);
 		type = "(Stock)";
+		withdrawable = new CannotWithdraw();
 		//////////////////////////////////////////////////////
 		stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
 		profitFromTrading = 0.0;
 	}
 
 	public void viewPortfolio(){
-
+		for (CompanyStock stock : portfolio.values()){
+			System.out.println(stock.getSymbol());
+			for (Share share : stock.getCompanyShares()){
+				System.out.println("Amount of shares: " + share.getAmountOfShares() + " bought at " + share.getBoughtAt());
+			}
+		}
 	}
 	public double checkSymbolPrice(String symbol){
 		try {
@@ -43,13 +40,13 @@ public class StockAccount extends GenericAccount implements Serializable {
 	}
 	public void checkSymbolDetailedInfo(String symbol){
 		try {
-			HashMap stockInfo = stockFetcher.getCurrentStockInfo(symbol);
-			double price = (double) stockInfo.get("price");
-			double open = (double) stockInfo.get("open");
-			double high = (double) stockInfo.get("high");
-			double low = (double) stockInfo.get("low");
-			double volume = (double) stockInfo.get("volume");
-			double change = (double) stockInfo.get("change");
+			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
+			double price = stockInfo.get("price");
+			double open = stockInfo.get("open");
+			double high = stockInfo.get("high");
+			double low = stockInfo.get("low");
+			double volume = stockInfo.get("volume");
+			double change = stockInfo.get("change");
 
 
 			System.out.println("Price: " + price + " Open: " + open+ " High: " + high+ " Low: " + low+ " Volume"  + volume+ " Change:" + change);

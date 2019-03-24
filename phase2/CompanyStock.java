@@ -29,6 +29,13 @@ public class CompanyStock {
 		return this.shareCount >= shareCount;
 	}
 
+	public List<Share> getCompanyShares() {
+		return companyShares;
+	}
+
+	public int getShareCount() {
+		return shareCount;
+	}
 
 	// Sell specified amount of shares and return totalPriceBoughtAt
 	public double sell(int shareCount){

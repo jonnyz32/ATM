@@ -14,7 +14,7 @@ public abstract class AccountMenu extends TextInterface{
     void getLastTransaction(){
         System.out.println("Last Transaction:");
         String latest = account.getLatestTransaction();
-        System.out.println(latest + "in" + account.name);
+        System.out.println(latest);
         showMenu();
     }
 
@@ -35,13 +35,28 @@ public abstract class AccountMenu extends TextInterface{
         showMenu();
     }
 
+    void depositCash() {
+        System.out.println("How many fives?");
+        int fives = nextInt();
+        System.out.println("How many tens?");
+        int tens = nextInt();
+        System.out.println("How many twenties?");
+        int twenties = nextInt();
+        System.out.println("How many fifties?");
+        int fifties = nextInt();
+        account.depositCash(fives, tens, twenties, fifties);
+        showMenu();
+    }
+
     void transferToSelf(){
         System.out.println("Amount to transfer?");
         double amount = nextDouble();
         System.out.println("Account to transfer to?");
         //TODO add options
         String other_acc_name = nextLine();
-        account.transferToSelf(amount, other_acc_name);
+        GenericAccount other_acc = account.owner.getAccountByName(other_acc_name);
+        TransferManager tm = new TransferManager(account, amount, other_acc);
+        tm.make_transfer();
         showMenu();
     }
 
@@ -49,7 +64,6 @@ public abstract class AccountMenu extends TextInterface{
         // Get the user and the account
         System.out.println("Who would you like to transfer to");
         String other_username = nextLine();
-        boolean other_exists = false;
         ATM_User other_user = ATM_machine.getUser(other_username);
         if (other_user == null) {
             System.out.println("That username does not exist, please try another user.");
@@ -69,7 +83,8 @@ public abstract class AccountMenu extends TextInterface{
         GenericAccount other_acc = other_user.getAccountByName(other_acc_name);
         System.out.println("How much would you like to transfer?");
         double amount = nextDouble();
-        account.transferToOther(other_user, other_acc, amount);
+        TransferManager tm = new TransferManager(account, amount, other_acc);
+        tm.make_transfer();
         showMenu();
     }
 

@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class BankManagerMenu extends TextInterface{
+class BankManagerMenu extends TextInterface {
 
     private BankManager bankManager;
 
@@ -23,27 +23,27 @@ public class BankManagerMenu extends TextInterface{
         int month = nextInt();
         System.out.println("Input day:");
         int day = nextInt();
-        if (bankManager.setSystemDate(year, month, day)) {
+        try {
+            bankManager.setSystemDate(year, month, day);
             System.out.println("System time set to: " + ATM_machine.getTimeFormatted());
         }
-        else{
+        catch(Exception e){
             System.out.println("Invalid date entry");
         }
         showMenu();
     }
 
     private void addBills(){
-        System.out.println("What kind?");
-        int type = nextInt();
-        System.out.println("How many?");
-        int num = nextInt();
-        int result = bankManager.addBills(type, num);
-        if(result == -1){
-            System.out.println("ERROR: Invalid input");
-        }
-        else{
-            System.out.println("New number: " + result + " bills");
-        }
+        System.out.println("How many fives?");
+        int fives = nextInt();
+        System.out.println("How many tens?");
+        int tens = nextInt();
+        System.out.println("How many twenties?");
+        int twenties = nextInt();
+        System.out.println("How many fifties?");
+        int fifties = nextInt();
+        bankManager.addBills(fives, tens, twenties, fifties);
+        System.out.println("Add success");
         showMenu();
     }
 
@@ -52,8 +52,14 @@ public class BankManagerMenu extends TextInterface{
         String username = nextLine();
         System.out.println("Input account name:");
         String account = nextLine();
-        bankManager.undoTransaction(username, account);
-        showMenu();
+        try {
+            bankManager.undoTransaction(username, account);
+            showMenu();
+        }
+        catch(BadInputException e){
+            System.out.println("User not accepted");
+            e.printStackTrace();
+        }
     }
 
     private void approveAccount(){
@@ -62,29 +68,29 @@ public class BankManagerMenu extends TextInterface{
         if (requests.size() < 1){
             System.out.println("No requests available");
             showMenu();
-            return;
         }
+        else {
+            for (AccountCreationRequest request : requests) {
+                String type = request.getType();
+                System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
+                i++;
+            }
 
-        for(AccountCreationRequest request: requests){
-            String type = request.getType();
-            System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
-            i++;
-        }
+            System.out.println("Input id to approve:");
+            int target = nextInt();
+            while (target >= requests.size()) {
+                System.out.println("Invalid id, try again.");
+                target = nextInt();
+            }
 
-        System.out.println("Input id to approve:");
-        int target = nextInt();
-        while (target>=requests.size()){
-            System.out.println("Invalid id, try again.");
-            target = nextInt();
-        }
-
-        if(bankManager.approveAccount(target)){
-            System.out.println("Request approved");
-            showMenu();
-        }
-        else{
-            System.out.println("Error: Request not valid");
-            showMenu();
+            try {
+                bankManager.approveAccount(target);
+                System.out.println("Request approved");
+                showMenu();
+            } catch (BadInputException e) {
+                System.out.println("Error: Request not valid");
+                showMenu();
+            }
         }
     }
 
@@ -93,11 +99,13 @@ public class BankManagerMenu extends TextInterface{
         String username = nextLine();
         System.out.println("Input password:");
         String password = nextLine();
-        if (bankManager.createNewCustomer(username, password)){
+        try {
+            bankManager.createNewCustomer(username, password);
             System.out.println("Account created");
         }
-        else{
+        catch(Exception e){
             System.out.println("Error: Account not available");
+            e.printStackTrace();
         }
         showMenu();
     }

@@ -1,8 +1,8 @@
 public interface IBankManager extends IEmployee {
-    boolean setSystemDate(int year, int month, int day);
+    void setSystemDate(int year, int month, int day);
 
-    void undoTransaction(String username, String account);
+    void undoTransaction(String username, String account) throws BadInputException;
 
-    boolean approveAccount(int id);
+    void approveAccount(int id) throws BadInputException;
 
     }
