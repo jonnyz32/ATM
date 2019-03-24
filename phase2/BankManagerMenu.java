@@ -92,11 +92,13 @@ public class BankManagerMenu extends TextInterface{
         String username = nextLine();
         System.out.println("Input password:");
         String password = nextLine();
-        if (bankManager.createNewCustomer(username, password)){
+        try {
+            bankManager.createNewCustomer(username, password);
             System.out.println("Account created");
         }
-        else{
+        catch(Exception e){
             System.out.println("Error: Account not available");
+            e.printStackTrace();
         }
         showMenu();
     }
