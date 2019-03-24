@@ -19,7 +19,12 @@ public class StockAccount extends GenericAccount implements Serializable {
 	}
 
 	public void viewPortfolio(){
-
+		for (CompanyStock stock : portfolio.values()){
+			System.out.println(stock.getSymbol());
+			for (Share share : stock.getCompanyShares()){
+				System.out.println("Amount of shares: " + share.getAmountOfShares() + " bought at " + share.getBoughtAt());
+			}
+		}
 	}
 	public double checkSymbolPrice(String symbol){
 		try {
@@ -35,13 +40,13 @@ public class StockAccount extends GenericAccount implements Serializable {
 	}
 	public void checkSymbolDetailedInfo(String symbol){
 		try {
-			HashMap stockInfo = stockFetcher.getCurrentStockInfo(symbol);
-			double price = (double) stockInfo.get("price");
-			double open = (double) stockInfo.get("open");
-			double high = (double) stockInfo.get("high");
-			double low = (double) stockInfo.get("low");
-			double volume = (double) stockInfo.get("volume");
-			double change = (double) stockInfo.get("change");
+			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
+			double price = stockInfo.get("price");
+			double open = stockInfo.get("open");
+			double high = stockInfo.get("high");
+			double low = stockInfo.get("low");
+			double volume = stockInfo.get("volume");
+			double change = stockInfo.get("change");
 
 
 			System.out.println("Price: " + price + " Open: " + open+ " High: " + high+ " Low: " + low+ " Volume"  + volume+ " Change:" + change);
