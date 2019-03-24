@@ -11,6 +11,10 @@ public class BankManager extends ATM_User implements IBankManager{
      */
     private static List<AccountCreationRequest> requests = new ArrayList<>();
 
+    BankManager(){
+        super("temp", "temp");
+    }
+
     public BankManager(String username, String password){
         super(username, password);
     }
@@ -37,12 +41,15 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
-    public void undoTransaction(String username, String account){
+    public void undoTransaction(String username, String account) throws BadInputException{
         if (ATM_machine.getUser(username) instanceof IAccountHolder){
             IAccountHolder target = (IAccountHolder) ATM_machine.getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
             Thread t = new Thread(targetacc.lastTransReverter);
             t.start();
+        }
+        else{
+            throw new BadInputException("User not accepted");
         }
     }
 

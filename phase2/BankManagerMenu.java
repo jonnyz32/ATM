@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class BankManagerMenu extends TextInterface{
+class BankManagerMenu extends TextInterface {
 
     private BankManager bankManager;
 
@@ -52,8 +52,14 @@ public class BankManagerMenu extends TextInterface{
         String username = nextLine();
         System.out.println("Input account name:");
         String account = nextLine();
-        bankManager.undoTransaction(username, account);
-        showMenu();
+        try {
+            bankManager.undoTransaction(username, account);
+            showMenu();
+        }
+        catch(BadInputException e){
+            System.out.println("User not accepted");
+            e.printStackTrace();
+        }
     }
 
     private void approveAccount(){
@@ -62,30 +68,29 @@ public class BankManagerMenu extends TextInterface{
         if (requests.size() < 1){
             System.out.println("No requests available");
             showMenu();
-            return;
         }
+        else {
+            for (AccountCreationRequest request : requests) {
+                String type = request.getType();
+                System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
+                i++;
+            }
 
-        for(AccountCreationRequest request: requests){
-            String type = request.getType();
-            System.out.println(i + ": " + request.getUser() + " requests a " + type + " account");
-            i++;
-        }
+            System.out.println("Input id to approve:");
+            int target = nextInt();
+            while (target >= requests.size()) {
+                System.out.println("Invalid id, try again.");
+                target = nextInt();
+            }
 
-        System.out.println("Input id to approve:");
-        int target = nextInt();
-        while (target>=requests.size()){
-            System.out.println("Invalid id, try again.");
-            target = nextInt();
-        }
-
-        try{
-            bankManager.approveAccount(target);
-            System.out.println("Request approved");
-            showMenu();
-        }
-        catch(BadInputException e){
-            System.out.println("Error: Request not valid");
-            showMenu();
+            try {
+                bankManager.approveAccount(target);
+                System.out.println("Request approved");
+                showMenu();
+            } catch (BadInputException e) {
+                System.out.println("Error: Request not valid");
+                showMenu();
+            }
         }
     }
 
