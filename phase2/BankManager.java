@@ -49,7 +49,7 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Approves a customer's account creation request.
      */
-    public void approveAccount(int id) throws IllegalArgumentException{
+    public void approveAccount(int id) throws BadInputException {
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
@@ -59,7 +59,7 @@ public class BankManager extends ATM_User implements IBankManager{
             user.addAccount(type, name);
         }
         else {
-            throw new IllegalArgumentException("Username not accepted");
+            throw new BadInputException("Username not accepted");
         }
     }
 

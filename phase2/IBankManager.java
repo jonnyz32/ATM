@@ -3,6 +3,6 @@ public interface IBankManager extends IEmployee {
 
     void undoTransaction(String username, String account);
 
-    void approveAccount(int id) throws IllegalArgumentException;
+    void approveAccount(int id) throws BadInputException;
 
     }

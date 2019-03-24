@@ -83,7 +83,7 @@ public class BankManagerMenu extends TextInterface{
             System.out.println("Request approved");
             showMenu();
         }
-        catch(IllegalArgumentException e){
+        catch(BadInputException e){
             System.out.println("Error: Request not valid");
             showMenu();
         }
