@@ -25,6 +25,11 @@ public class StockFetcher implements Serializable {
 	public void main(String[] args){
 		try {
 			getCurrentStockInfo("MSFT");
+			StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
+		System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
+		System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
+		System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
+		System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -48,7 +53,7 @@ public class StockFetcher implements Serializable {
 		return JSONStringToDict(content.toString());
 
 	}
-	private HashMap<String, Double> JSONStringToDict(String json){
+	private HashMap<String, Double> JSONStringToDict(String json) {
 		Pattern openPattern = Pattern.compile("01. symbol\"[^,]*");
 		Pattern highPattern = Pattern.compile("03. high\": [^,]*");
 		Pattern lowPattern = Pattern.compile("04. low\": [^,]*");
@@ -59,52 +64,42 @@ public class StockFetcher implements Serializable {
 		HashMap<String, Double> hashmap = new HashMap<>();
 
 		Matcher openMatch = openPattern.matcher(json);
-		if (openMatch.find()){
+		if (openMatch.find()) {
 			String x = openMatch.group(0).replace("01. symbol\": ", "");
 			hashmap.put("open", Double.parseDouble(x));
 		}
 
 		Matcher highMatch = highPattern.matcher(json);
-		if (highMatch.find()){
+		if (highMatch.find()) {
 			String x = highMatch.group(0).replace("03. high\": ", "");
 			hashmap.put("high", Double.parseDouble(x));
 		}
 
 		Matcher lowMatch = lowPattern.matcher(json);
-		if (lowMatch.find()){
+		if (lowMatch.find()) {
 			String x = lowMatch.group(0).replace("04. low\": ", "");
 			hashmap.put("low", Double.parseDouble(x));
 		}
 
 
 		Matcher priceMatch = pricePattern.matcher(json);
-		if (priceMatch.find()){
+		if (priceMatch.find()) {
 			String x = priceMatch.group(0).replace("05. price\": ", "");
 			hashmap.put("price", Double.parseDouble(x));
 		}
 
 		Matcher volumeMatch = volumePattern.matcher(json);
-		if (volumeMatch.find()){
+		if (volumeMatch.find()) {
 			String x = volumeMatch.group(0).replace("06. volume\": ", "");
 			hashmap.put("volume", Double.parseDouble(x));
 		}
 
 		Matcher changeMatch = changePattern.matcher(json);
-		if (changeMatch.find()){
+		if (changeMatch.find()) {
 			String x = changeMatch.group(0).replace("09. change\": ", "");
 			hashmap.put("change", Double.parseDouble(x));
 		}
 		return hashmap;
-
-	public static void main(String[] args) throws Exception {
-		StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
-		System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
-		System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
-		System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
-		System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
 	}
 
-
-
-	}
 }
