@@ -8,6 +8,6 @@ public class CreditLineAcc extends GenericAccount implements Serializable {
         super(name, o);
         asset = false;
         type = "CREDIT LINE";
-        withdrawable = new WithdrawCapped(-10000);
+        withdrawable = new WithdrawUncapped();
     }
 }

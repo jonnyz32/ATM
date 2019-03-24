@@ -8,6 +8,6 @@ public class CreditCardAcc extends GenericAccount implements Serializable{
         super(name, o);
         asset = false;
         type = "CREDIT CARD";
-        withdrawable = new WithdrawCapped(-3000);
+        withdrawable = new CannotWithdraw();
     }
 }

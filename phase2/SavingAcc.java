@@ -1,7 +1,4 @@
-// A class for savings accounts
-
 import java.io.Serializable;
-import java.util.*;
 
 public class SavingAcc extends GenericAccount implements Serializable {
 

@@ -1,3 +1,3 @@
 public interface IDepositable {
-    public void withdraw();
+    public void deposit();
 }
