@@ -41,37 +41,6 @@ public class BankManager extends ATM_User implements IBankManager{
     }
 
     /**
-     * Adds num bills of the specified type to the machine.
-     * @return Returns the new bill total, or -1 if the bill type cannot be found.
-     */
-    public int addBills(int type, int num){
-        int temp;
-        if (type==5){
-            temp = ATM_machine.getNumFives();
-            ATM_machine.setFives(temp + num);
-            return temp+num;
-        }
-        if (type==10){
-            temp = ATM_machine.getNumTens();
-            ATM_machine.setTens(temp + num);
-            return temp+num;
-        }
-        if (type==20){
-            temp = ATM_machine.getNumTwenties();
-            ATM_machine.setTwenties(temp + num);
-            return temp+num;
-        }
-        if (type==50){
-            temp = ATM_machine.getNumFifties();
-            ATM_machine.setFifties(temp + num);
-            return temp+num;
-        }
-        else {
-            return -1;
-        }
-    }
-
-    /**
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
     public void undoTransaction(String username, String account){

@@ -49,20 +49,6 @@ public class ATM_machine{
     static int getNumFives(){return bills[FIVE];}
     static int[] getNumBills(){return bills;}
 
-    //These methods will be called from inside the Manager class.
-    static void setFifties(int numBills){
-        bills[FIFTY] = numBills;
-    }
-    static void setTwenties(int numBills){
-        bills[TWENTY] = numBills;
-    }
-    static void setTens(int numBills){
-        bills[TEN] = numBills;
-    }
-    static void setFives(int numBills){
-        bills[FIVE] = numBills;
-    }
-
     static void depositBills(int fives, int tens, int twenties, int fifties) {
         int[] billsToAdd = {fives, tens, twenties, fifties};
         for(int i=0; i<4; i++) {
