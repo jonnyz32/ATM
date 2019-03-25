@@ -22,14 +22,14 @@ public class StockFetcher implements Serializable {
 	}
 
 
-	public static void main(String[] args){
+	public void main(String[] args){
 		try {
+			getCurrentStockInfo("MSFT");
 			StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
-
 			System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
-		System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
-		System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
-		System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
+			System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
+			System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
+			System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +53,8 @@ public class StockFetcher implements Serializable {
 		return JSONStringToDict(content.toString());
 
 	}
-	private HashMap<String, Double> JSONStringToDict(String json) {
+
+	private static HashMap<String, Double> JSONStringToDict(String json) {
 		Pattern openPattern = Pattern.compile("01. symbol\"[^,]*");
 		Pattern highPattern = Pattern.compile("03. high\": [^,]*");
 		Pattern lowPattern = Pattern.compile("04. low\": [^,]*");
@@ -65,8 +66,8 @@ public class StockFetcher implements Serializable {
 
 		Matcher openMatch = openPattern.matcher(json);
 		if (openMatch.find()) {
-			String x = openMatch.group(0).replace("01. symbol\": ", "");
-			hashmap.put("open", Double.parseDouble(x));
+			String x = openMatch.group(0).replace("02. open\": ", "");
+			hashmap.put("open", x);
 		}
 
 		Matcher highMatch = highPattern.matcher(json);
