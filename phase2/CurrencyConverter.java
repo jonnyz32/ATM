@@ -18,7 +18,7 @@ public class CurrencyConverter implements Serializable {
         this.stockFetcher = stockFetcher;
     }
 
-    double convertCurrency(String currency, double amount) throws Exception{
-        return  amount * (double) stockFetcher.getCurrentStockInfo(currency).get("price");
+    double convertCurrency(String currency, double amount){
+        return  amount * stockFetcher.getPrice(currency);
     }
 }
