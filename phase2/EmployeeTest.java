@@ -5,12 +5,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class EmployeeTest {
-    Employee e1;
+    private Employee e1;
 
     @Before
     public void setUp() {
         e1 = new Employee("employee1", "pass1");
-
     }
 
     @After
@@ -32,6 +31,6 @@ public class EmployeeTest {
     @Test
     public void requestAccount(){
         e1.requestAccount("chequing", "C");
-        assertFalse(BankManager.getRequests().isEmpty());
+        assertFalse(new BankManager().getRequests().isEmpty());
     }
 }

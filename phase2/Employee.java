@@ -6,7 +6,7 @@ public class Employee extends ATM_User implements Serializable, ILevelOneAccess,
     private AccountHandler accountHandler;
     private LevelOneAccessHandler levelOneAccessHandler;
 
-    private Employee(String username, String password){
+    Employee(String username, String password){
         super(username, password);
         accountHandler = new AccountHandler(this);
         levelOneAccessHandler = new LevelOneAccessHandler();
