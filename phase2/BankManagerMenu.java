@@ -63,7 +63,7 @@ class BankManagerMenu extends TextInterface {
     }
 
     private void approveAccount(){
-        List<AccountCreationRequest> requests = BankManager.getRequests();
+        List<AccountCreationRequest> requests = bankManager.getRequests();
         int i = 0;
         if (requests.size() < 1){
             System.out.println("No requests available");

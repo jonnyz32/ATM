@@ -11,6 +11,10 @@ public class AccountHandler implements Serializable {
         accounts = new ArrayList<>();
     }
 
+    void requestAccount(String type, String name){
+        new BankManager().requestAccount(user.getUsername(), type, name);
+    }
+
     boolean addAccount(String type, String name) {
         if (type.length() >= 8){
             if (type.substring(0, 8).equals("chequing")) {
