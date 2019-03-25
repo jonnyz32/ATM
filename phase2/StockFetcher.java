@@ -22,11 +22,11 @@ public class StockFetcher implements Serializable {
 	}
 
 
-	public void main(String[] args){
+	public static void main(String[] args){
 		try {
-			getCurrentStockInfo("MSFT");
 			StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
-		System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
+
+			System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
 		System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
 		System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
 		System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
