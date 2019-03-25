@@ -102,4 +102,12 @@ public class StockFetcher implements Serializable {
 		return hashmap;
 	}
 
+	double getPrice(String symbol){
+		try {
+			return getCurrentStockInfo(symbol).get("price");
+		}catch (IOException e){
+			System.out.println("Stock can't be located");
+			return 0.0;
+		}
+	}
 }
