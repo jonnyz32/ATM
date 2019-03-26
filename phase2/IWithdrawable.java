@@ -1,3 +1,3 @@
 public interface IWithdrawable {
-    double withdraw(int amount, double balance);
+    double withdraw(double amount, double balance);
 }
