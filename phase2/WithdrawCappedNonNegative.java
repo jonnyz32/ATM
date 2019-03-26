@@ -1,5 +1,5 @@
 public class WithdrawCappedNonNegative implements IWithdrawable{
-    double minBalance;
+    private double minBalance;
     WithdrawCappedNonNegative(int minBalance){
         this.minBalance = minBalance;
     }
