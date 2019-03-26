@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-public class WithdrawCapped implements IWithdrawable, Serializable {
+public class WithdrawCapped implements IWithdrawable{
     double minBalance;
     WithdrawCapped(int minBalance){
         this.minBalance = minBalance;

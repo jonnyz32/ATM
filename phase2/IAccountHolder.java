@@ -2,17 +2,32 @@ import java.util.ArrayList;
 
 public interface IAccountHolder extends IUser{
 
-    void requestAccount(String type, String name);
 
-    void addAccount(String type, String name);
+    abstract AccountHandler getHandler();
 
-    ArrayList<GenericAccount> getAccounts();
+    default void requestAccount(String type, String name) {
+        new BankManager("temp", "temp").requestAccount(this.getUsername(), type, name);
+    }
+
+    default boolean addAccount(String type, String name) {
+        return getHandler().addAccount(type, name);
+    }
+
+    default ArrayList<GenericAccount> getAccounts() {
+        return getHandler().getAccounts();
+    }
 
     //Summary of account balances
-    String getFullSummary();
+    default String getFullSummary() {
+        return getHandler().getFullSummary();
+    }
 
     //Net total of all accounts
-    double getNetTotal();
+    default double getNetTotal() {
+        return getHandler().getNetTotal();
+    }
 
-    GenericAccount getAccountByName(String name);
+    default GenericAccount getAccountByName(String name) {
+        return getHandler().getAccountByName(name);
+    }
 }

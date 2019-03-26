@@ -2,14 +2,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+
 import static org.junit.Assert.*;
 
 public class EmployeeTest {
-    private Employee e1;
+    Employee e1;
 
     @Before
     public void setUp() {
         e1 = new Employee("employee1", "pass1");
+
     }
 
     @After
@@ -31,6 +34,6 @@ public class EmployeeTest {
     @Test
     public void requestAccount(){
         e1.requestAccount("chequing", "C");
-        assertFalse(new BankManager().getRequests().isEmpty());
+        assertFalse(BankManager.getRequests().isEmpty());
     }
 }

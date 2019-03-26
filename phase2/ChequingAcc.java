@@ -3,15 +3,15 @@
 import java.io.Serializable;
 
 public class ChequingAcc extends GenericAccount implements Serializable {
-    boolean primary;
+    private boolean primary;
 
-    public ChequingAcc(String name, IAccountHolder o) {
+    public ChequingAcc(String name, IAccountHolder o, boolean primary) {
         super(name, o);
         this.name = name;
         asset = true;
         type = "CHEQUING";
         withdrawable = new WithdrawCappedNonNegative(-100);
-        this.primary = false;
+        this.primary = primary;
     }
 
     boolean isPrimary() {
