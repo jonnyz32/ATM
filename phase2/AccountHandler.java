@@ -6,6 +6,15 @@ public class AccountHandler implements Serializable {
     private ArrayList<GenericAccount> accounts;
     private IAccountHolder user;
 
+    static Object[][] accountList = new Object[][]{
+            {"PrimaryChequing",PrimaryChequingAcc.class},
+            {"Chequing", ChequingAcc.class},
+            {"CreditCard", CreditCardAcc.class},
+            {"CreditLine", CreditLineAcc.class},
+            {"Savings", SavingAcc.class},
+            {"Stocks", StockAccount.class}
+    };
+
     AccountHandler(IAccountHolder user){
         this.user = user;
         accounts = new ArrayList<>();
@@ -16,6 +25,18 @@ public class AccountHandler implements Serializable {
     }
 
     boolean addAccount(String type, String name) {
+
+        for(Object[] accountType : accountList) {
+            if(type.equalsIgnoreCase((String)accountType[0])) {
+                try {
+                    GenericAccount newAcc = (GenericAccount)((Class)accountType[1]).getDeclaredConstructor(String.class,IAccountHolder.class).newInstance(name,user);
+                    accounts.add(newAcc);
+                } catch(Exception e) {
+                    System.out.println("An internal error has occurred.");
+                }
+            }
+        }
+        /*
         if (type.length() >= 8){
             if (type.substring(0, 8).equals("chequing")) {
                 if (type.length() != 8) {
@@ -36,7 +57,7 @@ public class AccountHandler implements Serializable {
         }
         if (type.equals("chequing(primary)")) {
             checkChequingPrimary(accounts, name);
-        }
+        }*/
         return true;
     }
 
@@ -88,7 +109,7 @@ public class AccountHandler implements Serializable {
      * Assume account exists.
      */
     GenericAccount getAccountByName(String name) {
-        GenericAccount account = new ChequingAcc("BAD", user, false);
+        GenericAccount account = new ChequingAcc("BAD", user);
         for (GenericAccount a: accounts) {
             if (a.name.equals(name)) {
                 account =  a;
