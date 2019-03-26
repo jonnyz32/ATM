@@ -1,7 +1,8 @@
 public class WithdrawUncapped implements IWithdrawable{
 
     public double withdraw(double amount, double balance){
-        ATM_machine.withdrawBills((int)amount);
-        return balance - (int)amount;
+        int dollars = (int)amount;
+        ATM_machine.withdrawBills(dollars);
+        return balance - dollars;
     }
 }

@@ -5,9 +5,10 @@ public class WithdrawCapped implements IWithdrawable{
     }
 
     public double withdraw(double amount, double balance){
-        if (balance + minBalance >= (int)amount){
-            ATM_machine.withdrawBills((int)amount/5);
-            return balance - (int)amount;
+        int dollars = (int)amount;
+        if (balance + minBalance >= dollars){
+            ATM_machine.withdrawBills(dollars/5);
+            return balance - dollars;
         }
         else {
             System.out.println("You don't have enough money remaining to withdraw that much! Balance: " + balance);
