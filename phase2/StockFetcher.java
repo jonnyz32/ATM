@@ -21,20 +21,6 @@ public class StockFetcher implements Serializable {
 		return "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + symbol + "&apikey=" + apiKey;
 	}
 
-	public static void main(String[] args){
-		try {
-
-			StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
-			System.out.println(stockFetcher.getCurrentStockInfo("MSFT"));
-			System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
-			System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
-			System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
-			System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public HashMap<String, Double> getCurrentStockInfo(String symbol) throws IOException {
 		URL url = new URL(generateEndpoint(symbol));
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
