@@ -67,7 +67,7 @@ public class StockFetcher implements Serializable {
 		Matcher openMatch = openPattern.matcher(json);
 		if (openMatch.find()) {
 			String x = openMatch.group(0).replace("02. open\": ", "");
-			hashmap.put("open", x);
+			hashmap.put("open", Double.parseDouble(x));
 		}
 
 		Matcher highMatch = highPattern.matcher(json);
