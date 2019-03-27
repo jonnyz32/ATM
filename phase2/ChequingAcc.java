@@ -10,7 +10,7 @@ public class ChequingAcc extends GenericAccount implements Serializable {
         this.name = name;
         asset = true;
         type = "CHEQUING";
-        withdrawable = new WithdrawCappedNonNegative(-100);
+        withdrawable = new WithdrawDoubleCapped(-100);
         this.primary = false;
     }
 

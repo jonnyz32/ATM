@@ -1,8 +1,8 @@
 import java.io.Serializable;
 
-public class WithdrawCappedNonNegative implements IWithdrawable, Serializable {
+public class WithdrawDoubleCapped implements IWithdrawable, Serializable {
     private double minBalance;
-    WithdrawCappedNonNegative(int minBalance){
+    WithdrawDoubleCapped(int minBalance){
         this.minBalance = minBalance;
     }
 
