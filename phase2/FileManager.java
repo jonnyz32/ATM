@@ -24,9 +24,23 @@ public class FileManager {
         writeAlerts(alerts);
     }
 
+
+    void writeErrors(String error){
+        try {
+
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase2/errorLog.txt"), true));
+            writer.write(error);
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     ArrayList retrieveUsers(){
         try {
-            FileInputStream file = new FileInputStream(new File("users.txt"));
+            FileInputStream file = new FileInputStream(new File("phase2/users.txt"));
             ObjectInputStream objectStream = new ObjectInputStream(file);
 
             ArrayList users = (ArrayList) objectStream.readObject();
@@ -43,7 +57,7 @@ public class FileManager {
         try {
 //            balance += amount;
 
-            Writer writer = new BufferedWriter(new FileWriter(new File("outgoing.txt"), true));
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase2/outgoing.txt"), true));
 //            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
             writer.write(String.format("%s, %s, %s\n", username, destination, decimalFormat.format(amount)));
 
@@ -55,7 +69,7 @@ public class FileManager {
     }
 
     void saveUsers(List<ATM_User> users){
-        File userFile = new File("users.txt");
+        File userFile = new File("phase2/users.txt");
         try {
             FileOutputStream file = new FileOutputStream(userFile);
             ObjectOutputStream objectStream = new ObjectOutputStream(file);
@@ -69,7 +83,7 @@ public class FileManager {
     void writeAlerts(List<int[]> alertList){
         try {
 
-            Writer writer = new BufferedWriter(new FileWriter(new File("alerts.txt"), true));
+            Writer writer = new BufferedWriter(new FileWriter(new File("phase2/alerts.txt"), true));
 
             for (int[] x: alertList){
 
@@ -89,7 +103,7 @@ public class FileManager {
         try {
             int i = 0;
             int[] billList = new int[4];
-            FileReader file = new FileReader(new File("bills.txt"));
+            FileReader file = new FileReader(new File("phase2/bills.txt"));
             BufferedReader reader = new BufferedReader(file);
 
             String numBillsText = reader.readLine();
@@ -118,7 +132,7 @@ public class FileManager {
             billMap.put(3, 50);
 
 
-            FileWriter file = new FileWriter("bills.txt");
+            FileWriter file = new FileWriter("phase2/bills.txt");
             BufferedWriter writer = new BufferedWriter(file);
 
             for(int i = 0; i < billList.length; i++) {
@@ -136,7 +150,7 @@ public class FileManager {
 
         int[] depositArrayNum = new int[6];
         try {
-            FileReader file = new FileReader(new File("deposits.txt"));
+            FileReader file = new FileReader(new File("phase2/deposits.txt"));
             BufferedReader reader = new BufferedReader(file);
             String current = reader.readLine();
             int count = 0;

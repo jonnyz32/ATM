@@ -4,19 +4,34 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.GregorianCalendar;
 
-public class BankManager extends ATM_User implements IBankManager{
+public class BankManager extends ATM_User implements ILevelOneAccess, ILevelTwoAccess {
 
     /**
      * Requests are stored as a AccountCreationRequest<String username, String type, String accountName>
      */
     private static List<AccountCreationRequest> requests = new ArrayList<>();
 
-    public BankManager(String username, String password){
-        super(username, password);
+    private LevelOneAccessHandler levelOneAccessHandler;
+
+    BankManager(){
+        super(null, null);
     }
 
-    static List<AccountCreationRequest> getRequests(){
+    public BankManager(String username, String password){
+        super(username, password);
+        levelOneAccessHandler = new LevelOneAccessHandler();
+    }
+
+    public List<AccountCreationRequest> getRequests(){
         return requests;
+    }
+
+    public void addBills(int fives, int tens, int twenties, int fifties){
+        levelOneAccessHandler.addBills(fives, tens, twenties, fifties);
+    }
+
+    public void createNewCustomer(String username, String password) {
+        levelOneAccessHandler.createNewCustomer(username, password);
     }
 
     /**
@@ -29,81 +44,40 @@ public class BankManager extends ATM_User implements IBankManager{
     /**
      * Sets the ATM's date to the one specified, at 12:00 exactly.
      */
-    public boolean setSystemDate(int year, int month, int day){
-        try{
-            Calendar time = new GregorianCalendar(year, month - 1, day);
-            ATM_machine.setTime(time);
-        }
-        catch (Exception e){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Adds num bills of the specified type to the machine.
-     * @return Returns the new bill total, or -1 if the bill type cannot be found.
-     */
-    public int addBills(int type, int num){
-        int temp;
-        if (type==5){
-            temp = ATM_machine.getNumFives();
-            ATM_machine.setFives(temp + num);
-            return temp+num;
-        }
-        if (type==10){
-            temp = ATM_machine.getNumTens();
-            ATM_machine.setTens(temp + num);
-            return temp+num;
-        }
-        if (type==20){
-            temp = ATM_machine.getNumTwenties();
-            ATM_machine.setTwenties(temp + num);
-            return temp+num;
-        }
-        if (type==50){
-            temp = ATM_machine.getNumFifties();
-            ATM_machine.setFifties(temp + num);
-            return temp+num;
-        }
-        else {
-            return -1;
-        }
+    public void setSystemDate(int year, int month, int day) {
+        Calendar time = new GregorianCalendar(year, month - 1, day);
+        ATM_machine.setTime(time);
     }
 
     /**
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
-    public void undoTransaction(String username, String account){
+    public void undoTransaction(String username, String account) throws BadInputException{
         if (ATM_machine.getUser(username) instanceof IAccountHolder){
             IAccountHolder target = (IAccountHolder) ATM_machine.getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
             Thread t = new Thread(targetacc.lastTransReverter);
             t.start();
         }
+        else{
+            throw new BadInputException("User not accepted");
+        }
     }
 
     /**
      * Approves a customer's account creation request.
      */
-    public boolean approveAccount(int id){
+    public void approveAccount(int id) throws BadInputException {
         String username = requests.get(id).getUser();
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
         requests.remove(id);
         if (ATM_machine.getUser(username) instanceof IAccountHolder){
             IAccountHolder user = (IAccountHolder) ATM_machine.getUser(username);
-            return(user.addAccount(type, name));
+            user.addAccount(type, name);
         }
         else {
-            return false;
+            throw new BadInputException("Username not accepted");
         }
-    }
-
-    /**
-     * Creates a new customer with the given login credentials.
-     */
-    public boolean createNewCustomer(String username, String password){
-        return ATM_machine.addCustomer(username, password);
     }
 }
