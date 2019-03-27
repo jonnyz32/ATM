@@ -4,12 +4,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.GregorianCalendar;
 
-public class BankManager extends ATM_User implements IBankManager{
+public class BankManager extends ATM_User implements ILevelOneAccess, ILevelTwoAccess {
 
     /**
      * Requests are stored as a AccountCreationRequest<String username, String type, String accountName>
      */
     private static List<AccountCreationRequest> requests = new ArrayList<>();
+
+    private LevelOneAccessHandler levelOneAccessHandler;
 
     BankManager(){
         super(null, null);
@@ -17,10 +19,19 @@ public class BankManager extends ATM_User implements IBankManager{
 
     public BankManager(String username, String password){
         super(username, password);
+        levelOneAccessHandler = new LevelOneAccessHandler();
     }
 
-    static List<AccountCreationRequest> getRequests(){
+    public List<AccountCreationRequest> getRequests(){
         return requests;
+    }
+
+    public void addBills(int fives, int tens, int twenties, int fifties){
+        levelOneAccessHandler.addBills(fives, tens, twenties, fifties);
+    }
+
+    public void createNewCustomer(String username, String password) {
+        levelOneAccessHandler.createNewCustomer(username, password);
     }
 
     /**
@@ -68,12 +79,5 @@ public class BankManager extends ATM_User implements IBankManager{
         else {
             throw new BadInputException("Username not accepted");
         }
-    }
-
-    /**
-     * Creates a new customer with the given login credentials.
-     */
-    public void createNewCustomer(String username, String password){
-        ATM_machine.addCustomer(username, password);
     }
 }
