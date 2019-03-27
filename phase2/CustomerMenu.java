@@ -29,26 +29,33 @@ public class CustomerMenu extends TextInterface{
     }
 
     private void requestAccount(){
-        System.out.println("Options: chequing, credit, creditline, savings\n" +
-                "Which type of account?");
+        String[] validAccounts = new String[AccountHandler.accountList.length];
+        for(int i=0;i<AccountHandler.accountList.length;i++) {
+            validAccounts[i] = (String)AccountHandler.accountList[i][0];
+        }
+        System.out.print("Options: ");
+        for(String va : validAccounts) {
+            System.out.print(va+", ");
+        }
+        System.out.println();
+        System.out.println("Please select a type to request.");
         String accountType = "InvalidAccount";
         boolean loop = true;
-        String[] validAccounts = {"chequing","credit","creditline","savings"};
         while(loop) {
             accountType = nextLine().toLowerCase();
             for(String va : validAccounts) {
-                if(va.equals(accountType)) {
+                if(va.equalsIgnoreCase(accountType)) {
                     loop=false;
                 }
             }
         }
-        if (accountType.equals("chequing")) {
-            System.out.println("Would you like to make this your primary account (yes or no)");
-            String ans = nextLine();
-            if (ans.equals("yes")) {
-                accountType += "(primary)";
-            }
-        }
+        //if (accountType.equals("chequing")) {
+        //    System.out.println("Would you like to make this your primary account (yes or no)");
+        //    String ans = nextLine();
+        //    if (ans.equals("yes")) {
+        //        accountType += "(primary)";
+        //    }
+        //}
         System.out.println("What would you like to name your " + accountType + " account? (alphanumeric no spaces)");
         String accountName = nextLine();
         customer.requestAccount(accountType, accountName);
