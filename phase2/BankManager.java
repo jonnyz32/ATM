@@ -12,7 +12,7 @@ public class BankManager extends ATM_User implements IBankManager{
     private static List<AccountCreationRequest> requests = new ArrayList<>();
 
     BankManager(){
-        super("temp", "temp");
+        super(null, null);
     }
 
     public BankManager(String username, String password){

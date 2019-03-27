@@ -71,19 +71,15 @@ public class ATM_machine{
         return sdf.format(ATM_machine.getTime().getTime());
     }
 
-    static int[] get_bill_split(int amount) {
-        int[] bill_split = new int[4];
+    private static int[] get_bill_split(int amount) {
         int fifties = amount / 50;
-        bill_split[0] = fifties;
-        int rem_50 = amount % 50;
-        int twenties = rem_50 / 20;
-        bill_split[1] = twenties;
-        int rem_10 = rem_50 % 20;
-        int tens = rem_10 / 10;
-        bill_split[2] = tens;
-        int rem_5 = rem_10 % 10;
-        int fives = rem_5 / 5;
-        bill_split[3] = fives;
+        amount -= fifties*50;
+        int twenties = amount / 20;
+        amount -= twenties*20;
+        int tens = amount / 10;
+        amount -= tens*10;
+        int fives = amount / 5;
+        int[] bill_split = {fives, tens, twenties, fifties};
         return bill_split;
     }
 }
