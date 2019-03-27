@@ -18,6 +18,10 @@ public class StockAccount extends GenericAccount implements Serializable {
 		profitFromTrading = 0.0;
 	}
 
+	public HashMap<String, CompanyStock> getPortfolio(){
+		return portfolio;
+	}
+
 	public void viewPortfolio(){
 		for (CompanyStock stock : portfolio.values()){
 			System.out.println(stock.getSymbol());
@@ -68,6 +72,8 @@ public class StockAccount extends GenericAccount implements Serializable {
 				Share boughtShares = new Share(symbol, stockInfo.get("price"), shares);
 				addToPortfolio(boughtShares);
 
+				this.balance -= (shares * stockInfo.get("price"));
+
 				System.out.println("SUCCESS");
 
 			} else {
@@ -90,6 +96,8 @@ public class StockAccount extends GenericAccount implements Serializable {
 				double totalCostOfBuyingTheseShares = companyStock.sell(shares);
 				double priceSoldFor = shares * currentPrice;
 				this.profitFromTrading += priceSoldFor - totalCostOfBuyingTheseShares;
+				this.balance += priceSoldFor- totalCostOfBuyingTheseShares;
+
 			} else{
 				System.out.println("You do not own enough shares.");
 			}
