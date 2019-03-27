@@ -2,7 +2,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-
 public class ATM_machine{
 
     //the final ints represent the indexes in an array of bill quantities, with the index corresponding to their
@@ -22,23 +21,22 @@ public class ATM_machine{
         date.add(Calendar.DAY_OF_MONTH, 1);
         bills = fileManager.retrieveBills();
         userManager = new UserManager();
-        MainMenuGUI.main();
+        new MainMenu().showMenu();
     }
 
-    static public void onExit() {
+    static void onExit() {
         fileManager.writeBills(bills);
         userManager.saveUsers();
         userManager.checkInterest();
     }
 
     static ATM_User getUser(String name){
-    	ATM_User user = userManager.getUser(name);
-        return user;
+        return userManager.getUser(name);
     }
 
 
-    static boolean addCustomer(String username, String password){
-        return userManager.addCustomer(username, password);
+    static void addCustomer(String username, String password){
+        userManager.addCustomer(username, password);
     }
 
     static Calendar getTime(){return date;}
@@ -49,23 +47,38 @@ public class ATM_machine{
     static int getNumTwenties(){return bills[TWENTY];}
     static int getNumTens(){return bills[TEN];}
     static int getNumFives(){return bills[FIVE];}
+    static int[] getNumBills(){return bills;}
 
-    //These methods will be called from inside the Manager class.
-    static void setFifties(int numBills){
-        bills[FIFTY] = numBills;
+    static void depositBills(int fives, int tens, int twenties, int fifties) {
+        int[] billsToAdd = {fives, tens, twenties, fifties};
+        for(int i=0; i<4; i++) {
+            bills[i] += billsToAdd[i];
+        }
+        ATM_machine.fileManager.writeBills(bills);
     }
-    static void setTwenties(int numBills){
-        bills[TWENTY] = numBills;
-    }
-    static void setTens(int numBills){
-        bills[TEN] = numBills;
-    }
-    static void setFives(int numBills){
-        bills[FIVE] = numBills;
+
+    static void withdrawBills(int amount){
+        int[] billsToRemove = get_bill_split(amount);
+        for(int i=0; i<4; i++) {
+            bills[i] -= billsToRemove[i];
+        }
+        ATM_machine.fileManager.writeBills(bills);
+        ATM_machine.fileManager.checkForAlert();
     }
 
     static String getTimeFormatted(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
         return sdf.format(ATM_machine.getTime().getTime());
+    }
+
+    private static int[] get_bill_split(int amount) {
+        int fifties = amount / 50;
+        amount -= fifties*50;
+        int twenties = amount / 20;
+        amount -= twenties*20;
+        int tens = amount / 10;
+        amount -= tens*10;
+        int fives = amount / 5;
+        return new int[] {fives, tens, twenties, fifties};
     }
 }
