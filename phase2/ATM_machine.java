@@ -24,7 +24,7 @@ public class ATM_machine{
         new MainMenu().showMenu();
     }
 
-    static public void onExit() {
+    static void onExit() {
         fileManager.writeBills(bills);
         userManager.saveUsers();
         userManager.checkInterest();
@@ -35,8 +35,8 @@ public class ATM_machine{
     }
 
 
-    static boolean addCustomer(String username, String password){
-        return userManager.addCustomer(username, password);
+    static void addCustomer(String username, String password){
+        userManager.addCustomer(username, password);
     }
 
     static Calendar getTime(){return date;}
@@ -79,7 +79,6 @@ public class ATM_machine{
         int tens = amount / 10;
         amount -= tens*10;
         int fives = amount / 5;
-        int[] bill_split = {fives, tens, twenties, fifties};
-        return bill_split;
+        return new int[] {fives, tens, twenties, fifties};
     }
 }
