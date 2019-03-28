@@ -47,38 +47,17 @@ public class ATM_machine{
     static int getNumTwenties(){return bills[TWENTY];}
     static int getNumTens(){return bills[TEN];}
     static int getNumFives(){return bills[FIVE];}
-    static int[] getNumBills(){return bills;}
 
     static void depositBills(int fives, int tens, int twenties, int fifties) {
-        int[] billsToAdd = {fives, tens, twenties, fifties};
-        for(int i=0; i<4; i++) {
-            bills[i] += billsToAdd[i];
-        }
-        ATM_machine.fileManager.writeBills(bills);
+        billHandler.depositBills(fives, tens, twenties, fifties);
     }
 
     static void withdrawBills(int amount){
-        int[] billsToRemove = get_bill_split(amount);
-        for(int i=0; i<4; i++) {
-            bills[i] -= billsToRemove[i];
-        }
-        ATM_machine.fileManager.writeBills(bills);
-        ATM_machine.fileManager.checkForAlert();
+        billHandler.withdrawBills(amount);
     }
 
     static String getTimeFormatted(){
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
         return sdf.format(ATM_machine.getTime().getTime());
-    }
-
-    private static int[] get_bill_split(int amount) {
-        int fifties = amount / 50;
-        amount -= fifties*50;
-        int twenties = amount / 20;
-        amount -= twenties*20;
-        int tens = amount / 10;
-        amount -= tens*10;
-        int fives = amount / 5;
-        return new int[] {fives, tens, twenties, fifties};
     }
 }

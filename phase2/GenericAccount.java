@@ -47,13 +47,6 @@ public abstract class GenericAccount implements Serializable {
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
         past_trans.add(lastTransText);
 
-        int[] bills = ATM_machine.fileManager.retrieveBills();
-        bills[0] = bills[0] + fives;
-        bills[1] = bills[1] + tens;
-        bills[2] = bills[2] + twenties;
-        bills[3] = bills[3] + fifties;
-
-        ATM_machine.fileManager.writeBills(bills);
     }
 
 
