@@ -50,7 +50,8 @@ public abstract class GenericAccount implements Serializable {
     }
 
 
-    void depositForeignCurrency(String currency, double amount) throws Exception{
+    void depositForeignCurrency(String currency, double amount){
+
         double amountInCanadian = currencyConverter.convertCurrency(currencyConverter.currencySymbolGetter(currency),
                 amount);
         balance += amountInCanadian;
@@ -59,7 +60,7 @@ public abstract class GenericAccount implements Serializable {
         lastTransReverter =  (Runnable & Serializable) this::revertDeposit;
     }
 
-    void withdrawForeignCurrency(String currency, double amount) throws Exception{
+    void withdrawForeignCurrency(String currency, double amount){
         double amountInCanadian = currencyConverter.convertCurrency(currencyConverter.currencySymbolGetter(currency),
                 amount);
         balance -= amountInCanadian;

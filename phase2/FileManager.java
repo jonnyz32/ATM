@@ -29,7 +29,7 @@ public class FileManager {
         try {
 
             Writer writer = new BufferedWriter(new FileWriter(new File("phase2/errorLog.txt"), true));
-            writer.write(error);
+            writer.write(error +"\n");
             writer.close();
 
         } catch (IOException e) {
