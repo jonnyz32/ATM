@@ -1,30 +1,33 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AccountMenu{
 
     private GenericAccount account;
-    final Scanner in = new Scanner(System.in);
 
     public AccountMenu(GenericAccount account){
         this.account = account;
     }
 
     void getLastTransaction(){
-        System.out.println("Last Transaction:");
         String latest = account.getLatestTransaction();
-        System.out.println(latest);
+
+        JFrame notice = new JFrame();
+        String infoMessage = "Last Transaction: "+latest;
+        JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
     }
 
     void showBalance() {
-        System.out.print("This account has a ");
+        String accountType = "";
         if(account.isAsset()) {
-            System.out.print("debit");
+            accountType = "debit";
         } else {
-            System.out.print("credit");
+            accountType = "credit";
         }
-        System.out.println(" balance of:");
-        System.out.println("$"+account.getBalance());
+        JFrame notice = new JFrame();
+        String infoMessage = "This account has a "+ accountType +" balance of: "+"$"+account.getBalance();
+        JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
     }
 
     void depositFromFile(){
@@ -32,36 +35,79 @@ public class AccountMenu{
     }
 
     void depositCash() {
-        System.out.println("How many fives?");
-        int fives = in.nextInt();
-        System.out.println("How many tens?");
-        int tens = in.nextInt();
-        System.out.println("How many twenties?");
-        int twenties = in.nextInt();
-        System.out.println("How many fifties?");
-        int fifties = in.nextInt();
-        account.depositCash(fives, tens, twenties, fifties);
+        JFrame fiveFrame = new JFrame();
+        String strFive = JOptionPane.showInputDialog(fiveFrame, "How many fives?");
+        JFrame tenFrame = new JFrame();
+        String strTen = JOptionPane.showInputDialog(tenFrame, "How many tens?");
+        JFrame twentyFrame = new JFrame();
+        String strTwenty = JOptionPane.showInputDialog(twentyFrame, "How many twenties?");
+        JFrame fiftyFrame = new JFrame();
+        String strFifty = JOptionPane.showInputDialog(fiftyFrame, "How many fifties?");
+
+        int numFive = -1;
+        int numTen = -1;
+        int numTwenty = -1;
+        int numFifty = -1;
+        if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+            if (BankManagerMenuGUI.isNumeric(strFive) && BankManagerMenuGUI.isNumeric(strTen) &&
+                    BankManagerMenuGUI.isNumeric(strTwenty) && BankManagerMenuGUI.isNumeric(strFifty)){
+                numFive = Integer.parseInt(strFive);
+                numTen = Integer.parseInt(strTen);
+                numTwenty = Integer.parseInt(strTwenty);
+                numFifty = Integer.parseInt(strFifty);
+            }
+            else{
+                BankManagerMenuGUI.showInputError();
+                return;
+            }
+        }
+        else{
+            BankManagerMenuGUI.showInputError();
+            return;
+        }
+        int result = -1;
+        if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+            account.depositCash(numFive, numTen, numTwenty, numFifty);
+            BankManagerMenuGUI.showSuccess();
+        }
+
+
     }
 
     void transferToSelf(){
-        System.out.println("Amount to transfer?");
-        double amount = in.nextDouble();
-        System.out.println("Account to transfer to?");
+        JFrame amountFrame = new JFrame();
+        String strAmount = JOptionPane.showInputDialog(amountFrame, "Amount to transfer?");
+        double doubleAmount = 0;
+        if(strAmount != null){
+            doubleAmount = Double.parseDouble(strAmount);
+        }
+        else{
+            BankManagerMenuGUI.showInputError();
+            return;
+        }
+        JFrame destinationFrame = new JFrame();
+        String other_acc_name = JOptionPane.showInputDialog(destinationFrame, "Account to transfer to?");
         //TODO add options
-        String other_acc_name = in.nextLine();
-        GenericAccount other_acc = account.owner.getAccountByName(other_acc_name);
-        TransferManager tm = new TransferManager(account, amount, other_acc);
-        tm.make_transfer();
+        if(doubleAmount != 0 && other_acc_name != null) {
+            GenericAccount other_acc = account.owner.getAccountByName(other_acc_name);
+            TransferManager tm = new TransferManager(account, doubleAmount, other_acc);
+            tm.make_transfer();
+            BankManagerMenuGUI.showSuccess();
+        }
+        else{
+            BankManagerMenuGUI.showInputError();
+            return;
+        }
+
     }
 
     private IAccountHolder transferToOther_helper() {
         // Get the user and the account
-        System.out.println("Who would you like to transfer to");
-        String other_username = in.nextLine();
+        JFrame destinationFrame = new JFrame();
+        String other_username = JOptionPane.showInputDialog(destinationFrame, "Who would you like to transfer to");
         ATM_User other_user = ATM_machine.getUser(other_username);
         if (other_user == null) {
-            System.out.println("That username does not exist, please try another user.");
-            transferToOther_helper();
+            BankManagerMenuGUI.showInputError();
         }
         if (other_user instanceof IAccountHolder) {
             return (IAccountHolder) other_user;
@@ -71,29 +117,63 @@ public class AccountMenu{
 
     void transferToOther(){
         IAccountHolder other_user = transferToOther_helper();
-        String message = "Which account of " + other_user.getUsername() + " would you like to transfer to?";
-        System.out.println(message);
-        String other_acc_name = in.nextLine();
+        JFrame destinationFrame = new JFrame();
+        String other_acc_name = JOptionPane.showInputDialog(destinationFrame, "Which account of " + other_user.getUsername() + " would you like to transfer to?");
+
         GenericAccount other_acc = other_user.getAccountByName(other_acc_name);
-        System.out.println("How much would you like to transfer?");
-        double amount = in.nextDouble();
-        TransferManager tm = new TransferManager(account, amount, other_acc);
-        tm.make_transfer();
+        if (other_acc == null) {
+            BankManagerMenuGUI.showInputError();
+            return;
+        }
+        JFrame amountFrame = new JFrame();
+        String strAmount = JOptionPane.showInputDialog(amountFrame, "Amount to transfer?");
+        double doubleAmount = 0;
+        if(strAmount != null){
+            doubleAmount = Double.parseDouble(strAmount);
+            TransferManager tm = new TransferManager(account, doubleAmount, other_acc);
+            tm.make_transfer();
+        }
+        else{
+            BankManagerMenuGUI.showInputError();
+            return;
+        }
     }
 
     void transferToExternal(){
-        System.out.println("What bill would you like to pay?");
-        String name = in.nextLine();
-        System.out.println("How much are you paying?");
-        double amount = in.nextDouble();
-        account.transferToExternal(name, amount);
+        JFrame destinationFrame = new JFrame();
+        String name = JOptionPane.showInputDialog(destinationFrame, "What bill would you like to pay?");
+
+        JFrame amountFrame = new JFrame();
+        String strAmount = JOptionPane.showInputDialog(amountFrame, "Amount to transfer?");
+        double doubleAmount = 0;
+        if(strAmount != null && name != null) {
+            doubleAmount = Double.parseDouble(strAmount);
+            account.transferToExternal(name, doubleAmount);
+        }
+        else{
+            BankManagerMenuGUI.showInputError();
+            return;
+        }
     }
 
     void withdraw(){
-        System.out.println("How much would you like to withdraw?");
-        System.out.println("Amount should be a multiple of 5");
-        int amount = in.nextInt();
-        account.withdraw(amount);
-//        System.out.println("You don't have enough money to withdraw this much! Balance: " + account.getBalance());
+        JFrame amountFrame = new JFrame();
+        String strAmount = JOptionPane.showInputDialog(amountFrame, "How much would you like to withdraw? (Should be a multiple of 5)");
+        int amount = 0;
+        if (strAmount != null){
+            amount = Integer.parseInt(strAmount);
+            if(amount %5 == 0 && amount <= account.getBalance()){
+                account.withdraw(amount);
+            }
+            else{
+                JFrame notice = new JFrame();
+                String infoMessage = "You either don't have enough money to withdraw that much, or you didn't input a multiple of 5. Try again. Balance: "+ account.getBalance();
+                JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+        }
+        else{
+            BankManagerMenuGUI.showInputError();
+        }
     }
 }

@@ -1,19 +1,11 @@
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
-import javax.swing.JPanel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 
 public class CustomerMenuGUI {
 
@@ -73,34 +65,49 @@ public class CustomerMenuGUI {
 		btnConfirm.setVisible(false);
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String listOption = accountList.getSelectedValue();
-				String accountName = "";
-				for(int i = 0; i < listOption.length(); i++) {
-					if (listOption.charAt(i) != ',')
-						accountName += listOption.charAt(i);
-					else
-						break;
-				}
-				GenericAccount accountToDisplay = customer.getAccountByName(accountName);
-				if (accountToDisplay.type.equalsIgnoreCase("CREDIT CARD")) {
-					customerfrm.setVisible(false);
-					CreditCardMenuGUI window = new CreditCardMenuGUI(accountToDisplay, user);
-	                window.creditCardfrm.setVisible(true);
-				}
-				else if (accountToDisplay.type.equalsIgnoreCase("SAVINGS")) {
-					customerfrm.setVisible(false);
-					SavingsMenuGUI window = new SavingsMenuGUI(accountToDisplay, user);
-	                window.savingsfrm.setVisible(true);
-				}
-				else if (accountToDisplay.type.equalsIgnoreCase("CREDITLINE")) {
-					customerfrm.setVisible(false);
-					CreditLineMenuGUI window = new CreditLineMenuGUI(accountToDisplay, user);
-	                window.creditlinefrm.setVisible(true);
+				if (btnConfirm.getText() == "View selected account") {
+					String listOption = accountList.getSelectedValue();
+					String accountName = "";
+					for(int i = 0; i < listOption.length(); i++) {
+						if (listOption.charAt(i) != ',')
+							accountName += listOption.charAt(i);
+						else
+							break;
+					}
+					GenericAccount accountToDisplay = customer.getAccountByName(accountName);
+					if (accountToDisplay.type.equalsIgnoreCase("CREDIT CARD")) {
+						customerfrm.setVisible(false);
+						CreditCardMenuGUI window = new CreditCardMenuGUI(accountToDisplay, user);
+		                window.creditCardfrm.setVisible(true);
+					}
+					else if (accountToDisplay.type.equalsIgnoreCase("SAVINGS")) {
+						customerfrm.setVisible(false);
+						SavingsMenuGUI window = new SavingsMenuGUI(accountToDisplay, user);
+		                window.savingsfrm.setVisible(true);
+					}
+					else if (accountToDisplay.type.equalsIgnoreCase("CREDITLINE")) {
+						customerfrm.setVisible(false);
+						CreditLineMenuGUI window = new CreditLineMenuGUI(accountToDisplay, user);
+		                window.creditlinefrm.setVisible(true);
+					}
+					else {
+						customerfrm.setVisible(false);
+						ChequingMenuGUI window = new ChequingMenuGUI(accountToDisplay, user);
+		                window.chequingfrm.setVisible(true);
+					}
 				}
 				else {
-					customerfrm.setVisible(false);
-					ChequingMenuGUI window = new ChequingMenuGUI(accountToDisplay, user);
-	                window.chequingfrm.setVisible(true);
+					String listOption = accountList.getSelectedValue();
+					JFrame accountNameFrame = new JFrame();
+				    String name = JOptionPane.showInputDialog(accountNameFrame, "What would you like to name your " + listOption + " account? (alphanumeric no spaces)");
+				    if(name != null && BankManagerMenuGUI.isAlphaNumeric(name)) {
+						customer.requestAccount(listOption, name);
+						BankManagerMenuGUI.showSuccess();
+				    }
+				    else {
+				    	BankManagerMenuGUI.showInputError();
+				    }
+					
 				}
 			}
 		});
@@ -112,8 +119,9 @@ public class CustomerMenuGUI {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String summary = customer.getFullSummary();
-			        System.out.println(summary);
-                    
+					JFrame notice = new JFrame();
+					String infoMessage = summary;
+					JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
             	}
 				catch (Exception j) {
             			j.printStackTrace();
@@ -126,26 +134,20 @@ public class CustomerMenuGUI {
 		JButton btnRequestAccountCreation = new JButton("Request account creation");
 		btnRequestAccountCreation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnConfirm.setText("Request this type");
+				btnConfirm.setVisible(true);
+				accountList.setVisible(true);
+				scrollPane.setVisible(true);
 				String[] validAccounts = new String[AccountHandler.accountList.length];
 				for(int i=0;i<AccountHandler.accountList.length;i++) {
 					validAccounts[i] = (String)AccountHandler.accountList[i][0];
 				}
-				System.out.print("Options: ");
+				model.clear();
 				for(String va : validAccounts) {
-					System.out.print(va+", ");
+					model.addElement(va);
 				}
-				System.out.println();
-				System.out.println("Please select a type to request.");
-				String accountType = "InvalidAccount";
-				boolean loop = true;
-				while(loop) {
-					accountType = in.nextLine().toLowerCase();
-					for(String va : validAccounts) {
-						if(va.equalsIgnoreCase(accountType)) {
-							loop=false;
-						}
-					}
-				}
+
+
 				//if (accountType.equals("chequing")) {
 				//    System.out.println("Would you like to make this your primary account (yes or no)");
 				//    String ans = nextLine();
@@ -153,10 +155,6 @@ public class CustomerMenuGUI {
 				//        accountType += "(primary)";
 				//    }
 				//}
-				System.out.println("What would you like to name your " + accountType + " account? (alphanumeric no spaces)");
-				String accountName = in.nextLine();
-				customer.requestAccount(accountType, accountName);
-				System.out.println("Request sent!");
 			}
 		});
 		btnRequestAccountCreation.setBounds(42, 85, 224, 29);
@@ -166,8 +164,9 @@ public class CustomerMenuGUI {
 		btnNetTotal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				double total = customer.getNetTotal();
-				System.out.println("Your net total is :");
-				System.out.println("$"+total);
+				JFrame notice = new JFrame();
+				String infoMessage = "Your net total is : $" +total;
+				JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnNetTotal.setBounds(43, 126, 223, 29);
@@ -187,8 +186,10 @@ public class CustomerMenuGUI {
 		JButton btnViewSpecfic = new JButton("View specific account");
 		btnViewSpecfic.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnConfirm.setText("View selected account");
 				accountList.setVisible(true);
 				scrollPane.setVisible(true);
+				model.clear();
 				btnConfirm.setVisible(true);
 				ArrayList<GenericAccount> accounts = customer.getAccounts();
 				for(int i = 0; i < accounts.size(); i++) {
