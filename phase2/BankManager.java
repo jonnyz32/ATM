@@ -60,10 +60,15 @@ public class BankManager extends ATM_User implements ILevelOneAccess, ILevelTwoA
                 throw new BadInputException("This account does not have that many transactions");
             }
             else {
-                for (int i = 0; i < n_trans; i++) {
-                    Thread t = new Thread(targetacc.lastTransReverter);
-                    t.start();
+                //Get Right Reverters.
+                int size = targetacc.past_reverters.size();
+                List<Runnable> reverts = targetacc.past_reverters.subList(size - n_trans, size);
+                for (int i = reverts.size() - 1; i >= 0; i--) {
+                    reverts.get(i).run();
                 }
+            }
+            for (int i = 1; i <= n_trans; i++) {
+                targetacc.past_reverters.remove(targetacc.past_reverters.size() - 1);
             }
         }
         else{

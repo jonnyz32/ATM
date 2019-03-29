@@ -36,6 +36,7 @@ public class TransferManager implements Serializable {
         String s = originAcc.lastTransText;
         originAcc.past_trans.add(s);
         originAcc.lastTransReverter = (Runnable & Serializable) this::revert_transfer;
+        originAcc.past_reverters.add(originAcc.lastTransReverter);
 
     }
 

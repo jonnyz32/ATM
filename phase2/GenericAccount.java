@@ -19,6 +19,7 @@ public abstract class GenericAccount implements Serializable {
     String type;
     private StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
     private CurrencyConverter currencyConverter = new CurrencyConverter(stockFetcher);
+    ArrayList<Runnable> past_reverters;
 
 
     Runnable lastTransReverter;
@@ -32,6 +33,7 @@ public abstract class GenericAccount implements Serializable {
         creation_date = ATM_machine.getTime();
         lastTransText = "No transactions have been made";
         past_trans.add(lastTransText);
+        past_reverters = new ArrayList<Runnable>();
     }
 
     void depositCash(int fives, int tens, int twenties, int fifties) {
@@ -44,6 +46,7 @@ public abstract class GenericAccount implements Serializable {
         ATM_machine.depositBills(fives, tens, twenties, fifties);
 
         lastTransReverter = (Runnable & Serializable) this::revertDeposit;
+        past_reverters.add(lastTransReverter);
         lastTransText = "Deposited cash amount of $"+total + " to: " + name;
         past_trans.add(lastTransText);
 
@@ -87,6 +90,7 @@ public abstract class GenericAccount implements Serializable {
         }
         lastTransText = "Deposited cheque of $"+ amount + " to: " + name;
         lastTransReverter = (Runnable & Serializable) this::revertDeposit ;
+        past_reverters.add(lastTransReverter);
     }
     void revertDeposit() {
         if(asset) {
