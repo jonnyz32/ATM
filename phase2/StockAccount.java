@@ -30,7 +30,7 @@ public class StockAccount extends GenericAccount implements Serializable {
 			}
 		}
 	}
-	public double checkSymbolPrice(String symbol){
+	public double checkSymbolPrice(String symbol) throws BadInputException {
 		try {
 			HashMap stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 			double price = (double) stockInfo.get("price");
@@ -38,11 +38,10 @@ public class StockAccount extends GenericAccount implements Serializable {
 			return price;
 
 		} catch (IOException e) {
-			e.printStackTrace();
-			return 0.0;
+			throw new BadInputException("Symbol Does Not Exist");
 		}
 	}
-	public void checkSymbolDetailedInfo(String symbol){
+	public void checkSymbolDetailedInfo(String symbol) throws BadInputException {
 		try {
 			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 			double price = stockInfo.get("price");
@@ -56,14 +55,14 @@ public class StockAccount extends GenericAccount implements Serializable {
 			System.out.println("Price: " + price + " Open: " + open+ " High: " + high+ " Low: " + low+ " Volume"  + volume+ " Change:" + change);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new BadInputException("Symbol Does Not Exist");
 		}
 	}
 	public void viewProfit(){
 		System.out.println(this.profitFromTrading);
 	}
 
-	public void purchaseShares(String symbol, int shares){
+	public void purchaseShares(String symbol, int shares) throws BadInputException {
 		try {
 			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 
@@ -78,16 +77,16 @@ public class StockAccount extends GenericAccount implements Serializable {
 
 			} else {
 
-				System.out.println("FAILURE");
+				throw new BadInputException("Not Enough Balance");
 
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new BadInputException("Symbol Does Not Exist");
 		}
 	}
 
-	public void sellShares(String symbol, int shares){
+	public void sellShares(String symbol, int shares) throws BadInputException {
 		double currentPrice = checkSymbolPrice(symbol);
 		if (portfolio.containsKey(symbol)){
 			CompanyStock companyStock = portfolio.get(symbol);
@@ -99,11 +98,11 @@ public class StockAccount extends GenericAccount implements Serializable {
 				this.balance += priceSoldFor- totalCostOfBuyingTheseShares;
 
 			} else{
-				System.out.println("You do not own enough shares.");
+				throw new BadInputException("You don't own enough shares");
 			}
 
 		} else{
-			System.out.println("You do not own shares of this stock. ");
+			throw new BadInputException("You don't own this stock");
 		}
 	}
 

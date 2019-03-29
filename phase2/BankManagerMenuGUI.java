@@ -73,38 +73,33 @@ public class BankManagerMenuGUI {
 			    String strMonth = JOptionPane.showInputDialog(monthFrame, "Input month (numerical value):");
 			    JFrame dayFrame = new JFrame();
 			    String strDay = JOptionPane.showInputDialog(dayFrame, "Input day (numerical value):");
-				
-			    if(strYear != null && strMonth != null && strDay != null) {
-			    	if(isNumeric(strYear) && isNumeric(strMonth) && isNumeric(strDay)) {
-			    		if(Integer.parseInt(strYear) > 0 && Integer.parseInt(strMonth) > 0 && Integer.parseInt(strMonth) < 13 && 
-			    				Integer.parseInt(strDay) > 0 && Integer.parseInt(strDay) < 32) {
-				    		int year = Integer.parseInt(strYear);
-				    		int month = Integer.parseInt(strMonth);
-				    		int day = Integer.parseInt(strDay);
-				    		manager.setSystemDate(year, month, day);
-				    		JFrame notice = new JFrame();
-				        	String infoMessage = "Success! System time set to: " + ATM_machine.getTimeFormatted();
-				        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
-			    		}
-			    		else {
-			    			JFrame notice = new JFrame();
-				        	String infoMessage = "Invalid inputs. Only input numbers that represent years, months, and years.";
-				        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
-			    		}
-			    	}
-			    	else {
-			    		JFrame notice = new JFrame();
-			        	String infoMessage = "Invalid inputs. Only input numbers that represent years, months, and years.";
-			        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
-			    	}
-			    }
-			    else {
-			    	JFrame notice = new JFrame();
-		        	String infoMessage = "Invalid inputs. Only input numbers that represent years, months, and years.";
-		        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
-			    }
-			   
 
+				if(strYear != null && strMonth != null && strDay != null) {
+					if(isNumeric(strYear) && isNumeric(strMonth) && isNumeric(strDay)) {
+						if(Integer.parseInt(strYear) > 0 && Integer.parseInt(strMonth) > 0 && Integer.parseInt(strMonth) < 13 &&
+								Integer.parseInt(strDay) > 0 && Integer.parseInt(strDay) < 32) {
+							int year = Integer.parseInt(strYear);
+							int month = Integer.parseInt(strMonth);
+							int day = Integer.parseInt(strDay);
+							manager.setSystemDate(year, month, day);
+							JFrame notice = new JFrame();
+							String infoMessage = "Success! System time set to: " + ATM_machine.getTimeFormatted();
+							JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+						}
+						else {
+							showInputError();
+							return;
+						}
+					}
+					else {
+						showInputError();
+						return;
+					}
+				}
+				else {
+					showInputError();
+					return;
+				}
 			}
 		});
 		btnSetDate.setBounds(27, 47, 207, 29);
@@ -126,22 +121,27 @@ public class BankManagerMenuGUI {
 			    int numTen = -1;
 			    int numTwenty = -1;
 			    int numFifty = -1;
-			    if(strFive != null) 
-			    	numFive = Integer.parseInt(strFive);
-			    if(strTen != null) 
-			    	numTen = Integer.parseInt(strTen);
-			    if(strTwenty != null) 
-			    	numTwenty = Integer.parseInt(strTwenty);
-			    if(strFifty != null) 
-			    	numFifty = Integer.parseInt(strFifty);
-			    
+			    if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+					if (isNumeric(strFive) && isNumeric(strTen) && isNumeric(strTwenty) && isNumeric(strFifty)){
+						numFive = Integer.parseInt(strFive);
+						numTen = Integer.parseInt(strTen);
+						numTwenty = Integer.parseInt(strTwenty);
+						numFifty = Integer.parseInt(strFifty);
+					}
+					else{
+						showInputError();
+						return;
+					}
+				}
+			    else{
+			    	showInputError();
+			    	return;
+				}
 			    int result = -1;
-			    if(strFive != null && strTen != null && strTwenty != null && strFifty != null)
-			    	manager.addBills(numFive, numTen, numTwenty, numFifty);
-		        
-	        	JFrame notice = new JFrame();
-	        	String infoMessage = "Success";
-	        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+			    if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+					manager.addBills(numFive, numTen, numTwenty, numFifty);
+					showSuccess();
+				}
 		        
 			}
 		});
@@ -155,13 +155,35 @@ public class BankManagerMenuGUI {
 			    String strUser = JOptionPane.showInputDialog(userFrame, "Input target user:");
 			    JFrame accountFrame = new JFrame();
 			    String strAccount = JOptionPane.showInputDialog(accountFrame, "Input account name:");
-			    if(strUser != null && strAccount != null)
+				JFrame numFrame = new JFrame();
+				String strNum = JOptionPane.showInputDialog(accountFrame, "How many of the transactions would you like to undo:");
+				int numTransactions = -1;
+				if(strNum != null){
+					if(isNumeric(strNum)){
+						numTransactions = Integer.parseInt(strNum);
+					}
+					else{
+						showInputError();
+						return;
+					}
+				}
+				else{
+					showInputError();
+					return;
+				}
+			    if(strUser != null && strAccount != null && numTransactions != -1) {
 					try {
-						manager.undoTransaction(strUser, strAccount);
+						manager.undoTransaction(strUser, strAccount, numTransactions);
+						showSuccess();
 					} catch (BadInputException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}
+			    else{
+					showInputError();
+					return;
+				}
 			}
 		});
 		btnUndo.setBounds(27, 129, 207, 29);
@@ -179,16 +201,14 @@ public class BankManagerMenuGUI {
         scrollPane.setViewportView(accountList);
         
         JButton btnConfirm = new JButton("Approve selected request");
-		btnConfirm.setBounds(258, 211, 168, 29);
+		btnConfirm.setBounds(238, 211, 206, 29);
 		btnConfirm.setVisible(false);
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int listOption = accountList.getSelectedIndex();
 				try {
 					manager.approveAccount(listOption);
-					JFrame notice = new JFrame();
-		        	String infoMessage = "Success";
-		        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+					showSuccess();
 		        	List<AccountCreationRequest> requests = manager.getRequests();
 		        	model.clear();
 		        	for(AccountCreationRequest request: requests){
@@ -241,14 +261,11 @@ public class BankManagerMenuGUI {
 			    String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
 			    if(strUser != null && isAlphaNumeric(strUser) && strPass != null && isAlphaNumeric(strPass)) {
 			    	manager.createNewCustomer(strUser, strPass);
-		        	JFrame notice = new JFrame();
-		        	String infoMessage = "Success!";
-		        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+		        	showSuccess();
 			    }
 			    else {
-			    	JFrame notice = new JFrame();
-		        	String infoMessage = "Incorrect input. Please try again, with only alphanumeric characters.";
-		        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+			    	showInputError();
+			    	return;
 			    }
 			}
 		});
@@ -278,5 +295,17 @@ public class BankManagerMenuGUI {
 	public static boolean isNumeric(String s) {
 		Pattern p = Pattern.compile("^[0-9]*$");
 		return p.matcher(s).find();
+	}
+
+	public static void showInputError() {
+		JFrame notice = new JFrame();
+		String infoMessage = "Invalid inputs. Try again.";
+		JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public static void showSuccess(){
+		JFrame notice = new JFrame();
+		String infoMessage = "Success";
+		JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 }
