@@ -22,19 +22,6 @@ public class StockFetcher implements Serializable {
 	}
 
 
-	public void main(String[] args){
-		try {
-			getCurrentStockInfo("MSFT");
-			StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
-			System.out.println(stockFetcher.getCurrentStockInfo("EURCAD"));
-			System.out.println(stockFetcher.getCurrentStockInfo("CNYCAD"));
-			System.out.println(stockFetcher.getCurrentStockInfo("RUBCAD"));
-			System.out.println(stockFetcher.getCurrentStockInfo("GBPCAD"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public HashMap<String, Double> getCurrentStockInfo(String symbol) throws IOException {
 		URL url = new URL(generateEndpoint(symbol));
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -103,12 +90,11 @@ public class StockFetcher implements Serializable {
 		return hashmap;
 	}
 
-	double getPrice(String symbol){
+	double getPrice(String symbol) throws BadInputException {
 		try {
 			return getCurrentStockInfo(symbol).get("price");
 		}catch (IOException e){
-			System.out.println("Stock can't be located");
-			return 0.0;
+			throw new BadInputException("Symbol Does Not Exist");
 		}
 	}
 }
