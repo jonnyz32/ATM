@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class StockAccount extends GenericAccount implements Serializable {
 
 	private HashMap<String, CompanyStock> portfolio = new HashMap<>();
@@ -11,7 +14,7 @@ public class StockAccount extends GenericAccount implements Serializable {
 	public StockAccount(String name_p, IAccountHolder o) {
 		super(name_p, o);
 		asset = true;
-		type = "(Stock)";
+		type = "STOCK";
 		withdrawable = new CannotWithdraw();
 		//////////////////////////////////////////////////////
 		stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
@@ -24,25 +27,43 @@ public class StockAccount extends GenericAccount implements Serializable {
 
 	public void viewPortfolio(){
 		for (CompanyStock stock : portfolio.values()){
-			System.out.println(stock.getSymbol());
+			JFrame notice = new JFrame();
+	        String infoMessage = stock.getSymbol();
+	        
 			for (Share share : stock.getCompanyShares()){
-				System.out.println("Amount of shares: " + share.getAmountOfShares() + " bought at " + share.getBoughtAt());
+				infoMessage += "\n Amount of shares: " + share.getAmountOfShares() + " bought at " + share.getBoughtAt();
 			}
+			JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	public double checkSymbolPrice(String symbol) throws BadInputException {
 		try {
+			
+	        if(symbol == null) {
+	        	BankManagerMenuGUI.showInputError();
+	        	throw new BadInputException("Nothing inputted");
+	        }
+			
 			HashMap stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 			double price = (double) stockInfo.get("price");
-			System.out.println(price);
+			JFrame notice = new JFrame();
+	        String infoMessage = Double.toString(price);
+	        JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 			return price;
 
 		} catch (IOException e) {
 			throw new BadInputException("Symbol Does Not Exist");
 		}
 	}
-	public void checkSymbolDetailedInfo(String symbol) throws BadInputException {
+	public void checkSymbolDetailedInfo() throws BadInputException {
 		try {
+			JFrame symbolFrame = new JFrame();
+	        String symbol = JOptionPane.showInputDialog(symbolFrame, "Input the company's symbol");
+	        if(symbol == null) {
+	        	BankManagerMenuGUI.showInputError();
+	        	return;
+	        }
+			
 			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 			double price = stockInfo.get("price");
 			double open = stockInfo.get("open");
@@ -51,29 +72,52 @@ public class StockAccount extends GenericAccount implements Serializable {
 			double volume = stockInfo.get("volume");
 			double change = stockInfo.get("change");
 
-
-			System.out.println("Price: " + price + " Open: " + open+ " High: " + high+ " Low: " + low+ " Volume"  + volume+ " Change:" + change);
-
+			JFrame notice = new JFrame();
+	        String infoMessage = "Price: " + price + " Open: " + open+ " High: " + high+ " Low: " + low+ " Volume"  + volume+ " Change:" + change;
+	        JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+	        
+			
 		} catch (IOException e) {
 			throw new BadInputException("Symbol Does Not Exist");
 		}
 	}
 	public void viewProfit(){
-		System.out.println(this.profitFromTrading);
+		JFrame notice = new JFrame();
+        String infoMessage = Double.toString(this.profitFromTrading);
+        JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public void purchaseShares(String symbol, int shares) throws BadInputException {
+	public void purchaseShares() throws BadInputException {
 		try {
+			JFrame symbolFrame = new JFrame();
+	        String symbol = JOptionPane.showInputDialog(symbolFrame, "Input the company's symbol");
+	        if(symbol == null) {
+	        	BankManagerMenuGUI.showInputError();
+	        	return;
+	        }
+	        
+	        JFrame sharesFrame = new JFrame();
+	        String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
+	        int numShares = 0;
+	        if(strShares != null) {
+	        	numShares = Integer.parseInt(strShares);
+	        }
+	        else {
+	        	BankManagerMenuGUI.showInputError();
+	        	return;
+	        }
+	        
+	        
 			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 
 			// attempt to buy shares if enough funds
-			if (getBalance() >= (shares * stockInfo.get("price"))){
-				Share boughtShares = new Share(symbol, stockInfo.get("price"), shares);
+			if (getBalance() >= (numShares * stockInfo.get("price"))){
+				Share boughtShares = new Share(symbol, stockInfo.get("price"), numShares);
 				addToPortfolio(boughtShares);
 
-				this.balance -= (shares * stockInfo.get("price"));
+				this.balance -= (numShares * stockInfo.get("price"));
 
-				System.out.println("SUCCESS");
+				BankManagerMenuGUI.showSuccess();
 
 			} else {
 
@@ -86,14 +130,24 @@ public class StockAccount extends GenericAccount implements Serializable {
 		}
 	}
 
-	public void sellShares(String symbol, int shares) throws BadInputException {
+	public void sellShares(String symbol) throws BadInputException {
+		JFrame sharesFrame = new JFrame();
+        String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
+        int numShares = 0;
+        if(strShares != null) {
+        	numShares = Integer.parseInt(strShares);
+        }
+        else {
+        	BankManagerMenuGUI.showInputError();
+        	return;
+        }
 		double currentPrice = checkSymbolPrice(symbol);
 		if (portfolio.containsKey(symbol)){
 			CompanyStock companyStock = portfolio.get(symbol);
-			if (companyStock.has(shares)){
+			if (companyStock.has(numShares)){
 				// update total profit made from trading
-				double totalCostOfBuyingTheseShares = companyStock.sell(shares);
-				double priceSoldFor = shares * currentPrice;
+				double totalCostOfBuyingTheseShares = companyStock.sell(numShares);
+				double priceSoldFor = numShares * currentPrice;
 				this.profitFromTrading += priceSoldFor - totalCostOfBuyingTheseShares;
 				this.balance += priceSoldFor- totalCostOfBuyingTheseShares;
 
