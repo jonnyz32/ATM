@@ -88,6 +88,7 @@ public class MainMenuGUI {
 		JTextPane txtpnLoginError = new JTextPane();
 		txtpnLoginError.setBackground(SystemColor.window);
 		txtpnLoginError.setText("INCORRECT USERNAME OR PASSWORD. Try again.");
+		txtpnLoginError.setEditable(false);
 		txtpnLoginError.setBounds(276, 143, 168, 49);
 		txtpnLoginError.setVisible(false);
 		mainFrm.getContentPane().add(txtpnLoginError);
