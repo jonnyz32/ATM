@@ -90,6 +90,11 @@ public class CustomerMenuGUI {
 						CreditLineMenuGUI window = new CreditLineMenuGUI(accountToDisplay, user);
 		                window.creditlinefrm.setVisible(true);
 					}
+					else if (accountToDisplay.type.equalsIgnoreCase("STOCK")) {
+						customerfrm.setVisible(false);
+						StockAccountMenuGUI window = new StockAccountMenuGUI(accountToDisplay, user);
+						window.stockfrm.setVisible(true);
+					}
 					else {
 						customerfrm.setVisible(false);
 						ChequingMenuGUI window = new ChequingMenuGUI(accountToDisplay, user);

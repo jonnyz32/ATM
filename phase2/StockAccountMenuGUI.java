@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class StockAccountMenuGUI {
 
-	private JFrame stockfrm;
+	JFrame stockfrm;
 	AccountMenu menu;
 
 	/**
