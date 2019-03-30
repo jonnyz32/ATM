@@ -3,18 +3,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SingleSelectionModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
@@ -265,7 +258,7 @@ public class BankManagerMenuGUI {
 				String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
 				if(strUser != null && isAlphaNumeric(strUser) && strPass != null && isAlphaNumeric(strPass)) {
 					if(result == 0 || result == 1)
-						manager.createNewCustomer(strUser, strPass, result);
+						manager.createNewUser(strUser, strPass, result);
 					else {
 						BankManagerMenuGUI.showInputError();
 						return;

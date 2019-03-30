@@ -16,8 +16,8 @@ public class Employee extends ATM_User implements Serializable, ILevelOneAccess,
         levelOneAccessHandler.addBills(fives, tens, twenties, fifties);
     }
 
-    public void createNewCustomer(String username, String password) {
-        levelOneAccessHandler.createNewCustomer(username, password);
+    public void createNewUser(String username, String password, int type) {
+        levelOneAccessHandler.createNewUser(username, password, type);
     }
 
     public void requestAccount(String type, String name) {
