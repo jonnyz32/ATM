@@ -31,7 +31,7 @@ public class BankManager extends ATM_User implements ILevelOneAccess, ILevelTwoA
     }
 
     public void createNewCustomer(String username, String password, int result) {
-        levelOneAccessHandler.createNewCustomer(username, password);
+        levelOneAccessHandler.createNewCustomer(username, password, result);
     }
 
     /**
