@@ -19,6 +19,8 @@ public class Customer extends ATM_User implements Serializable, IAccountHolder {
         accountHandler.addAccount(type, name);
     }
 
+    public void addAccount(GenericAccount acc) {accountHandler.addAccount(acc);}
+
     public ArrayList<GenericAccount> getAccounts() {
         return accountHandler.getAccounts();
     }
