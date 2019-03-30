@@ -4,17 +4,18 @@ import java.util.List;
 
 public class UserManager {
 
+    private static ArrayList<ATM_User> users = new ArrayList<>();
+
     /**
      * Manages ATM_users
      */
     public UserManager(){
-        List<ATM_User> users = new FileManager().retrieveUsers();
+        users = new FileManager().retrieveUsers();
         if(users.size()==0) {
+            System.out.println("adding manager");
             users.add(new BankManager("manager","password"));
         }
     }
-
-    private static List<ATM_User> users = new ArrayList<>();
 
     ATM_User getUser(String username){
         ATM_User found = null;
