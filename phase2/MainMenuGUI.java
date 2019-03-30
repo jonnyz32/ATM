@@ -104,6 +104,11 @@ public class MainMenuGUI {
 		                    CustomerMenuGUI window = new CustomerMenuGUI(user);
 		                    window.customerfrm.setVisible(true);
 			            }
+			            else if (user instanceof Employee){
+							mainFrm.setVisible(false);
+							EmployeeMenuGUI window = new EmployeeMenuGUI(user);
+							window.employeeFrm.setVisible(true);
+						}
 			            else if (user instanceof BankManager) {
 			            	mainFrm.setVisible(false);
 		                    BankManagerMenuGUI window = new BankManagerMenuGUI(user);
