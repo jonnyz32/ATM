@@ -46,7 +46,7 @@ public class UserManager {
         saveUsers();
     }
 
-    boolean addCustomer(String username, String password, int result){
+    boolean addUser(String username, String password, int result){
         boolean isFree = getUser(username)==null;
         if(isFree) {
             if(result == 0){

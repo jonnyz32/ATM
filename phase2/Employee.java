@@ -17,7 +17,7 @@ public class Employee extends ATM_User implements Serializable, ILevelOneAccess,
     }
 
     public void createNewUser(String username, String password, int type) {
-        levelOneAccessHandler.createNewUser(username, password, type);
+        levelOneAccessHandler.createNewUser(username, password, 1);
     }
 
     public void requestAccount(String type, String name) {

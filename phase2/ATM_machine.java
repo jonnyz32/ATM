@@ -39,8 +39,8 @@ public class ATM_machine{
     }
 
 
-    static void addCustomer(String username, String password, int type){
-        userManager.addCustomer(username, password, type);
+    static void addUser(String username, String password, int type){
+        userManager.addUser(username, password, type);
     }
 
     static Calendar getTime(){return date;}
