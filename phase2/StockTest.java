@@ -21,12 +21,41 @@ public class StockTest {
 	public void tearDown() {
 	}
 
+	private void purchaseShares(StockAccount stockAccount, String symbol, int num){
+        try {
+            stockAccount.purchaseShares(symbol, num);
+        }
+        catch(BadInputException e){
+            System.out.println("This really shouldn't happen");
+        }
+    }
+
+    private void sellShares(StockAccount stockAccount, String symbol, int num){
+        try {
+            stockAccount.sellShares(symbol, num);
+        }
+        catch(BadInputException e){
+            System.out.println("This really shouldn't happen");
+        }
+    }
+
+    private double getPrice(String symbol){
+        StockFetcher sf =  new StockFetcher("240UNLH6CSLKUUKH");
+        try {
+            return sf.getPrice(symbol);
+        }
+        catch(BadInputException e){
+            System.out.println("This really shouldn't happen");
+            return -1;
+        }
+    }
+
 	@Test
 	public void testGetCurrentStockInfo(){
 		StockFetcher stockFetcher = new StockFetcher("240UNLH6CSLKUUKH");
 		try {
 			HashMap map = stockFetcher.getCurrentStockInfo("MSFT");
-			assertTrue(map.size() == 6);
+			assertEquals(map.size(), 6);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +83,7 @@ public class StockTest {
 	public void testProfit(){
 		Customer customer = Mockito.mock(Customer.class);
 		StockAccount stockAccount = new StockAccount("test",customer);
-		stockAccount.purchaseShares("MSFT", 10);
+		purchaseShares(stockAccount,"MSFT", 10);
 	}
 
 	@Test
@@ -63,9 +92,8 @@ public class StockTest {
 		StockAccount stockAccount = new StockAccount("test",customer);
 		stockAccount.depositCheque(1000.0);
 		assertEquals(1000.0, stockAccount.balance, 0);
-		stockAccount.purchaseShares("MSFT", 2);
-		StockFetcher sf =  new StockFetcher("240UNLH6CSLKUUKH");
-		assertEquals(1000.0 - (2 * sf.getPrice("MSFT")), stockAccount.balance, 0.5);
+		purchaseShares(stockAccount,"MSFT", 2);
+		assertEquals(1000.0 - (2 * getPrice("MSFT")), stockAccount.balance, 0.5);
 		// TODO finish this and the withdraw line in stock account ^^
 
 		assertEquals(2, stockAccount.getPortfolio().get("MSFT").getShareCount());
@@ -77,16 +105,15 @@ public class StockTest {
 		StockAccount stockAccount = new StockAccount("test",customer);
 		stockAccount.depositCheque(10000.0);
 		assertEquals(10000.0, stockAccount.balance, 0);
-		stockAccount.purchaseShares("MSFT", 2);
+		purchaseShares(stockAccount,"MSFT", 2);
 
-		stockAccount.sellShares("MSFT", 1);
-		StockFetcher sf =  new StockFetcher("240UNLH6CSLKUUKH");
-		assertEquals(10000.0 - (sf.getPrice("MSFT")), stockAccount.balance, 5);
+		sellShares(stockAccount,"MSFT", 1);
+		assertEquals(10000.0 - (getPrice("MSFT")), stockAccount.balance, 5);
 
 		assertEquals(1, stockAccount.getPortfolio().get("MSFT").getShareCount());
 
 
-		stockAccount.purchaseShares("MSFT", 10);
+		purchaseShares(stockAccount,"MSFT", 10);
 		assertEquals(2, stockAccount.getPortfolio().get("MSFT").getCompanyShares().size());
 
 	}
