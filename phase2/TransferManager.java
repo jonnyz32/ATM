@@ -19,6 +19,7 @@ public class TransferManager implements Serializable {
         }
         if (originAcc.type.equalsIgnoreCase("CREDIT LINE")) {
             originAcc.balance += amount;
+            creditLinePoints(originAcc, amount);
         }
         else {
             originAcc.balance -= amount;
@@ -35,6 +36,7 @@ public class TransferManager implements Serializable {
         String s = originAcc.lastTransText;
         originAcc.past_trans.add(s);
         originAcc.lastTransReverter = (Runnable & Serializable) this::revert_transfer;
+        originAcc.past_reverters.add(originAcc.lastTransReverter);
 
     }
 
@@ -58,9 +60,7 @@ public class TransferManager implements Serializable {
         originAcc.past_trans.remove(originAcc.past_trans.size() - 1);
     }
 
-    void checkChequingDebt(ChequingAcc c) {
-        if (c.balance < 0) {
-
-        }
+    private void creditLinePoints(GenericAccount acc, double amount) {
+        ((CreditLineAcc) acc).points += amount * 0.01;
     }
 }
