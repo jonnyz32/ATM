@@ -38,12 +38,12 @@ public class FileManager {
 
     }
 
-    ArrayList retrieveUsers(){
+    ArrayList<ATM_User> retrieveUsers(){
         try {
             FileInputStream file = new FileInputStream(new File("phase2/users.txt"));
             ObjectInputStream objectStream = new ObjectInputStream(file);
 
-            ArrayList users = (ArrayList) objectStream.readObject();
+            ArrayList<ATM_User> users = (ArrayList) objectStream.readObject();
             objectStream.close();
             return users;
         }
