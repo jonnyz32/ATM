@@ -255,7 +255,8 @@ public class EmployeeMenuGUI {
 			    JFrame passwordFrame = new JFrame();
 			    String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
 			    if(strUser != null && BankManagerMenuGUI.isAlphaNumeric(strUser) && strPass != null && BankManagerMenuGUI.isAlphaNumeric(strPass)) {
-			    	employee.createNewUser(strUser, strPass);
+			        //type refers to the creation of a customer instead of another employee
+			    	employee.createNewUser(strUser, strPass, 1);
 		        	BankManagerMenuGUI.showSuccess();
 			    }
 			    else {
