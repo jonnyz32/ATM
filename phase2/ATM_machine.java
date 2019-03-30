@@ -34,6 +34,10 @@ public class ATM_machine{
         return userManager.getUser(name);
     }
 
+    static UserManager getUserManager() {
+        return userManager;
+    }
+
 
     static void addCustomer(String username, String password){
         userManager.addCustomer(username, password);

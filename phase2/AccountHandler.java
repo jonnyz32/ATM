@@ -24,41 +24,18 @@ public class AccountHandler implements Serializable {
         new BankManager().requestAccount(user.getUsername(), type, name);
     }
 
-    boolean addAccount(String type, String name) {
-
+    void addAccount(String type, String name) {
         for(Object[] accountType : accountList) {
             if(type.equalsIgnoreCase((String)accountType[0])) {
                 try {
                     GenericAccount newAcc = (GenericAccount)((Class)accountType[1]).getDeclaredConstructor(String.class,IAccountHolder.class).newInstance(name,user);
                     accounts.add(newAcc);
+                    ATM_machine.getUserManager().saveUsers();
                 } catch(Exception e) {
                     System.out.println("An internal error has occurred.");
                 }
             }
         }
-        /*
-        if (type.length() >= 8){
-            if (type.substring(0, 8).equals("chequing")) {
-                if (type.length() != 8) {
-                    accounts.add(new ChequingAcc(name, user, true));
-                }
-                else {
-                    accounts.add(new ChequingAcc(name, user, false));
-                }
-            }
-        } else if (type.equalsIgnoreCase("CREDIT")) {
-            accounts.add(new CreditCardAcc(name, user));
-        } else if (type.equalsIgnoreCase("CREDITLINE")) {
-            accounts.add(new CreditLineAcc(name, user));
-        } else if (type.equalsIgnoreCase("SAVINGS")) {
-            accounts.add(new SavingAcc(name, user));
-        } else {
-            return false;
-        }
-        if (type.equals("chequing(primary)")) {
-            checkChequingPrimary(accounts, name);
-        }*/
-        return true;
     }
 
     //Make sure there is only one primary account

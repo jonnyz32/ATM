@@ -8,7 +8,7 @@ public class UserManager {
      * Manages ATM_users
      */
     public UserManager(){
-        users = ATM_machine.fileManager.retrieveUsers();
+        List<ATM_User> users = new FileManager().retrieveUsers();
         if(users.size()==0) {
             users.add(new BankManager("manager","password"));
         }
@@ -17,16 +17,18 @@ public class UserManager {
     private static List<ATM_User> users = new ArrayList<>();
 
     ATM_User getUser(String username){
+        ATM_User found = null;
         for (ATM_User user: users){
             if (user.getUsername().equals(username)){
-                return user;
+                saveUsers();
+                found = user;
             }
         }
-        return null;
+        return found;
     }
 
     void saveUsers(){
-        ATM_machine.fileManager.saveUsers(users);
+        new FileManager().saveUsers(users);
     }
 
     void checkInterest(){
@@ -41,12 +43,14 @@ public class UserManager {
                 }
             }
         }
+        saveUsers();
     }
 
     boolean addCustomer(String username, String password){
         boolean isFree = getUser(username)==null;
         if(isFree) {
             users.add(new Customer(username, password));
+            saveUsers();
         }
         return isFree;
     }
