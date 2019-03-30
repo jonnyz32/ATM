@@ -45,7 +45,7 @@ public class EmployeeMenuGUI {
 	private void initialize(ATM_User user) {
 		Employee employee = (Employee) user;
 		employeeFrm = new JFrame();
-		employeeFrm.setBounds(100, 100, 450, 300);
+		employeeFrm.setBounds(100, 100, 450, 334);
 		employeeFrm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		employeeFrm.getContentPane().setLayout(null);
 		
@@ -267,6 +267,14 @@ public class EmployeeMenuGUI {
 		});
 		btnCreateCustomer.setBounds(43, 243, 223, 29);
 		employeeFrm.getContentPane().add(btnCreateCustomer);
+		
+		JButton btnJointAccount = new JButton("Request joint account");
+		btnJointAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnJointAccount.setBounds(43, 283, 223, 29);
+		employeeFrm.getContentPane().add(btnJointAccount);
 		
 		
 		

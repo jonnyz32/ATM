@@ -115,9 +115,16 @@ public class CreditLineMenuGUI {
 		JButton btnReturnToAccounts = new JButton("Return to my accounts");
 		btnReturnToAccounts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				creditlinefrm.setVisible(false);
-                CustomerMenuGUI window = new CustomerMenuGUI(user);
-                window.customerfrm.setVisible(true);
+				if (user instanceof Customer) {
+					creditlinefrm.setVisible(false);
+					CustomerMenuGUI window = new CustomerMenuGUI(user);
+					window.customerfrm.setVisible(true);
+				}
+                else{
+					creditlinefrm.setVisible(false);
+					EmployeeMenuGUI window = new EmployeeMenuGUI(user);
+					window.employeeFrm.setVisible(true);
+				}
 			}
 		});
 		btnReturnToAccounts.setBounds(131, 243, 175, 29);

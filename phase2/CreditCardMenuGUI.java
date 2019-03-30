@@ -79,9 +79,16 @@ public class CreditCardMenuGUI {
 		JButton btnReturnToAccounts = new JButton("Return to my accounts");
 		btnReturnToAccounts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				creditCardfrm.setVisible(false);
-                CustomerMenuGUI window = new CustomerMenuGUI(user);
-                window.customerfrm.setVisible(true);
+				if (user instanceof Customer) {
+					creditCardfrm.setVisible(false);
+					CustomerMenuGUI window = new CustomerMenuGUI(user);
+					window.customerfrm.setVisible(true);
+				}
+                else{
+					creditCardfrm.setVisible(false);
+					EmployeeMenuGUI window = new EmployeeMenuGUI(user);
+					window.employeeFrm.setVisible(true);
+				}
 			}
 		});
 		btnReturnToAccounts.setBounds(127, 226, 186, 29);

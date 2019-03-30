@@ -124,9 +124,16 @@ public class ChequingMenuGUI {
 		JButton btnReturnToAccounts = new JButton("Return to my accounts");
 		btnReturnToAccounts.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				chequingfrm.setVisible(false);
-                CustomerMenuGUI window = new CustomerMenuGUI(user);
-                window.customerfrm.setVisible(true);
+				if(user instanceof Customer) {
+					chequingfrm.setVisible(false);
+					CustomerMenuGUI window = new CustomerMenuGUI(user);
+					window.customerfrm.setVisible(true);
+				}
+				else{
+					chequingfrm.setVisible(false);
+					EmployeeMenuGUI window = new EmployeeMenuGUI(user);
+					window.employeeFrm.setVisible(true);
+				}
 			}
 		});
 		btnReturnToAccounts.setBounds(134, 243, 172, 29);

@@ -201,6 +201,15 @@ public class CustomerMenuGUI {
 		btnViewSpecfic.setBounds(43, 167, 223, 29);
 		customerfrm.getContentPane().add(btnViewSpecfic);
 		
+		JButton btnJointAccount = new JButton("Request joint account");
+		btnJointAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		btnJointAccount.setBounds(43, 208, 223, 29);
+		customerfrm.getContentPane().add(btnJointAccount);
+		
 		
 	}
 }
