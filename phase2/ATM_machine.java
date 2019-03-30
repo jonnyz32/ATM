@@ -39,7 +39,7 @@ public class ATM_machine{
     }
 
 
-    static void addCustomer(String username, String password){
+    static void addCustomer(String username, String password, int result){
         userManager.addCustomer(username, password);
     }
 

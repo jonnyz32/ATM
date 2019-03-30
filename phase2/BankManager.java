@@ -30,7 +30,7 @@ public class BankManager extends ATM_User implements ILevelOneAccess, ILevelTwoA
         levelOneAccessHandler.addBills(fives, tens, twenties, fifties);
     }
 
-    public void createNewCustomer(String username, String password) {
+    public void createNewCustomer(String username, String password, int result) {
         levelOneAccessHandler.createNewCustomer(username, password);
     }
 

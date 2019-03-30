@@ -255,18 +255,27 @@ public class BankManagerMenuGUI {
 		JButton btnCreateNewCustomer = new JButton("Create a new customer");
 		btnCreateNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Object[] options1 = {"Employee", "User", "Cancel"};
+				int result = JOptionPane.showOptionDialog(null, "What type of user are you making?",
+						null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+						null, options1, null);
 				JFrame usernameFrame = new JFrame();
-			    String strUser = JOptionPane.showInputDialog(usernameFrame, "Input username:");
-			    JFrame passwordFrame = new JFrame();
-			    String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
-			    if(strUser != null && isAlphaNumeric(strUser) && strPass != null && isAlphaNumeric(strPass)) {
-			    	manager.createNewCustomer(strUser, strPass);
-		        	showSuccess();
-			    }
-			    else {
-			    	showInputError();
-			    	return;
-			    }
+				String strUser = JOptionPane.showInputDialog(usernameFrame, "Input username:");
+				JFrame passwordFrame = new JFrame();
+				String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
+				if(strUser != null && isAlphaNumeric(strUser) && strPass != null && isAlphaNumeric(strPass)) {
+					if(result == 0 || result == 1)
+						manager.createNewCustomer(strUser, strPass, result);
+					else {
+						BankManagerMenuGUI.showInputError();
+						return;
+					}
+					showSuccess();
+				}
+				else {
+					showInputError();
+					return;
+				}
 			}
 		});
 		btnCreateNewCustomer.setBounds(27, 211, 207, 29);

@@ -46,10 +46,16 @@ public class UserManager {
         saveUsers();
     }
 
-    boolean addCustomer(String username, String password){
+    boolean addCustomer(String username, String password, int result){
         boolean isFree = getUser(username)==null;
         if(isFree) {
-            users.add(new Customer(username, password));
+            if(result == 0){
+                users.add(new Employee(username, password));
+            }
+            else if(result == 1){
+                users.add(new Customer(username, password));
+            }
+
             saveUsers();
         }
         return isFree;
