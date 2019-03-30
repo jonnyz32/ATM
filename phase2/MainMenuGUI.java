@@ -98,7 +98,7 @@ public class MainMenuGUI {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ATM_User user = ATM_machine.getUser(userField.getText());
-			        if ((user != null) && (user.getPassword().equals(passwordField.getText()))){
+			        if ((user != null) && (user.getPassword().equals(new String(passwordField.getPassword())))){
 			            if (user instanceof Customer) {
 			            	mainFrm.setVisible(false);
 		                    CustomerMenuGUI window = new CustomerMenuGUI(user);
