@@ -271,6 +271,25 @@ public class EmployeeMenuGUI {
 		JButton btnJointAccount = new JButton("Request joint account");
 		btnJointAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFrame userFrame = new JFrame();
+				String strUser = JOptionPane.showInputDialog(userFrame, "Input target user:");
+				JFrame accountFrame = new JFrame();
+				String strAccount = JOptionPane.showInputDialog(accountFrame, "Input account name:");
+				if(strUser != null && strAccount != null) {
+					ATM_User otherUser = ATM_machine.getUser(strUser);
+					if(otherUser instanceof IAccountHolder) {
+						GenericAccount acc = ((IAccountHolder)otherUser).getAccountByName(strAccount);
+						if(acc!=null) {
+							((IAccountHolder)user).addAccount(acc);
+						} else {
+							System.out.println("Bad Account Name");
+						}
+					} else {
+						System.out.println("Bad User Name");
+					}
+				} else{
+					System.out.println("null inputs");
+				}
 			}
 		});
 		btnJointAccount.setBounds(43, 283, 223, 29);

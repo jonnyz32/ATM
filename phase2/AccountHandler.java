@@ -38,6 +38,10 @@ public class AccountHandler implements Serializable {
         }
     }
 
+    void addAccount(GenericAccount acc) {
+        accounts.add(acc);
+    }
+
     //Make sure there is only one primary account
     //There should only be one other primary account because it gets checked everytime an account is created
     void checkChequingPrimary(ArrayList<GenericAccount> accs, String name) {
@@ -86,7 +90,7 @@ public class AccountHandler implements Serializable {
      * Assume account exists.
      */
     GenericAccount getAccountByName(String name) {
-        GenericAccount account = new ChequingAcc("BAD", user);
+        GenericAccount account = null;
         for (GenericAccount a: accounts) {
             if (a.name.equals(name)) {
                 account =  a;

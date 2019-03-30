@@ -6,6 +6,8 @@ public interface IAccountHolder extends IUser{
 
     void addAccount(String type, String name);
 
+    void addAccount(GenericAccount acc);
+
     ArrayList<GenericAccount> getAccounts();
 
     //Summary of account balances
