@@ -8,7 +8,7 @@ public class WithdrawCapped implements IWithdrawable, Serializable {
 
     public double withdraw(int amount, double balance){
         if (balance + minBalance >= amount){
-            ATM_machine.withdrawBills(amount/5);
+            new BillHandler().withdrawBills(amount/5);
             return balance - amount;
         }
         else {

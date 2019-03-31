@@ -45,7 +45,7 @@ public class SavingsMenuGUI {
 		savingsfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		savingsfrm.getContentPane().setLayout(null);
 		
-		JButton btnViewBal = new JButton("View balance");
+		JButton btnViewBal = new JButton("View details");
 		btnViewBal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menu.showBalance();

@@ -44,7 +44,7 @@ public class ChequingMenuGUI {
 		chequingfrm.setBounds(100, 100, 450, 300);
 		chequingfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JButton btnViewBalance = new JButton("View balance");
+		JButton btnViewBalance = new JButton("View details");
 		btnViewBalance.setBounds(6, 50, 210, 29);
 		btnViewBalance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

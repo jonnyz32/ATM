@@ -30,16 +30,17 @@ public class AccountHandler implements Serializable {
                 try {
                     GenericAccount newAcc = (GenericAccount)((Class)accountType[1]).getDeclaredConstructor(String.class,IAccountHolder.class).newInstance(name,user);
                     accounts.add(newAcc);
-                    ATM_machine.getUserManager().saveUsers();
                 } catch(Exception e) {
                     System.out.println("An internal error has occurred.");
                 }
             }
         }
+        new UserManager().saveUsers();
     }
 
     void addAccount(GenericAccount acc) {
         accounts.add(acc);
+        new UserManager().saveUsers();
     }
 
     //Make sure there is only one primary account
@@ -57,6 +58,7 @@ public class AccountHandler implements Serializable {
             c.setPrimary(false);
             accs.set(idx, c);
         }
+        new UserManager().saveUsers();
     }
 
     ArrayList<GenericAccount> getAccounts() {

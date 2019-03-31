@@ -27,6 +27,7 @@ public class AccountMenu{
         }
         JFrame notice = new JFrame();
         String infoMessage = "This account has a "+ accountType +" balance of: "+"$"+account.getBalance();
+        infoMessage += "\nAccount created "+account.getCreationDate();
         JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -40,65 +41,10 @@ public class AccountMenu{
 				null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
 				null, options1, null);
 		if (result == 0) {
-	        JFrame fiveFrame = new JFrame();
-	        String strFive = JOptionPane.showInputDialog(fiveFrame, "How many fives?");
-	        JFrame tenFrame = new JFrame();
-	        String strTen = JOptionPane.showInputDialog(tenFrame, "How many tens?");
-	        JFrame twentyFrame = new JFrame();
-	        String strTwenty = JOptionPane.showInputDialog(twentyFrame, "How many twenties?");
-	        JFrame fiftyFrame = new JFrame();
-	        String strFifty = JOptionPane.showInputDialog(fiftyFrame, "How many fifties?");
-	
-	        int numFive = -1;
-	        int numTen = -1;
-	        int numTwenty = -1;
-	        int numFifty = -1;
-	        if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
-	            if (BankManagerMenuGUI.isNumeric(strFive) && BankManagerMenuGUI.isNumeric(strTen) &&
-	                    BankManagerMenuGUI.isNumeric(strTwenty) && BankManagerMenuGUI.isNumeric(strFifty)){
-	                numFive = Integer.parseInt(strFive);
-	                numTen = Integer.parseInt(strTen);
-	                numTwenty = Integer.parseInt(strTwenty);
-	                numFifty = Integer.parseInt(strFifty);
-	            }
-	            else{
-	                BankManagerMenuGUI.showInputError();
-	                return;
-	            }
-	        }
-	        else{
-	            BankManagerMenuGUI.showInputError();
-	            return;
-	        }
-	        if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
-	            account.depositCash(numFive, numTen, numTwenty, numFifty);
-	            BankManagerMenuGUI.showSuccess();
-	        }
+	        depositCanadian();
 		}
 		else if (result == 1) {
-			Object[] options2 = {"EUR", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "Cancel"};
-			int type = JOptionPane.showOptionDialog(null, "What type of money are you depositing?",
-					null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
-					null, options2, null);
-			if(type != options2.length - 1) {
-				String strType = (String) options2[type];
-				JFrame amountFrame = new JFrame();
-		        String strAmount = JOptionPane.showInputDialog(amountFrame, "How much are you depositing?");
-		        double doubleAmount = 0;
-		        if(strAmount != null){
-		            doubleAmount = Double.parseDouble(strAmount);
-		            account.depositForeignCurrency(strType, doubleAmount);
-		            BankManagerMenuGUI.showSuccess();
-		        }
-		        else{
-		            BankManagerMenuGUI.showInputError();
-		            return;
-		        }
-		        
-			}
-			else {
-				return;
-			}
+			depositForeign();
 		}
 		else{
 			return;
@@ -137,7 +83,7 @@ public class AccountMenu{
         // Get the user and the account
         JFrame destinationFrame = new JFrame();
         String other_username = JOptionPane.showInputDialog(destinationFrame, "Who would you like to transfer to");
-        ATM_User other_user = ATM_machine.getUser(other_username);
+        ATM_User other_user = new UserManager().getUser(other_username);
         if (other_user == null) {
             BankManagerMenuGUI.showInputError();
         }
@@ -194,52 +140,123 @@ public class AccountMenu{
 				null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
 				null, options1, null);
 		if (result == 0) {
-	        JFrame amountFrame = new JFrame();
-	        String strAmount = JOptionPane.showInputDialog(amountFrame, "How much would you like to withdraw? (Should be a multiple of 5)");
-	        int amount = 0;
-	        if (strAmount != null){
-	            amount = Integer.parseInt(strAmount);
-	            if(amount %5 == 0 && amount <= account.getBalance()){
-	                account.withdraw(amount);
-	            }
-	            else{
-	                JFrame notice = new JFrame();
-	                String infoMessage = "You either don't have enough money to withdraw that much, or you didn't input a multiple of 5. Try again. Balance: "+ account.getBalance();
-	                JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
-	                return;
-	            }
-	        }
-	        else{
-	            BankManagerMenuGUI.showInputError();
-	        }
+	        withdrawCanadian();
 		}
 		else if (result == 1) {
-			Object[] options2 = {"EUR", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "Cancel"};
-			int type = JOptionPane.showOptionDialog(null, "What type of money are you withdrawing?",
-					null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
-					null, options2, null);
-			if(type != options2.length - 1) {
-				String strType = (String) options2[type];
-				JFrame amountFrame = new JFrame();
-		        String strAmount = JOptionPane.showInputDialog(amountFrame, "How much are you withdrawing?");
-		        double doubleAmount = 0;
-		        if(strAmount != null){
-		            doubleAmount = Double.parseDouble(strAmount);
-		            account.withdrawForeignCurrency(strType, doubleAmount);
-		            BankManagerMenuGUI.showSuccess();
-		        }
-		        else{
-		            BankManagerMenuGUI.showInputError();
-		            return;
-		        }
-		        
-			}
-			else {
-				return;
-			}
+			withdrawForeign();
 		}
 		else {
 			return;
 		}
     }
+
+    private void depositCanadian(){
+		JFrame fiveFrame = new JFrame();
+		String strFive = JOptionPane.showInputDialog(fiveFrame, "How many fives?");
+		JFrame tenFrame = new JFrame();
+		String strTen = JOptionPane.showInputDialog(tenFrame, "How many tens?");
+		JFrame twentyFrame = new JFrame();
+		String strTwenty = JOptionPane.showInputDialog(twentyFrame, "How many twenties?");
+		JFrame fiftyFrame = new JFrame();
+		String strFifty = JOptionPane.showInputDialog(fiftyFrame, "How many fifties?");
+
+		int numFive = -1;
+		int numTen = -1;
+		int numTwenty = -1;
+		int numFifty = -1;
+		if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+			if (BankManagerMenuGUI.isNumeric(strFive) && BankManagerMenuGUI.isNumeric(strTen) &&
+					BankManagerMenuGUI.isNumeric(strTwenty) && BankManagerMenuGUI.isNumeric(strFifty)){
+				numFive = Integer.parseInt(strFive);
+				numTen = Integer.parseInt(strTen);
+				numTwenty = Integer.parseInt(strTwenty);
+				numFifty = Integer.parseInt(strFifty);
+			}
+			else{
+				BankManagerMenuGUI.showInputError();
+				return;
+			}
+		}
+		else{
+			BankManagerMenuGUI.showInputError();
+			return;
+		}
+		if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+			account.depositCash(numFive, numTen, numTwenty, numFifty);
+			BankManagerMenuGUI.showSuccess();
+		}
+	}
+
+	private void depositForeign(){
+		Object[] options2 = {"EURO", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "USD", "Cancel"};
+		int type = JOptionPane.showOptionDialog(null, "What type of money are you depositing?",
+				null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, options2, null);
+		if(type != options2.length - 1) {
+			String strType = (String) options2[type];
+			JFrame amountFrame = new JFrame();
+			String strAmount = JOptionPane.showInputDialog(amountFrame, "How much are you depositing?");
+			double doubleAmount = 0;
+			if(strAmount != null){
+				doubleAmount = Double.parseDouble(strAmount);
+				account.depositForeignCurrency(strType, doubleAmount);
+				BankManagerMenuGUI.showSuccess();
+			}
+			else{
+				BankManagerMenuGUI.showInputError();
+				return;
+			}
+
+		}
+		else {
+			return;
+		}
+	}
+
+	private void withdrawCanadian(){
+		JFrame amountFrame = new JFrame();
+		String strAmount = JOptionPane.showInputDialog(amountFrame, "How much would you like to withdraw? (Should be a multiple of 5)");
+		int amount = 0;
+		if (strAmount != null){
+			amount = Integer.parseInt(strAmount);
+			if(amount %5 == 0 && amount <= account.getBalance()){
+				account.withdraw(amount);
+			}
+			else{
+				JFrame notice = new JFrame();
+				String infoMessage = "You either don't have enough money to withdraw that much, or you didn't input a multiple of 5. Try again. Balance: "+ account.getBalance();
+				JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+		}
+		else{
+			BankManagerMenuGUI.showInputError();
+		}
+	}
+
+	private void withdrawForeign(){
+		Object[] options2 = {"EURO", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "USD", "Cancel"};
+		int type = JOptionPane.showOptionDialog(null, "What type of money are you withdrawing?",
+				null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, options2, null);
+		if(type != options2.length - 1) {
+			String strType = (String) options2[type];
+			JFrame amountFrame = new JFrame();
+			String strAmount = JOptionPane.showInputDialog(amountFrame, "How much are you withdrawing?");
+			double doubleAmount = 0;
+			if(strAmount != null){
+				doubleAmount = Double.parseDouble(strAmount);
+				account.withdrawForeignCurrency(strType, doubleAmount);
+				BankManagerMenuGUI.showSuccess();
+			}
+			else{
+				BankManagerMenuGUI.showInputError();
+				return;
+			}
+
+		}
+		else {
+			return;
+		}
+	}
 }

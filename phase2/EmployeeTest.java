@@ -18,9 +18,9 @@ public class EmployeeTest {
 
     @Test
     public void addBills(){
-        int[] bills = ATM_machine.getBills();
+        int[] bills = new BillHandler().getBills();
         e1.addBills(100000, 0, 17, 0);
-        assertArrayEquals(new int[]{bills[0] + 100000, bills[1], bills[2] + 17, bills[3]}, ATM_machine.getBills());
+        assertArrayEquals(new int[]{bills[0] + 100000, bills[1], bills[2] + 17, bills[3]}, new BillHandler().getBills());
 
     }
 
