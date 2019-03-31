@@ -126,8 +126,18 @@ public class StockAccountMenuGUI {
 				try {
 					JFrame symbolFrame = new JFrame();
 			        String symbol = JOptionPane.showInputDialog(symbolFrame, "Input the company's symbol");
-			        
-					account.sellShares(symbol);
+
+			        int numShares = 0;
+					JFrame sharesFrame = new JFrame();
+					String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
+					if(strShares != null) {
+						numShares = Integer.parseInt(strShares);
+					}
+					else {
+						BankManagerMenuGUI.showInputError();
+						return;
+					}
+					account.sellShares(symbol, numShares);
 				} catch (BadInputException e1) {
 					// TODO Auto-generated catch block
 					BankManagerMenuGUI.showInputError();

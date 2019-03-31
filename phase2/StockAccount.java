@@ -110,15 +110,6 @@ public class StockAccount extends GenericAccount implements Serializable {
 	}
 
 	public void sellShares(String symbol, int numShares) throws BadInputException {
-		JFrame sharesFrame = new JFrame();
-        String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
-        if(strShares != null) {
-        	numShares = Integer.parseInt(strShares);
-        }
-        else {
-        	BankManagerMenuGUI.showInputError();
-        	return;
-        }
 		double currentPrice = checkSymbolPrice(symbol);
 		if (portfolio.containsKey(symbol)){
 			CompanyStock companyStock = portfolio.get(symbol);
