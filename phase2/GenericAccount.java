@@ -143,10 +143,7 @@ public abstract class GenericAccount implements Serializable {
 
 
     //Get a string representation
-    String getSummary() {
-        return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
-                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Last Transaction: " + getLatestTransaction();
-    }
+    abstract String getSummary();
 
     String getCreationDate() {
         return ( new SimpleDateFormat( "yyyy-MM-dd" ) ).format( creation_date.getInstance().getTime() );

@@ -12,4 +12,10 @@ public class CreditLineAcc extends GenericAccount implements Serializable {
         withdrawable = new WithdrawUncapped();
         points = 0;
     }
+    @Override
+    String getSummary() {
+        return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
+                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Points: " + points + "\n" +
+                "Last Transaction: " + getLatestTransaction();
+    }
 }

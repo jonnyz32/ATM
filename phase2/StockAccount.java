@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -23,6 +24,12 @@ public class StockAccount extends GenericAccount implements Serializable {
 
 	public HashMap<String, CompanyStock> getPortfolio(){
 		return portfolio;
+	}
+
+	public String getSummary() {
+		return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
+				+ "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Last Transaction: " + getLatestTransaction()
+				+ "\n" + "Profit from Trading: " + profitFromTrading + "\n" + "Companies in portfolio: " + portfolio.size();
 	}
 
 	public void viewPortfolio(){
@@ -117,8 +124,12 @@ public class StockAccount extends GenericAccount implements Serializable {
 				// update total profit made from trading
 				double totalCostOfBuyingTheseShares = companyStock.sell(numShares);
 				double priceSoldFor = numShares * currentPrice;
+				System.out.println(totalCostOfBuyingTheseShares);
+				System.out.println(priceSoldFor);
 				this.profitFromTrading += priceSoldFor - totalCostOfBuyingTheseShares;
 				this.balance += priceSoldFor- totalCostOfBuyingTheseShares;
+				companyStock.updateShareCount();
+				cleanPortfolio();
 
 			} else{
 				throw new BadInputException("You don't own enough shares");
@@ -134,6 +145,19 @@ public class StockAccount extends GenericAccount implements Serializable {
 			portfolio.get(shares.getSymbol()).addShares(shares);
 		} else{
 			portfolio.put(shares.getSymbol(), new CompanyStock(shares.getSymbol(), shares));
+		}
+	}
+
+	private void cleanPortfolio(){
+		ArrayList<String> toDelete = new ArrayList();
+		for (String company : portfolio.keySet()){
+			if (portfolio.get(company).checkIfEmpty()){
+				toDelete.add(company);
+			}
+		}
+
+		for (String c : toDelete){
+			portfolio.remove(c);
 		}
 	}
 }

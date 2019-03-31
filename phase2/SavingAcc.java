@@ -12,4 +12,11 @@ public class SavingAcc extends GenericAccount implements Serializable {
     void increase_interest() {
         balance += balance * 0.001;
     }
+
+    @Override
+    String getSummary() {
+        return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
+                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Interest: 0.001" + "\n" +
+                "Last Transaction: " + getLatestTransaction();
+    }
 }
