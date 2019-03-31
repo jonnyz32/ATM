@@ -6,7 +6,7 @@ public class LevelOneAccessHandler implements Serializable {
         ATM_machine.depositBills(fives, tens, twenties, fifties);
     }
 
-    public void createNewUser(String username, String password, int type) {
-        new UserManager().addUser(username, password, type);
+    public boolean createNewUser(String username, String password, int type) {
+        return new UserManager().addUser(username, password, type);
     }
 }
