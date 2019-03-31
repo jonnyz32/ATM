@@ -41,7 +41,7 @@ public class ChequingMenuGUI {
 	 */
 	private void initialize(GenericAccount accountToDisplay, ATM_User user) {
 		chequingfrm = new JFrame();
-		chequingfrm.setBounds(100, 100, 450, 300);
+		chequingfrm.setBounds(100, 100, 450, 316);
 		chequingfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JButton btnViewBalance = new JButton("View details");
@@ -64,9 +64,29 @@ public class ChequingMenuGUI {
 		chequingfrm.getContentPane().add(btnViewLastTransaction);
 		
 		JButton btnDepositFromFile = new JButton("Deposit from file");
+		if (!((ChequingAcc) accountToDisplay).isPrimary()) {
+			btnDepositFromFile.setText("Make primary");
+		}
 		btnDepositFromFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				menu.depositFromFile();
+				if (btnDepositFromFile.getText().contentEquals("Deposit from file"))
+					menu.depositFromFile();
+				else {
+					((ChequingAcc) accountToDisplay).setPrimary(true);
+					if(user instanceof Customer) {
+						((Customer) user).accountHandler.checkChequingPrimary(accountToDisplay.name);
+						chequingfrm.setVisible(false);
+						CustomerMenuGUI window = new CustomerMenuGUI(user);
+						window.customerfrm.setVisible(true);
+					}
+					else{
+						((Employee) user).accountHandler.checkChequingPrimary(accountToDisplay.name);
+						chequingfrm.setVisible(false);
+						EmployeeMenuGUI window = new EmployeeMenuGUI(user);
+						window.employeeFrm.setVisible(true);
+					}
+					
+				}
 			}
 		});
 		btnDepositFromFile.setBounds(6, 156, 210, 29);
@@ -136,7 +156,7 @@ public class ChequingMenuGUI {
 				}
 			}
 		});
-		btnReturnToAccounts.setBounds(134, 243, 172, 29);
+		btnReturnToAccounts.setBounds(121, 255, 205, 29);
 		chequingfrm.getContentPane().add(btnReturnToAccounts);
 	}
 

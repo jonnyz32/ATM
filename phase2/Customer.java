@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Customer extends ATM_User implements Serializable, IAccountHolder {
 
-    private AccountHandler accountHandler;
+    AccountHandler accountHandler;
 
 	// Initialize new customer
 	Customer(String username, String password){

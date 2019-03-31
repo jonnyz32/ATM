@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Employee extends ATM_User implements Serializable, ILevelOneAccess, IAccountHolder{
 
-    private AccountHandler accountHandler;
+    AccountHandler accountHandler;
     private LevelOneAccessHandler levelOneAccessHandler;
 
     Employee(String username, String password){
