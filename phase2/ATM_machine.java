@@ -53,11 +53,11 @@ public class ATM_machine{
     static int getNumFives(){return bills[FIVE];}
 
     static void depositBills(int fives, int tens, int twenties, int fifties) {
-        billHandler.depositBills(fives, tens, twenties, fifties);
+        BillHandler.depositBills(fives, tens, twenties, fifties);
     }
 
     static void withdrawBills(int amount){
-        billHandler.withdrawBills(amount);
+        BillHandler.withdrawBills(amount);
     }
 
     static String getTimeFormatted(){

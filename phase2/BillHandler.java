@@ -1,4 +1,4 @@
-public class billHandler {
+public class BillHandler {
 
     static int[] calculateBillTotals(int fives, int tens, int twenties, int fifties, boolean add){
         if (!add){
@@ -28,12 +28,12 @@ public class billHandler {
     }
 
     static void depositBills(int fives, int tens, int twenties, int fifties){
-        int[] newBills = billHandler.calculateBillTotals(fives, tens, twenties, fifties, true);
+        int[] newBills = BillHandler.calculateBillTotals(fives, tens, twenties, fifties, true);
         ATM_machine.fileManager.writeBills(newBills);
     }
     static void withdrawBills(int amount){
-        int[] billsToRemove = billHandler.get_bill_split(amount);
-        int[] newBillValues = billHandler.calculateBillTotals( billsToRemove[0],
+        int[] billsToRemove = BillHandler.get_bill_split(amount);
+        int[] newBillValues = BillHandler.calculateBillTotals( billsToRemove[0],
                 billsToRemove[1],billsToRemove[2],billsToRemove[3], false);
 
         ATM_machine.fileManager.writeBills(newBillValues);
