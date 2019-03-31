@@ -129,7 +129,7 @@ public class StockAccountMenuGUI {
 
 			        int numShares = 0;
 					JFrame sharesFrame = new JFrame();
-					String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
+					String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want to sell?");
 					if(strShares != null) {
 						numShares = Integer.parseInt(strShares);
 					}
