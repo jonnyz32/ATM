@@ -7,7 +7,7 @@ public class CurrencyConverter implements Serializable {
 
     String currencySymbolGetter(String currency){
         Map<String, String> currencySymbol = new HashMap<>();
-        currencySymbol.put("EUR", "EURCAD");
+        currencySymbol.put("EURO", "EURCAD");
         currencySymbol.put("YUAN", "CNYCAD");
         currencySymbol.put("RUBLE", "RUBCAD");
         currencySymbol.put("BRITISH POUND", "GBPCAD");
