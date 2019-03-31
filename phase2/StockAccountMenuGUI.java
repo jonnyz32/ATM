@@ -103,7 +103,13 @@ public class StockAccountMenuGUI {
 		btnCheckDetailedSymbol.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					account.checkSymbolDetailedInfo();
+					JFrame symbolFrame = new JFrame();
+					String symbol = JOptionPane.showInputDialog(symbolFrame, "Input the company's symbol");
+					if(symbol == null) {
+						BankManagerMenuGUI.showInputError();
+						return;
+					}
+					account.checkSymbolDetailedInfo(symbol);
 				} catch (BadInputException e1) {
 					// TODO Auto-generated catch block
 					BankManagerMenuGUI.showInputError();
@@ -136,7 +142,23 @@ public class StockAccountMenuGUI {
 		btnPurchaseShares.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					account.purchaseShares();
+					JFrame symbolFrame = new JFrame();
+					String symbol = JOptionPane.showInputDialog(symbolFrame, "Input the company's symbol");
+					if(symbol == null) {
+						BankManagerMenuGUI.showInputError();
+						return;
+					}
+					JFrame sharesFrame = new JFrame();
+					String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
+					int numShares = 0;
+					if(strShares != null) {
+						numShares = Integer.parseInt(strShares);
+					}
+					else {
+						BankManagerMenuGUI.showInputError();
+						return;
+					}
+					account.purchaseShares(symbol, numShares);
 				} catch (BadInputException e1) {
 					// TODO Auto-generated catch block
 					BankManagerMenuGUI.showInputError();

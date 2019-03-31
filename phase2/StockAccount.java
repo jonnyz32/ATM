@@ -55,15 +55,13 @@ public class StockAccount extends GenericAccount implements Serializable {
 			throw new BadInputException("Symbol Does Not Exist");
 		}
 	}
-	public void checkSymbolDetailedInfo() throws BadInputException {
+	public void checkSymbolDetailedInfo(String symbol) throws BadInputException {
 		try {
-			JFrame symbolFrame = new JFrame();
-	        String symbol = JOptionPane.showInputDialog(symbolFrame, "Input the company's symbol");
-	        if(symbol == null) {
-	        	BankManagerMenuGUI.showInputError();
-	        	return;
-	        }
-			
+			if(symbol == null) {
+				BankManagerMenuGUI.showInputError();
+				throw new BadInputException("Nothing inputted");
+			}
+
 			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 			double price = stockInfo.get("price");
 			double open = stockInfo.get("open");
@@ -87,27 +85,8 @@ public class StockAccount extends GenericAccount implements Serializable {
         JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public void purchaseShares() throws BadInputException {
+	public void purchaseShares(String symbol, int numShares) throws BadInputException {
 		try {
-			JFrame symbolFrame = new JFrame();
-	        String symbol = JOptionPane.showInputDialog(symbolFrame, "Input the company's symbol");
-	        if(symbol == null) {
-	        	BankManagerMenuGUI.showInputError();
-	        	return;
-	        }
-	        
-	        JFrame sharesFrame = new JFrame();
-	        String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
-	        int numShares = 0;
-	        if(strShares != null) {
-	        	numShares = Integer.parseInt(strShares);
-	        }
-	        else {
-	        	BankManagerMenuGUI.showInputError();
-	        	return;
-	        }
-	        
-	        
 			HashMap<String, Double> stockInfo = stockFetcher.getCurrentStockInfo(symbol);
 
 			// attempt to buy shares if enough funds
