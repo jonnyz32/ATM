@@ -53,34 +53,34 @@ public abstract class GenericAccount implements Serializable {
     }
 
 
-    void depositForeignCurrency(String currency, double amount){
+    void depositForeignCurrency(String currency, double amountInForeignCurrency){
         double amountInCanadian;
         try {
             amountInCanadian = currencyConverter.convertCurrency(currencyConverter.currencySymbolGetter(currency),
-                    amount);
+                    amountInForeignCurrency);
         }
         catch(BadInputException e) {
             new FileManager().writeErrors(e.getMessage());
             amountInCanadian = 0;
         }
         balance += amountInCanadian;
-        lastTransText = String.format("Deposited $%f %s(%f Canadian) to %s",amount, currency, amountInCanadian, name);
+        lastTransText = String.format("Deposited $%f %s(%f Canadian) to %s",amountInForeignCurrency, currency, amountInCanadian, name);
         // TODO I don't know what this line below does or if it should be here
         lastTransReverter =  (Runnable & Serializable) this::revertDeposit;
     }
 
-    void withdrawForeignCurrency(String currency, double amount){
+    void withdrawForeignCurrency(String currency, double amountInForeignCurrency){
         double amountInCanadian;
         try {
             amountInCanadian = currencyConverter.convertCurrency(currencyConverter.currencySymbolGetter(currency),
-                    amount);
+                    amountInForeignCurrency);
         }
         catch(BadInputException e) {
             new FileManager().writeErrors(e.getMessage());
             amountInCanadian = 0;
         }
         balance -= amountInCanadian;
-        lastTransText = String.format("Withdrew $%f %s(%f Canadian) to %s",amount, currency, amountInCanadian, name);
+        lastTransText = String.format("Withdrew $%f %s(%f Canadian) to %s",amountInForeignCurrency, currency, amountInCanadian, name);
     }
 
 
