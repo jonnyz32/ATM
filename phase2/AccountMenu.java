@@ -76,7 +76,7 @@ public class AccountMenu{
 	        }
 		}
 		else if (result == 1) {
-			Object[] options2 = {"EUR", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "Cancel"};
+			Object[] options2 = {"EURO", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "USD", "Cancel"};
 			int type = JOptionPane.showOptionDialog(null, "What type of money are you depositing?",
 					null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
 					null, options2, null);
@@ -214,7 +214,7 @@ public class AccountMenu{
 	        }
 		}
 		else if (result == 1) {
-			Object[] options2 = {"EUR", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "Cancel"};
+			Object[] options2 = {"EURO", "YUAN","RUBLE","BRITISH POUND", "MEXICAN PESO", "USD", "Cancel"};
 			int type = JOptionPane.showOptionDialog(null, "What type of money are you withdrawing?",
 					null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
 					null, options2, null);
