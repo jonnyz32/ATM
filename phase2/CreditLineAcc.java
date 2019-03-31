@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.*;
 public class CreditLineAcc extends GenericAccount implements Serializable {
 
+    static int maxDebt = 1000;
+
     double points;
     public CreditLineAcc(String name, IAccountHolder o) {
         super(name, o);
         asset = false;
         type = "CREDIT LINE";
-        withdrawable = new WithdrawUncapped();
+        withdrawable = new WithdrawCapped(-2000000000,maxDebt);
         points = 0;
     }
     @Override

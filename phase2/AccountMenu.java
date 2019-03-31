@@ -219,12 +219,12 @@ public class AccountMenu{
 		int amount = 0;
 		if (strAmount != ""){
 			amount = Integer.parseInt(strAmount);
-			if(amount %5 == 0 && amount <= account.getBalance()){
+			if(amount %5 == 0){
 				account.withdraw(amount);
 			}
 			else{
 				JFrame notice = new JFrame();
-				String infoMessage = "You either don't have enough money to withdraw that much, or you didn't input a multiple of 5. Try again. Balance: "+ account.getBalance();
+				String infoMessage = "Amount not divisible by 5.";
 				JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
