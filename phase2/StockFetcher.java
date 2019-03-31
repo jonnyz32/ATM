@@ -21,7 +21,6 @@ public class StockFetcher implements Serializable {
 		return "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" + symbol + "&apikey=" + apiKey;
 	}
 
-
 	public HashMap<String, Double> getCurrentStockInfo(String symbol) throws IOException {
 		URL url = new URL(generateEndpoint(symbol));
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -42,7 +41,7 @@ public class StockFetcher implements Serializable {
 	}
 
 	private static HashMap<String, Double> JSONStringToDict(String json) {
-		Pattern openPattern = Pattern.compile("01. symbol\"[^,]*");
+		Pattern openPattern = Pattern.compile("02. open\"[^,]*");
 		Pattern highPattern = Pattern.compile("03. high\": [^,]*");
 		Pattern lowPattern = Pattern.compile("04. low\": [^,]*");
 		Pattern pricePattern = Pattern.compile("05. price\": [^,]*");
@@ -53,48 +52,49 @@ public class StockFetcher implements Serializable {
 
 		Matcher openMatch = openPattern.matcher(json);
 		if (openMatch.find()) {
-			String x = openMatch.group(0).replace("02. open\": ", "");
-			hashmap.put("open", Double.parseDouble(x));
+			String x = openMatch.group(0).replace("02. open\": ", "");;
+			hashmap.put("open", Double.parseDouble(x.replace("\"", "")));
 		}
 
 		Matcher highMatch = highPattern.matcher(json);
 		if (highMatch.find()) {
 			String x = highMatch.group(0).replace("03. high\": ", "");
-			hashmap.put("high", Double.parseDouble(x));
+			hashmap.put("high", Double.parseDouble(x.replace("\"", "")));
 		}
 
 		Matcher lowMatch = lowPattern.matcher(json);
 		if (lowMatch.find()) {
 			String x = lowMatch.group(0).replace("04. low\": ", "");
-			hashmap.put("low", Double.parseDouble(x));
+			hashmap.put("low", Double.parseDouble(x.replace("\"", "")));
 		}
 
 
 		Matcher priceMatch = pricePattern.matcher(json);
 		if (priceMatch.find()) {
 			String x = priceMatch.group(0).replace("05. price\": ", "");
-			hashmap.put("price", Double.parseDouble(x));
+			hashmap.put("price", Double.parseDouble(x.replace("\"", "")));
 		}
 
 		Matcher volumeMatch = volumePattern.matcher(json);
 		if (volumeMatch.find()) {
 			String x = volumeMatch.group(0).replace("06. volume\": ", "");
-			hashmap.put("volume", Double.parseDouble(x));
+			hashmap.put("volume", Double.parseDouble(x.replace("\"", "")));
 		}
 
 		Matcher changeMatch = changePattern.matcher(json);
 		if (changeMatch.find()) {
 			String x = changeMatch.group(0).replace("09. change\": ", "");
-			hashmap.put("change", Double.parseDouble(x));
+			hashmap.put("change", Double.parseDouble(x.replace("\"", "")));
 		}
 		return hashmap;
 	}
 
-	double getPrice(String symbol) throws BadInputException {
+	double getPrice(String symbol){
 		try {
 			return getCurrentStockInfo(symbol).get("price");
 		}catch (IOException e){
-			throw new BadInputException("Symbol Does Not Exist");
+			System.out.println("Stock can't be located");
+			return 0.0;
 		}
 	}
 }
