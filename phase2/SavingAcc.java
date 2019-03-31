@@ -6,7 +6,7 @@ public class SavingAcc extends GenericAccount implements Serializable {
         super(name, o);
         asset = true;
         type = "SAVINGS";
-        withdrawable = new WithdrawCapped(0);
+        withdrawable = new WithdrawCapped(0,2000000000);
     }
 
     void increase_interest() {

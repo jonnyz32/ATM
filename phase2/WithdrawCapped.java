@@ -2,12 +2,14 @@ import java.io.Serializable;
 
 public class WithdrawCapped implements IWithdrawable, Serializable {
     double minBalance;
-    WithdrawCapped(int minBalance){
+    double maxBalance;
+    WithdrawCapped(int minBalance, int maxBalance){
         this.minBalance = minBalance;
+        this.maxBalance = maxBalance;
     }
 
     public double withdraw(int amount, double balance){
-        if (balance + minBalance >= amount){
+        if (balance-amount >= minBalance & balance-amount <= maxBalance){
             new BillHandler().withdrawBills(amount/5);
             return balance - amount;
         }
