@@ -10,13 +10,12 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class FileManagerTest {
-    ATM_machine machine;
+    FileManager fileManager;
 
     @Before
     public void setUp() {
         try {
-            machine = new ATM_machine();
-            machine.fileManager = new FileManager();
+            fileManager = new FileManager();
 
             Writer writer = new BufferedWriter(new FileWriter(new File("phase2/users.txt")));
             writer.write("");
@@ -49,8 +48,8 @@ public class FileManagerTest {
         ArrayList<ATM_User> userList = new ArrayList<>();
         userList.add(user1);
         userList.add(user2);
-        machine.fileManager.saveUsers(userList);
-        List retrievedUsers = machine.fileManager.retrieveUsers();
+        fileManager.saveUsers(userList);
+        List retrievedUsers = fileManager.retrieveUsers();
         assertEquals("user1", ((Customer)retrievedUsers.get(0)).getUsername());
         assertEquals("user2", ((Customer)retrievedUsers.get(1)).getUsername());
 
@@ -69,7 +68,7 @@ public class FileManagerTest {
         alerts.add(new int[]{5, 15});
         alerts.add(new int[]{20, 19});
         alerts.add(new int[]{50, 10});
-        machine.fileManager.writeAlerts(alerts);
+        fileManager.writeAlerts(alerts);
         try {
             FileReader file = new FileReader(new File("phase2/deposits.txt"));
             BufferedReader reader = new BufferedReader(file);
@@ -83,8 +82,8 @@ public class FileManagerTest {
     @Test
     public void retrieveBills() {
         int[] testBills = new int[]{14,335,23,47};
-        machine.fileManager.writeBills(testBills);
-        int[] bills = machine.fileManager.retrieveBills();
+        fileManager.writeBills(testBills);
+        int[] bills = fileManager.retrieveBills();
         assertArrayEquals(testBills, bills);
     }
 

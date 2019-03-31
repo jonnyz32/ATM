@@ -1,4 +1,17 @@
 class BillHandler {
+    private static int[] bills = new int[4];
+
+    BillHandler(){
+        bills = new FileManager().retrieveBills();
+    }
+
+    int[] getBills(){
+        return bills;
+    }
+
+    void saveBills(){
+        new FileManager().writeBills(bills);
+    }
 
     int[] calculateBillTotals(int fives, int tens, int twenties, int fifties, boolean add){
         if (!add){
