@@ -44,7 +44,7 @@ public abstract class GenericAccount implements Serializable {
         } else {
             balance -= total;
         }
-        ATM_machine.depositBills(fives, tens, twenties, fifties);
+        new BillHandler().depositBills(fives, tens, twenties, fifties);
 
         lastTransReverter = (Runnable & Serializable) this::revertDeposit;
         past_reverters.add(lastTransReverter);
