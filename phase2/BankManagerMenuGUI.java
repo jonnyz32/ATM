@@ -111,7 +111,6 @@ public class BankManagerMenuGUI {
 			    int numTen = -1;
 			    int numTwenty = -1;
 			    int numFifty = -1;
-			    boolean valid inputs
 				if(!strFive.equals("") && !strTen.equals("") && !strTwenty.equals("") && !strFifty.equals("")) {
 					if (isNumeric(strFive) && isNumeric(strTen) && isNumeric(strTwenty) && isNumeric(strFifty)){
 						numFive = Integer.parseInt(strFive);
