@@ -10,4 +10,11 @@ public class CreditCardAcc extends GenericAccount implements Serializable{
         type = "CREDIT CARD";
         withdrawable = new CannotWithdraw();
     }
+
+    @Override
+    String getSummary() {
+        return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
+                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" +
+                "Last Transaction: " + getLatestTransaction();
+    }
 }
