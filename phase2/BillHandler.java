@@ -8,7 +8,7 @@ class BillHandler {
             fifties *= -1;
         }
 
-        int[] bills = ATM_machine.fileManager.retrieveBills();
+        int[] bills = new FileManager().retrieveBills();
         bills[0] = bills[0] + fives;
         bills[1] = bills[1] + tens;
         bills[2] = bills[2] + twenties;
@@ -28,16 +28,16 @@ class BillHandler {
     }
 
     void depositBills(int fives, int tens, int twenties, int fifties){
-        int[] newBills = BillHandler.calculateBillTotals(fives, tens, twenties, fifties, true);
-        ATM_machine.fileManager.writeBills(newBills);
+        int[] newBills = calculateBillTotals(fives, tens, twenties, fifties, true);
+        new FileManager().writeBills(newBills);
     }
 
     void withdrawBills(int amount){
-        int[] billsToRemove = BillHandler.get_bill_split(amount);
-        int[] newBillValues = BillHandler.calculateBillTotals( billsToRemove[0],
+        int[] billsToRemove = get_bill_split(amount);
+        int[] newBillValues = calculateBillTotals( billsToRemove[0],
                 billsToRemove[1],billsToRemove[2],billsToRemove[3], false);
 
-        ATM_machine.fileManager.writeBills(newBillValues);
-        ATM_machine.fileManager.checkForAlert();
+        new FileManager().writeBills(newBillValues);
+        new FileManager().checkForAlert();
     }
 }
