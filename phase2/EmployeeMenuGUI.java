@@ -45,7 +45,7 @@ public class EmployeeMenuGUI {
 	private void initialize(ATM_User user) {
 		Employee employee = (Employee) user;
 		employeeFrm = new JFrame();
-		employeeFrm.setBounds(100, 100, 450, 334);
+		employeeFrm.setBounds(100, 100, 450, 384);
 		employeeFrm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		employeeFrm.getContentPane().setLayout(null);
 		
@@ -281,7 +281,7 @@ public class EmployeeMenuGUI {
 				JFrame accountFrame = new JFrame();
 				String strAccount = JOptionPane.showInputDialog(accountFrame, "Input account name:");
 				if(strUser != null && strAccount != null) {
-					ATM_User otherUser = UserManager.getUser(strUser);
+					ATM_User otherUser = new UserManager().getUser(strUser);
 					if(otherUser instanceof IAccountHolder) {
 						GenericAccount acc = ((IAccountHolder)otherUser).getAccountByName(strAccount);
 						if(acc!=null) {
@@ -299,6 +299,24 @@ public class EmployeeMenuGUI {
 		});
 		btnJointAccount.setBounds(43, 283, 223, 29);
 		employeeFrm.getContentPane().add(btnJointAccount);
+		
+		JButton btnChangePassword = new JButton("Change password");
+		btnChangePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame passFrame = new JFrame();
+				String newPassword = JOptionPane.showInputDialog(passFrame, "Input new password");
+				if(newPassword != "") {
+					user.setPassword(newPassword);
+				}
+				else {
+					JFrame notice = new JFrame();
+					String infoMessage = "Invalid password. Try again";
+					JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnChangePassword.setBounds(43, 324, 223, 29);
+		employeeFrm.getContentPane().add(btnChangePassword);
 		
 		
 		

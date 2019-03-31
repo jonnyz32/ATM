@@ -67,7 +67,7 @@ public class BankManagerMenuGUI {
 			    JFrame dayFrame = new JFrame();
 			    String strDay = JOptionPane.showInputDialog(dayFrame, "Input day (numerical value):");
 
-				if(strYear != "" && strMonth != "" && strDay != "") {
+				if(strYear != null && strMonth != null && strDay != null) {
 					if(isNumeric(strYear) && isNumeric(strMonth) && isNumeric(strDay)) {
 						if(Integer.parseInt(strYear) > 0 && Integer.parseInt(strMonth) > 0 && Integer.parseInt(strMonth) < 13 &&
 								Integer.parseInt(strDay) > 0 && Integer.parseInt(strDay) < 32) {
@@ -114,7 +114,7 @@ public class BankManagerMenuGUI {
 			    int numTen = -1;
 			    int numTwenty = -1;
 			    int numFifty = -1;
-			    if(strFive != "" && strTen != "" && strTwenty != "" && strFifty != "") {
+			    if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
 					if (isNumeric(strFive) && isNumeric(strTen) && isNumeric(strTwenty) && isNumeric(strFifty)){
 						numFive = Integer.parseInt(strFive);
 						numTen = Integer.parseInt(strTen);
@@ -131,7 +131,7 @@ public class BankManagerMenuGUI {
 			    	return;
 				}
 			    int result = -1;
-			    if(strFive != "" && strTen != "" && strTwenty != "" && strFifty != "") {
+			    if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
 					manager.addBills(numFive, numTen, numTwenty, numFifty);
 					showSuccess();
 				}
@@ -151,7 +151,7 @@ public class BankManagerMenuGUI {
 				JFrame numFrame = new JFrame();
 				String strNum = JOptionPane.showInputDialog(accountFrame, "How many of the transactions would you like to undo:");
 				int numTransactions = -1;
-				if(strNum != ""){
+				if(strNum != null){
 					if(isNumeric(strNum)){
 						numTransactions = Integer.parseInt(strNum);
 					}
@@ -164,7 +164,7 @@ public class BankManagerMenuGUI {
 					showInputError();
 					return;
 				}
-			    if(strUser != "" && strAccount != "" && numTransactions != -1) {
+			    if(strUser != null && strAccount != null && numTransactions != -1) {
 					try {
 						manager.undoTransaction(strUser, strAccount, numTransactions);
 						showSuccess();
@@ -269,7 +269,7 @@ public class BankManagerMenuGUI {
 				String strUser = JOptionPane.showInputDialog(usernameFrame, "Input username:");
 				JFrame passwordFrame = new JFrame();
 				String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
-				if(strUser != "" && isAlphaNumeric(strUser) && strPass != "" && isAlphaNumeric(strPass)) {
+				if(strUser != null && isAlphaNumeric(strUser) && strPass != null && isAlphaNumeric(strPass)) {
 					boolean created;
 					if(result == 0 || result == 1) {
 						created = manager.createNewUser(strUser, strPass, result);
@@ -308,6 +308,24 @@ public class BankManagerMenuGUI {
 		btnReturnToMain.setBackground(Color.LIGHT_GRAY);
 		btnReturnToMain.setBounds(258, 243, 168, 29);
 		managerFrm.getContentPane().add(btnReturnToMain);
+		
+		JButton btnChangePassword = new JButton("Change password");
+		btnChangePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame passFrame = new JFrame();
+				String newPassword = JOptionPane.showInputDialog(passFrame, "Input new password");
+				if(newPassword != "") {
+					user.setPassword(newPassword);
+				}
+				else {
+					JFrame notice = new JFrame();
+					String infoMessage = "Invalid password. Try again";
+					JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnChangePassword.setBounds(27, 252, 207, 29);
+		managerFrm.getContentPane().add(btnChangePassword);
 	}
 	
 	//following method taken from https://www.techiedelight.com/check-string-contains-alphanumeric-characters-java/
