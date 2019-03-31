@@ -12,6 +12,7 @@ public class CurrencyConverter implements Serializable {
         currencySymbol.put("RUBLE", "RUBCAD");
         currencySymbol.put("BRITISH POUND", "GBPCAD");
         currencySymbol.put("MEXICAN PESO", "MXNCAD");
+        currencySymbol.put("USD", "USDCAD");
         return currencySymbol.get(currency);
     }
 

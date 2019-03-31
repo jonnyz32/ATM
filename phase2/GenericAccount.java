@@ -1,6 +1,7 @@
 // An abstract Class for Acounts
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -145,5 +146,9 @@ public abstract class GenericAccount implements Serializable {
     String getSummary() {
         return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
                 + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Last Transaction: " + getLatestTransaction();
+    }
+
+    String getCreationDate() {
+        return ( new SimpleDateFormat( "yyyy-MM-dd" ) ).format( creation_date.getInstance().getTime() );
     }
 }
