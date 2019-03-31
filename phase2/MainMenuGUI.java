@@ -98,7 +98,7 @@ public class MainMenuGUI {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ATM_User user = UserManager.getUser(userField.getText());
+					ATM_User user = new UserManager().getUser(userField.getText());
 			        if ((user != null) && (user.getPassword().equals(new String(passwordField.getPassword())))){
 			            if (user instanceof Customer) {
 			            	mainFrm.setVisible(false);

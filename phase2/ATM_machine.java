@@ -14,8 +14,8 @@ public class ATM_machine{
 
     static void onExit() {
         new BillHandler().saveBills();
-        UserManager.checkInterest();
-        UserManager.saveUsers();
+        new UserManager().checkInterest();
+        new UserManager().saveUsers();
     }
 
     static Calendar getTime(){return date;}
