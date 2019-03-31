@@ -198,30 +198,41 @@ public class BankManagerMenuGUI {
 		btnConfirm.setVisible(false);
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					int listOption = accountList.getSelectedIndex();
-					System.out.println(listOption);
-					manager.approveAccount(listOption);
-					showSuccess();
-		        	List<AccountCreationRequest> requests = manager.getRequests();
-		        	model.clear();
-		        	for(AccountCreationRequest request: requests){
-						String type = request.getType();
-						model.addElement(request.getUser() + " requests a " + type + " account");
+				int listOption = accountList.getSelectedIndex();
+
+					try {
+						manager.approveAccount(listOption);
+						showSuccess();
+						model.clear();
+
+						List<AccountCreationRequest> requests = manager.getRequests();
+						if (requests.size() < 1){
+							JFrame notice = new JFrame();
+							String infoMessage = "No requests available";
+							JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
+
+						scrollPane.setVisible(true);
+						accountList.setVisible(true);
+						btnConfirm.setVisible(true);
+
+						for(AccountCreationRequest request: requests){
+							String type = request.getType();
+							model.addElement(request.getUser() + " requests a " + type + " account");
+						}
+
+						accountList.setSelectedIndex(0);
+
+					} catch (BadInputException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-		        	JList<String> accountList = new JList<>( model );
-		        	scrollPane.setViewportView(accountList);
-		        	accountList.setSelectedIndex(0);
-					
-				} catch (BadInputException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-		            
+
 			}
 		});
 		managerFrm.getContentPane().add(btnConfirm);
-		
+
 		JButton btnApproveAccRequest = new JButton("Approve an account request");
 		btnApproveAccRequest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -232,11 +243,11 @@ public class BankManagerMenuGUI {
 		        	JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 		            return;
 		        }
-				
+
 				scrollPane.setVisible(true);
 		        accountList.setVisible(true);
 		        btnConfirm.setVisible(true);
-		        
+
 				for(AccountCreationRequest request: requests){
 					String type = request.getType();
 					model.addElement(request.getUser() + " requests a " + type + " account");
@@ -245,7 +256,7 @@ public class BankManagerMenuGUI {
 		});
 		btnApproveAccRequest.setBounds(27, 170, 207, 29);
 		managerFrm.getContentPane().add(btnApproveAccRequest);
-		
+
 		
 		JButton btnCreateNewCustomer = new JButton("Create a new customer");
 		btnCreateNewCustomer.addActionListener(new ActionListener() {

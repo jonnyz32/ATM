@@ -8,13 +8,14 @@ public class ATM_machine{
 
     public static void main (String[] args){
         date.add(Calendar.DAY_OF_MONTH, 1);
+        UserManager.instantiate();
         MainMenuGUI.main();
     }
 
     static void onExit() {
         new BillHandler().saveBills();
-        new UserManager().saveUsers();
-        new UserManager().checkInterest();
+        UserManager.checkInterest();
+        UserManager.saveUsers();
     }
 
     static Calendar getTime(){return date;}

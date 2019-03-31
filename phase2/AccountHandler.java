@@ -35,12 +35,12 @@ public class AccountHandler implements Serializable {
                 }
             }
         }
-        new UserManager().saveUsers();
+        UserManager.saveUsers();
     }
 
     void addAccount(GenericAccount acc) {
         accounts.add(acc);
-        new UserManager().saveUsers();
+        UserManager.saveUsers();
     }
 
     //Make sure there is only one primary account
@@ -58,7 +58,7 @@ public class AccountHandler implements Serializable {
             c.setPrimary(false);
             accs.set(idx, c);
         }
-        new UserManager().saveUsers();
+        UserManager.saveUsers();
     }
 
     ArrayList<GenericAccount> getAccounts() {
