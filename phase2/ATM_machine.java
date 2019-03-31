@@ -22,6 +22,7 @@ public class ATM_machine{
         date.add(Calendar.DAY_OF_MONTH, 1);
         bills = fileManager.retrieveBills();
         userManager = new UserManager();
+        billHandler = new BillHandler();
         MainMenuGUI.main();
     }
 
