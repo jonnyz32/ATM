@@ -26,6 +26,12 @@ public class StockAccount extends GenericAccount implements Serializable {
 		return portfolio;
 	}
 
+	public String getSummary() {
+		return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
+				+ "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Last Transaction: " + getLatestTransaction()
+				+ "\n" + "Profit from Trading: " + profitFromTrading + "\n" + "Companies in portfolio: " + portfolio.size();
+	}
+
 	public void viewPortfolio(){
 		for (CompanyStock stock : portfolio.values()){
 			JFrame notice = new JFrame();

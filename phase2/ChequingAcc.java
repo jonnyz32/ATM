@@ -21,4 +21,11 @@ public class ChequingAcc extends GenericAccount implements Serializable {
     void setPrimary(boolean p) {
         this.primary = p;
     }
+
+    @Override
+    String getSummary() {
+        return "name: " + name + "\n" + "Owner: " + owner.getUsername() + "\n"
+                + "Asset: " + asset + "\n" + "Balance: " + balance + "\n" + "Primary: " + primary + "\n" +
+                "Last Transaction: " + getLatestTransaction();
+    }
 }
