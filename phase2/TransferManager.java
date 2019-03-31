@@ -37,7 +37,7 @@ public class TransferManager implements Serializable {
         ((CreditLineAcc) acc).points += amount * 0.01;
     }
 
-    void transfer_helper() {
+    private void transfer_helper() {
         if (originAcc.isAsset()) {
             originAcc.balance -= amount;
         }

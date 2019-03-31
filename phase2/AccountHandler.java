@@ -28,7 +28,8 @@ public class AccountHandler implements Serializable {
         for(Object[] accountType : accountList) {
             if(type.equalsIgnoreCase((String)accountType[0])) {
                 try {
-                    GenericAccount newAcc = (GenericAccount)((Class)accountType[1]).getDeclaredConstructor(String.class,IAccountHolder.class).newInstance(name,user);
+                    GenericAccount newAcc = (GenericAccount)((Class)accountType[1]).getDeclaredConstructor(
+                                                    String.class,IAccountHolder.class).newInstance(name,user);
                     accounts.add(newAcc);
                 } catch(Exception e) {
                     System.out.println("An internal error has occurred.");
@@ -45,18 +46,23 @@ public class AccountHandler implements Serializable {
 
     //Make sure there is only one primary account
     //There should only be one other primary account because it gets checked everytime an account is created
-    void checkChequingPrimary(ArrayList<GenericAccount> accs, String name) {
-        int idx = 0;
+    void checkChequingPrimary(String name) {
+        ArrayList<GenericAccount> accs = getAccounts();
+        int[] idx = new int[accs.size()];
+        idx[0] = -1;
+        int i = 0;
         for (GenericAccount a: accs) {
-            if (a.type.equals(" (Chequing)") && !a.name.equals(name) && ((ChequingAcc) a).isPrimary()) {
-                idx = accs.indexOf(a);
-                break;
+            if (a instanceof ChequingAcc && !a.name.equals(name) && ((ChequingAcc) a).isPrimary()) {
+                idx[i] = (accs.indexOf(a));
+                i += 1;
             }
         }
-        if (idx != 0) {
-            ChequingAcc c = (ChequingAcc) accs.get(idx);
-            c.setPrimary(false);
-            accs.set(idx, c);
+        for (int i2: idx) {
+            if (i2 != 0 && i2 != -1) {
+                ChequingAcc c = (ChequingAcc) accs.get(i2);
+                c.setPrimary(false);
+                accs.set(i2, c);
+            }
         }
         UserManager.saveUsers();
     }
