@@ -35,7 +35,7 @@ public class EmployeeMenuGUI {
 	/**
 	 * Create the application.
 	 */
-	public EmployeeMenuGUI(ATM_User user) {
+	EmployeeMenuGUI(ATM_User user) {
 		initialize(user);
 	}
 
@@ -69,7 +69,7 @@ public class EmployeeMenuGUI {
 		btnConfirm.setVisible(false);
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (btnConfirm.getText() == "View selected account") {
+				if (btnConfirm.getText().equals("View selected account")) {
 					String listOption = accountList.getSelectedValue();
 					String accountName = "";
 					for(int i = 0; i < listOption.length(); i++) {
@@ -109,7 +109,7 @@ public class EmployeeMenuGUI {
 					String listOption = accountList.getSelectedValue();
 					JFrame accountNameFrame = new JFrame();
 				    String name = JOptionPane.showInputDialog(accountNameFrame, "What would you like to name your " + listOption + " account? (alphanumeric no spaces)");
-				    if(name != null && BankManagerMenuGUI.isAlphaNumeric(name)) {
+				    if(!name.equals("") && BankManagerMenuGUI.isAlphaNumeric(name)) {
 						employee.requestAccount(listOption, name);
 						BankManagerMenuGUI.showSuccess();
 				    }
@@ -155,15 +155,6 @@ public class EmployeeMenuGUI {
 				for(String va : validAccounts) {
 					model.addElement(va);
 				}
-
-
-				//if (accountType.equals("chequing")) {
-				//    System.out.println("Would you like to make this your primary account (yes or no)");
-				//    String ans = nextLine();
-				//    if (ans.equals("yes")) {
-				//        accountType += "(primary)";
-				//    }
-				//}
 			}
 		});
 		btnRequestAccountCreation.setBounds(42, 85, 224, 29);
@@ -226,7 +217,7 @@ public class EmployeeMenuGUI {
 			    int numTen = -1;
 			    int numTwenty = -1;
 			    int numFifty = -1;
-			    if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+				if(!strFive.equals("") && !strTen.equals("") && !strTwenty.equals("") && !strFifty.equals("")) {
 					if (BankManagerMenuGUI.isNumeric(strFive) && BankManagerMenuGUI.isNumeric(strTen) && BankManagerMenuGUI.isNumeric(strTwenty) && BankManagerMenuGUI.isNumeric(strFifty)){
 						numFive = Integer.parseInt(strFive);
 						numTen = Integer.parseInt(strTen);
@@ -243,10 +234,10 @@ public class EmployeeMenuGUI {
 			    	return;
 				}
 			    int result = -1;
-			    if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
-					employee.addBills(numFive, numTen, numTwenty, numFifty);
-					BankManagerMenuGUI.showSuccess();
-				}
+
+				employee.addBills(numFive, numTen, numTwenty, numFifty);
+				BankManagerMenuGUI.showSuccess();
+
 			}
 		});
 		btnRestockBills.setBounds(43, 202, 223, 29);
@@ -259,14 +250,13 @@ public class EmployeeMenuGUI {
 			    String strUser = JOptionPane.showInputDialog(usernameFrame, "Input username:");
 			    JFrame passwordFrame = new JFrame();
 			    String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
-			    if(strUser != null && BankManagerMenuGUI.isAlphaNumeric(strUser) && strPass != null && BankManagerMenuGUI.isAlphaNumeric(strPass)) {
+			    if(!strUser.equals("") && BankManagerMenuGUI.isAlphaNumeric(strUser) && !strPass.equals("") && BankManagerMenuGUI.isAlphaNumeric(strPass)) {
 			        //type refers to the creation of a customer instead of another employee
 			    	employee.createNewUser(strUser, strPass, 1);
 		        	BankManagerMenuGUI.showSuccess();
 			    }
 			    else {
 			    	BankManagerMenuGUI.showInputError();
-			    	return;
 			    }
 			}
 		});
@@ -280,7 +270,7 @@ public class EmployeeMenuGUI {
 				String strUser = JOptionPane.showInputDialog(userFrame, "Input target user:");
 				JFrame accountFrame = new JFrame();
 				String strAccount = JOptionPane.showInputDialog(accountFrame, "Input account name:");
-				if(strUser != null && strAccount != null) {
+				if(!strUser.equals("") && !strAccount.equals("")) {
 					ATM_User otherUser = new UserManager().getUser(strUser);
 					if(otherUser instanceof IAccountHolder) {
 						GenericAccount acc = ((IAccountHolder)otherUser).getAccountByName(strAccount);
@@ -305,7 +295,7 @@ public class EmployeeMenuGUI {
 			public void actionPerformed(ActionEvent e) {
 				JFrame passFrame = new JFrame();
 				String newPassword = JOptionPane.showInputDialog(passFrame, "Input new password");
-				if(newPassword != "") {
+				if(!newPassword.equals("")) {
 					user.setPassword(newPassword);
 				}
 				else {

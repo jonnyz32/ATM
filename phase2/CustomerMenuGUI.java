@@ -105,7 +105,7 @@ public class CustomerMenuGUI {
 					String listOption = accountList.getSelectedValue();
 					JFrame accountNameFrame = new JFrame();
 				    String name = JOptionPane.showInputDialog(accountNameFrame, "What would you like to name your " + listOption + " account? (alphanumeric no spaces)");
-				    if(name != null && BankManagerMenuGUI.isAlphaNumeric(name)) {
+				    if(!name.equals("") && BankManagerMenuGUI.isAlphaNumeric(name)) {
 						customer.requestAccount(listOption, name);
 						BankManagerMenuGUI.showSuccess();
 				    }
@@ -151,15 +151,6 @@ public class CustomerMenuGUI {
 				for(String va : validAccounts) {
 					model.addElement(va);
 				}
-
-
-				//if (accountType.equals("chequing")) {
-				//    System.out.println("Would you like to make this your primary account (yes or no)");
-				//    String ans = nextLine();
-				//    if (ans.equals("yes")) {
-				//        accountType += "(primary)";
-				//    }
-				//}
 			}
 		});
 		btnRequestAccountCreation.setBounds(42, 85, 224, 29);
@@ -213,7 +204,7 @@ public class CustomerMenuGUI {
 				String strUser = JOptionPane.showInputDialog(userFrame, "Input target user:");
 				JFrame accountFrame = new JFrame();
 				String strAccount = JOptionPane.showInputDialog(accountFrame, "Input account name:");
-				if(strUser != null && strAccount != null) {
+				if(!strUser.equals("") && !strAccount.equals("")) {
 					ATM_User otherUser = new UserManager().getUser(strUser);
 					if(otherUser instanceof IAccountHolder) {
 						GenericAccount acc = ((IAccountHolder)otherUser).getAccountByName(strAccount);
@@ -238,7 +229,7 @@ public class CustomerMenuGUI {
 			public void actionPerformed(ActionEvent e) {
 				JFrame passFrame = new JFrame();
 				String newPassword = JOptionPane.showInputDialog(passFrame, "Input new password");
-				if(newPassword != "") {
+				if(!newPassword.equals("")) {
 					user.setPassword(newPassword);
 				}
 				else {
