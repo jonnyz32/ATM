@@ -12,7 +12,7 @@ public class UserManager {
     public UserManager(){
         users = new FileManager().retrieveUsers();
         if(users.size()==0) {
-            System.out.println("adding manager");
+            System.out.println("Adding a manager");
             users.add(new BankManager("manager","password"));
         }
     }

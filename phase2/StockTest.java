@@ -41,13 +41,7 @@ public class StockTest {
 
     private double getPrice(String symbol){
         StockFetcher sf =  new StockFetcher("240UNLH6CSLKUUKH");
-        try {
-            return sf.getPrice(symbol);
-        }
-        catch(BadInputException e){
-            System.out.println("This really shouldn't happen");
-            return -1;
-        }
+        return sf.getPrice(symbol);
     }
 
 	@Test

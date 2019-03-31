@@ -15,12 +15,7 @@ public class CurrencyConverterTest {
     public void setUp(){
 
         stockFetcher = Mockito.mock(StockFetcher.class);
-        try {
-            when(stockFetcher.getPrice("USDCAD")).thenReturn(1.337);
-        }
-        catch(BadInputException e){
-            System.out.println("This should never happen, and hopefully never will.");
-        }
+        when(stockFetcher.getPrice("USDCAD")).thenReturn(1.337);
         currencyConverter = new CurrencyConverter(stockFetcher);
     }
 
