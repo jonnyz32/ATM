@@ -129,6 +129,14 @@ public class SavingsMenuGUI {
 		});
 		btnReturnToAccounts.setBounds(138, 243, 169, 29);
 		savingsfrm.getContentPane().add(btnReturnToAccounts);
+		
+		JButton btnDepositCash = new JButton("Deposit cash");
+		btnDepositCash.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				menu.depositCash();
+			}
+		});
+		btnDepositCash.setBounds(238, 209, 206, 29);
+		savingsfrm.getContentPane().add(btnDepositCash);
 	}
-
 }

@@ -56,7 +56,7 @@ public class AccountMenu{
         JFrame amountFrame = new JFrame();
         String strAmount = JOptionPane.showInputDialog(amountFrame, "Amount to transfer?");
         double doubleAmount = 0;
-        if(strAmount != null){
+        if(strAmount != ""){
             doubleAmount = Double.parseDouble(strAmount);
         }
         else{
@@ -66,7 +66,7 @@ public class AccountMenu{
         JFrame destinationFrame = new JFrame();
         String other_acc_name = JOptionPane.showInputDialog(destinationFrame, "Account to transfer to?");
         //TODO add options
-        if(doubleAmount != 0 && other_acc_name != null) {
+        if(doubleAmount != 0 && other_acc_name != "") {
             GenericAccount other_acc = account.owner.getAccountByName(other_acc_name);
             TransferManager tm = new TransferManager(account, doubleAmount, other_acc);
             tm.make_transfer();
@@ -106,7 +106,7 @@ public class AccountMenu{
         JFrame amountFrame = new JFrame();
         String strAmount = JOptionPane.showInputDialog(amountFrame, "Amount to transfer?");
         double doubleAmount = 0;
-        if(strAmount != null){
+        if(strAmount != ""){
             doubleAmount = Double.parseDouble(strAmount);
             TransferManager tm = new TransferManager(account, doubleAmount, other_acc);
             tm.make_transfer();
@@ -124,7 +124,7 @@ public class AccountMenu{
         JFrame amountFrame = new JFrame();
         String strAmount = JOptionPane.showInputDialog(amountFrame, "Amount to transfer?");
         double doubleAmount = 0;
-        if(strAmount != null && name != null) {
+        if(strAmount != "" && name != "") {
             doubleAmount = Double.parseDouble(strAmount);
             account.transferToExternal(name, doubleAmount);
         }
@@ -164,7 +164,7 @@ public class AccountMenu{
 		int numTen = -1;
 		int numTwenty = -1;
 		int numFifty = -1;
-		if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+		if(strFive != "" && strTen != "" && strTwenty != "" && strFifty != "") {
 			if (BankManagerMenuGUI.isNumeric(strFive) && BankManagerMenuGUI.isNumeric(strTen) &&
 					BankManagerMenuGUI.isNumeric(strTwenty) && BankManagerMenuGUI.isNumeric(strFifty)){
 				numFive = Integer.parseInt(strFive);
@@ -181,7 +181,7 @@ public class AccountMenu{
 			BankManagerMenuGUI.showInputError();
 			return;
 		}
-		if(strFive != null && strTen != null && strTwenty != null && strFifty != null) {
+		if(strFive != "" && strTen != "" && strTwenty != "" && strFifty != "") {
 			account.depositCash(numFive, numTen, numTwenty, numFifty);
 			BankManagerMenuGUI.showSuccess();
 		}
@@ -197,7 +197,7 @@ public class AccountMenu{
 			JFrame amountFrame = new JFrame();
 			String strAmount = JOptionPane.showInputDialog(amountFrame, "How much are you depositing?");
 			double doubleAmount = 0;
-			if(strAmount != null){
+			if(strAmount != ""){
 				doubleAmount = Double.parseDouble(strAmount);
 				account.depositForeignCurrency(strType, doubleAmount);
 				BankManagerMenuGUI.showSuccess();
@@ -217,14 +217,14 @@ public class AccountMenu{
 		JFrame amountFrame = new JFrame();
 		String strAmount = JOptionPane.showInputDialog(amountFrame, "How much would you like to withdraw? (Should be a multiple of 5)");
 		int amount = 0;
-		if (strAmount != null){
+		if (strAmount != ""){
 			amount = Integer.parseInt(strAmount);
-			if(amount %5 == 0 && amount <= account.getBalance()){
+			if(amount %5 == 0){
 				account.withdraw(amount);
 			}
 			else{
 				JFrame notice = new JFrame();
-				String infoMessage = "You either don't have enough money to withdraw that much, or you didn't input a multiple of 5. Try again. Balance: "+ account.getBalance();
+				String infoMessage = "Amount not divisible by 5.";
 				JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
@@ -244,7 +244,7 @@ public class AccountMenu{
 			JFrame amountFrame = new JFrame();
 			String strAmount = JOptionPane.showInputDialog(amountFrame, "How much are you withdrawing?");
 			double doubleAmount = 0;
-			if(strAmount != null){
+			if(strAmount != ""){
 				doubleAmount = Double.parseDouble(strAmount);
 				account.withdrawForeignCurrency(strType, doubleAmount);
 				BankManagerMenuGUI.showSuccess();
