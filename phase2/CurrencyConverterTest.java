@@ -26,12 +26,7 @@ public class CurrencyConverterTest {
     @Test
     public void convertCurrency(){
         double actual = 0;
-        try {
-            actual = currencyConverter.convertCurrency("USDCAD", 100);
-        }
-        catch(BadInputException e){
-            System.out.println("This should never happen.");
-        }
+        actual = currencyConverter.convertCurrency("USDCAD", 100);
         assertEquals(133.70, actual,0);
     }
 }
