@@ -53,8 +53,8 @@ public class BankManager extends ATM_User implements ILevelOneAccess, ILevelTwoA
      * Undoes the last transaction (excluding bill payments) performed by the indicated user in the given account.
      */
     public void undoTransaction(String username, String account, int n_trans) throws BadInputException{
-        if (UserManager.getUser(username) instanceof IAccountHolder){
-            IAccountHolder target = (IAccountHolder) UserManager.getUser(username);
+        if (new UserManager().getUser(username) instanceof IAccountHolder){
+            IAccountHolder target = (IAccountHolder) new UserManager().getUser(username);
             GenericAccount targetacc = target.getAccountByName(account);
             if (targetacc.past_trans.size() < n_trans) {
                 throw new BadInputException("This account does not have that many transactions");
@@ -84,8 +84,8 @@ public class BankManager extends ATM_User implements ILevelOneAccess, ILevelTwoA
         String type = requests.get(id).getType();
         String name = requests.get(id).getName();
         requests.remove(id);
-        if (UserManager.getUser(username) instanceof IAccountHolder){
-            IAccountHolder user = (IAccountHolder) UserManager.getUser(username);
+        if (new UserManager().getUser(username) instanceof IAccountHolder){
+            IAccountHolder user = (IAccountHolder) new UserManager().getUser(username);
             user.addAccount(type, name);
         }
         else {

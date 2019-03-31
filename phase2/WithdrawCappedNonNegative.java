@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.Serializable;
 
 public class WithdrawCappedNonNegative implements IWithdrawable, Serializable {
@@ -7,13 +8,14 @@ public class WithdrawCappedNonNegative implements IWithdrawable, Serializable {
     }
 
     public double withdraw(int amount, double balance){
-        if (balance > 0 && balance + minBalance >= amount){
+        if (balance > 0 && balance-amount >= minBalance){
             new BillHandler().withdrawBills(amount);
             return balance - amount;
         }
         else {
-            System.out.println("You don't have enough money remaining to withdraw that much! Balance: " + balance);
-            return -1;
+            String infoMessage = "Not enough money.";
+            JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+            return balance;
         }
     }
 }

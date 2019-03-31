@@ -111,7 +111,11 @@ public abstract class GenericAccount implements Serializable {
     }
 
     void withdraw(int amount) {
-        balance = withdrawable.withdraw(amount, balance);
+        if(asset) {
+            balance = withdrawable.withdraw(amount, balance);
+        } else {
+            balance = withdrawable.withdraw(-amount, balance);
+        }
     }
 
     // Return the amount the was last transferred.
