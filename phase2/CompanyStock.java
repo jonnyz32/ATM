@@ -1,8 +1,9 @@
 import javafx.util.Pair;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class CompanyStock {
+public class CompanyStock implements Serializable {
 	// Represents the shares you own of a specific company. Need a list since you can purchase shares at diff prices
 	private String symbol;
 	private List<Share> companyShares;
@@ -18,6 +19,7 @@ public class CompanyStock {
 	public void addShares(Share shares){
 		companyShares.add(shares);
 		shareCount += shares.getAmountOfShares();
+		updateShareCount();
 	}
 
 	public String getSymbol(){
@@ -26,6 +28,7 @@ public class CompanyStock {
 
 	// Returns whether the amount of shares are owned
 	public boolean has(int shareCount){
+		updateShareCount();
 		return this.shareCount >= shareCount;
 	}
 
@@ -34,6 +37,7 @@ public class CompanyStock {
 	}
 
 	public int getShareCount() {
+		updateShareCount();
 		return shareCount;
 	}
 
@@ -41,26 +45,26 @@ public class CompanyStock {
 	public double sell(int shareCount){
 		sortSharesByPrice();
 		int sharesLeftToSell = shareCount;
-		int totalBoughtPrice = 0;
+		double totalBoughtPrice = 0;
 
 		ArrayList<Share> sharesToDelete = new ArrayList<>();
 
 		for (Share share : companyShares){
 			if (sharesLeftToSell > 0){
 				if (share.getAmountOfShares() <= sharesLeftToSell){
-					share.removeShares(share.getAmountOfShares());
 					totalBoughtPrice += share.getBoughtAt() * share.getAmountOfShares();
 					sharesLeftToSell -= share.getAmountOfShares();
 
+					share.removeShares(share.getAmountOfShares());
 					sharesToDelete.add(share);
 
 				} else{
+					totalBoughtPrice += share.getBoughtAt() * sharesLeftToSell;
 					share.removeShares(sharesLeftToSell);
-					totalBoughtPrice += share.getBoughtAt() * share.getAmountOfShares();
 					sharesLeftToSell = 0;
-
 				}
 			}
+			updateShareCount();
 		}
 
 		// Delete empty shares from portfolio
@@ -78,6 +82,18 @@ public class CompanyStock {
 				return (int) (s1.getBoughtAt() - s2.getBoughtAt());
 			}
 		});
+	}
+
+	public boolean checkIfEmpty(){
+		return shareCount == 0;
+	}
+
+	public void updateShareCount(){
+		int total = 0;
+		for (Share share : companyShares){
+			total += share.getAmountOfShares();
+		}
+		this.shareCount = total;
 	}
 
 }

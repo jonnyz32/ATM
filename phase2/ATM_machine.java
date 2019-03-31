@@ -4,9 +4,6 @@ import java.util.*;
 
 public class ATM_machine{
 
-    //the final ints represent the indexes in an array of bill quantities, with the index corresponding to their
-    //type.
-
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){

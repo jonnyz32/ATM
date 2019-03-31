@@ -198,8 +198,9 @@ public class BankManagerMenuGUI {
 		btnConfirm.setVisible(false);
 		btnConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int listOption = accountList.getSelectedIndex();
 				try {
+					int listOption = accountList.getSelectedIndex();
+					System.out.println(listOption);
 					manager.approveAccount(listOption);
 					showSuccess();
 		        	List<AccountCreationRequest> requests = manager.getRequests();
@@ -210,6 +211,7 @@ public class BankManagerMenuGUI {
 					}
 		        	JList<String> accountList = new JList<>( model );
 		        	scrollPane.setViewportView(accountList);
+		        	accountList.setSelectedIndex(0);
 					
 				} catch (BadInputException e1) {
 					// TODO Auto-generated catch block
@@ -257,13 +259,22 @@ public class BankManagerMenuGUI {
 				JFrame passwordFrame = new JFrame();
 				String strPass = JOptionPane.showInputDialog(passwordFrame, "Input password:");
 				if(strUser != null && isAlphaNumeric(strUser) && strPass != null && isAlphaNumeric(strPass)) {
-					if(result == 0 || result == 1)
-						manager.createNewUser(strUser, strPass, result);
+					boolean created;
+					if(result == 0 || result == 1) {
+						created = manager.createNewUser(strUser, strPass, result);
+						if (!created) {
+							JFrame notice = new JFrame();
+							String infoMessage = "This username is taken. Try a new one.";
+							JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
+						}
+						else{
+							showSuccess();
+						}
+					}
 					else {
 						BankManagerMenuGUI.showInputError();
 						return;
 					}
-					showSuccess();
 				}
 				else {
 					showInputError();
