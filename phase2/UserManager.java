@@ -2,14 +2,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class UserManager {
+public abstract class UserManager {
 
     private static ArrayList<ATM_User> users = new ArrayList<>();
 
     /**
      * Manages ATM_users
      */
-    public UserManager(){
+
+    static void instantiate() {
         users = new FileManager().retrieveUsers();
         if(users.size()==0) {
             System.out.println("Adding a manager");
@@ -17,7 +18,7 @@ public class UserManager {
         }
     }
 
-    ATM_User getUser(String username){
+    static ATM_User getUser(String username){
         ATM_User found = null;
         for (ATM_User user: users){
             if (user.getUsername().equals(username)){
@@ -28,11 +29,11 @@ public class UserManager {
         return found;
     }
 
-    void saveUsers(){
+    static void saveUsers(){
         new FileManager().saveUsers(users);
     }
 
-    void checkInterest(){
+    static void checkInterest(){
         if (ATM_machine.getTime().get(Calendar.DAY_OF_MONTH) == 1){
             for(int i = 0; i < users.size(); i++){
                 if (users.get(i) instanceof IAccountHolder){
@@ -47,7 +48,7 @@ public class UserManager {
         saveUsers();
     }
 
-    boolean addUser(String username, String password, int result){
+    static boolean addUser(String username, String password, int result){
         boolean isFree = getUser(username)==null;
         if(isFree) {
             if(result == 0){

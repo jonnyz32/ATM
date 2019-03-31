@@ -214,7 +214,7 @@ public class CustomerMenuGUI {
 				JFrame accountFrame = new JFrame();
 				String strAccount = JOptionPane.showInputDialog(accountFrame, "Input account name:");
 				if(strUser != null && strAccount != null) {
-					ATM_User otherUser = new UserManager().getUser(strUser);
+					ATM_User otherUser = UserManager.getUser(strUser);
 					if(otherUser instanceof IAccountHolder) {
 						GenericAccount acc = ((IAccountHolder)otherUser).getAccountByName(strAccount);
 						if(acc!=null) {

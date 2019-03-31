@@ -7,6 +7,6 @@ public class LevelOneAccessHandler implements Serializable {
     }
 
     public boolean createNewUser(String username, String password, int type) {
-        return new UserManager().addUser(username, password, type);
+        return UserManager.addUser(username, password, type);
     }
 }

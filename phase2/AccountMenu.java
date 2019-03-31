@@ -138,7 +138,7 @@ public class AccountMenu{
         // Get the user and the account
         JFrame destinationFrame = new JFrame();
         String other_username = JOptionPane.showInputDialog(destinationFrame, "Who would you like to transfer to");
-        ATM_User other_user = new UserManager().getUser(other_username);
+        ATM_User other_user = UserManager.getUser(other_username);
         if (other_user == null) {
             BankManagerMenuGUI.showInputError();
         }
