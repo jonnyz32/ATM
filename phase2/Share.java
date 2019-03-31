@@ -1,6 +1,6 @@
+import java.io.Serializable;
 
-
-public class Share {
+public class Share implements Serializable {
 	private String symbol;
 	private double boughtAt;
 	private int amount;
