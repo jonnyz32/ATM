@@ -248,7 +248,7 @@ public class BankManagerMenuGUI {
 		JButton btnCreateNewCustomer = new JButton("Create a new customer");
 		btnCreateNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Object[] options1 = {"Employee", "User", "Cancel"};
+				Object[] options1 = {"Employee", "Customer", "Cancel"};
 				int result = JOptionPane.showOptionDialog(null, "What type of user are you making?",
 						null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
 						null, options1, null);
