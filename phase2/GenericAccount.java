@@ -86,7 +86,7 @@ public abstract class GenericAccount implements Serializable {
 
 
     void depositFromFile() {
-        int[] deposit = ATM_machine.fileManager.readDeposits();
+        int[] deposit = new FileManager().readDeposits();
         if (deposit[1] == 0){
             depositCash(deposit[2], deposit[3], deposit[4], deposit[5]);
         }
@@ -118,7 +118,7 @@ public abstract class GenericAccount implements Serializable {
     void transferToExternal(String name, double amount) {
         if(asset) {balance-=amount;}
         else {balance+=amount;}
-        ATM_machine.fileManager.writeOutgoing(owner.getUsername(), name, amount);
+        new FileManager().writeOutgoing(owner.getUsername(), name, amount);
     }
 
     void withdraw(int amount) {
