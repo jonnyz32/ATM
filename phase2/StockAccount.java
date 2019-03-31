@@ -109,10 +109,9 @@ public class StockAccount extends GenericAccount implements Serializable {
 		}
 	}
 
-	public void sellShares(String symbol) throws BadInputException {
+	public void sellShares(String symbol, int numShares) throws BadInputException {
 		JFrame sharesFrame = new JFrame();
         String strShares = JOptionPane.showInputDialog(sharesFrame, "How many shares do you want?");
-        int numShares = 0;
         if(strShares != null) {
         	numShares = Integer.parseInt(strShares);
         }
