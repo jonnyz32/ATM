@@ -6,35 +6,20 @@ public class ATM_machine{
 
     //the final ints represent the indexes in an array of bill quantities, with the index corresponding to their
     //type.
-    private static UserManager userManager;
     private static BillHandler billHandler;
 
     private static Calendar date = new GregorianCalendar();
 
     public static void main (String[] args){
         date.add(Calendar.DAY_OF_MONTH, 1);
-        userManager = new UserManager();
         billHandler = new BillHandler();
         MainMenuGUI.main();
     }
 
     static void onExit() {
         billHandler.saveBills();
-        userManager.saveUsers();
-        userManager.checkInterest();
-    }
-
-    static ATM_User getUser(String name){
-        return userManager.getUser(name);
-    }
-
-    static UserManager getUserManager() {
-        return userManager;
-    }
-
-
-    static void addUser(String username, String password, int type){
-        userManager.addUser(username, password, type);
+        new UserManager().saveUsers();
+        new UserManager().checkInterest();
     }
 
     static Calendar getTime(){return date;}

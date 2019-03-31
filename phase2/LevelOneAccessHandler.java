@@ -7,6 +7,6 @@ public class LevelOneAccessHandler implements Serializable {
     }
 
     public void createNewUser(String username, String password, int type) {
-        ATM_machine.addUser(username, password, type);
+        new UserManager().addUser(username, password, type);
     }
 }
