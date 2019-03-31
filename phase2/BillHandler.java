@@ -1,6 +1,6 @@
-public class BillHandler {
+class BillHandler {
 
-    static int[] calculateBillTotals(int fives, int tens, int twenties, int fifties, boolean add){
+    int[] calculateBillTotals(int fives, int tens, int twenties, int fifties, boolean add){
         if (!add){
             fives *= -1;
             tens *= -1;
@@ -16,7 +16,7 @@ public class BillHandler {
         return bills;
     }
 
-    static int[] get_bill_split(int amount) {
+    int[] get_bill_split(int amount) {
         int fifties = amount / 50;
         amount -= fifties*50;
         int twenties = amount / 20;
@@ -27,11 +27,12 @@ public class BillHandler {
         return new int[] {fives, tens, twenties, fifties};
     }
 
-    static void depositBills(int fives, int tens, int twenties, int fifties){
+    void depositBills(int fives, int tens, int twenties, int fifties){
         int[] newBills = BillHandler.calculateBillTotals(fives, tens, twenties, fifties, true);
         ATM_machine.fileManager.writeBills(newBills);
     }
-    static void withdrawBills(int amount){
+
+    void withdrawBills(int amount){
         int[] billsToRemove = BillHandler.get_bill_split(amount);
         int[] newBillValues = BillHandler.calculateBillTotals( billsToRemove[0],
                 billsToRemove[1],billsToRemove[2],billsToRemove[3], false);

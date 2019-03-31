@@ -12,7 +12,8 @@ public class ATM_machine{
     final static int FIFTY = 3;
     private static int[] bills = new int[4];
     private static UserManager userManager;
-    static FileManager fileManager;
+    private static FileManager fileManager;
+    private static BillHandler billHandler;
 
     private static Calendar date = new GregorianCalendar();
 
@@ -53,11 +54,11 @@ public class ATM_machine{
     static int getNumFives(){return bills[FIVE];}
 
     static void depositBills(int fives, int tens, int twenties, int fifties) {
-        BillHandler.depositBills(fives, tens, twenties, fifties);
+        billHandler.depositBills(fives, tens, twenties, fifties);
     }
 
     static void withdrawBills(int amount){
-        BillHandler.withdrawBills(amount);
+        billHandler.withdrawBills(amount);
     }
 
     static String getTimeFormatted(){
