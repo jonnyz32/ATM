@@ -45,7 +45,7 @@ public class CreditCardMenuGUI {
 		creditCardfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		creditCardfrm.getContentPane().setLayout(null);
 		
-		JButton btnViewBalance = new JButton("View balance");
+		JButton btnViewBalance = new JButton("View details");
 		btnViewBalance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menu.showBalance();

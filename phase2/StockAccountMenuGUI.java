@@ -202,7 +202,7 @@ public class StockAccountMenuGUI {
 		lblStockMenu.setBounds(6, 10, 80, 16);
 		stockfrm.getContentPane().add(lblStockMenu);
 		
-		JButton btnViewBalance = new JButton("Show balance");
+		JButton btnViewBalance = new JButton("View details");
 		btnViewBalance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menu.showBalance();

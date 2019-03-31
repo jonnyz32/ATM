@@ -27,6 +27,7 @@ public class AccountMenu{
         }
         JFrame notice = new JFrame();
         String infoMessage = "This account has a "+ accountType +" balance of: "+"$"+account.getBalance();
+        infoMessage += "\nAccount created "+account.getCreationDate();
         JOptionPane.showMessageDialog(null, infoMessage, null, JOptionPane.INFORMATION_MESSAGE);
     }
 
