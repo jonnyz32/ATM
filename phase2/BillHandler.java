@@ -1,5 +1,5 @@
 class BillHandler {
-    private static int[] bills = new int[4];
+    private int[] bills = new int[4];
 
     BillHandler(){
         bills = new FileManager().retrieveBills();
