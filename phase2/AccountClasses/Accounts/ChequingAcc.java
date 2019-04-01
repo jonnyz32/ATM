@@ -1,19 +1,19 @@
 package AccountClasses.Accounts;// A class for Chequing accounts
 
-import AccountClasses.Withdrawals.WithdrawCappedNonNegative;
+import AccountClasses.Withdrawals.WithdrawDoubleCapped;
 import UserClasses.Users.IAccountHolder;
 
 import java.io.Serializable;
 
 public class ChequingAcc extends GenericAccount implements Serializable {
-    protected boolean primary;
+    public boolean primary;
 
     public ChequingAcc(String name, IAccountHolder o) {
         super(name, o);
         this.name = name;
         asset = true;
         type = "CHEQUING";
-        withdrawable = new WithdrawCappedNonNegative(-100);
+        withdrawable = new WithdrawDoubleCapped(-100, 0);
         this.primary = false;
     }
 
