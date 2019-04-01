@@ -52,7 +52,7 @@ public class AccountHandler implements Serializable {
 
     //Make sure there is only one primary account
     //There should only be one other primary account because it gets checked everytime an account is created
-    void checkChequingPrimary(String name) {
+    public void checkChequingPrimary(String name) {
         ArrayList<GenericAccount> accs = getAccounts();
         int[] idx = new int[accs.size()];
         idx[0] = -1;

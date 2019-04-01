@@ -12,7 +12,7 @@ public class FileManager {
     private int lineCount = 0;
     private Map<Integer, Integer> billsMap;
 
-    FileManager(){
+    public FileManager(){
         billsMap = new HashMap<>();
         billsMap.put(0,5);
         billsMap.put(1,10);
