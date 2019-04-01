@@ -8,15 +8,18 @@ import java.util.*;
 
 public class FileManager {
 
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static int lineCount = 0;
+    private DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private int lineCount = 0;
+    private Map<Integer, Integer> billsMap;
 
-    void checkForAlert(){
-        Map<Integer, Integer> billsMap = new HashMap<>();
+    FileManager(){
+        billsMap = new HashMap<>();
         billsMap.put(0,5);
         billsMap.put(1,10);
         billsMap.put(2, 20);
         billsMap.put(3, 50);
+    }
+    void checkForAlert(){
 
         int[] bills = retrieveBills();
         List<int[]> alerts = new ArrayList<>();
@@ -27,6 +30,7 @@ public class FileManager {
         }
         writeAlerts(alerts);
     }
+
 
 
     void writeErrors(String error){
@@ -59,10 +63,8 @@ public class FileManager {
 
     public void writeOutgoing(String username, String destination, double amount){
         try {
-//            balance += amount;
 
             Writer writer = new BufferedWriter(new FileWriter(new File("phase2/outgoing.txt"), true));
-//            writer.write(String.format("Deposited %s dollars on %tc \n", decimalFormat.format(amount), date));
             writer.write(String.format("%s, %s, %s\n", username, destination, decimalFormat.format(amount)));
 
             writer.close();
@@ -80,8 +82,8 @@ public class FileManager {
             objectStream.writeObject(users);
             objectStream.close();
         }
-        catch (IOException x){
-            x.printStackTrace();
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
     public void writeAlerts(List<int[]> alertList){
@@ -129,18 +131,11 @@ public class FileManager {
 
     public void writeBills(int[] billList){
         try {
-            Map<Integer, Integer> billMap = new HashMap<>();
-            billMap.put(0, 5);
-            billMap.put(1, 10);
-            billMap.put(2, 20);
-            billMap.put(3, 50);
-
-
             FileWriter file = new FileWriter("phase2/bills.txt");
             BufferedWriter writer = new BufferedWriter(file);
 
             for(int i = 0; i < billList.length; i++) {
-                String newLine = String.format("%d:%d\n",billMap.get(i), billList[i]);
+                String newLine = String.format("%d:%d\n",billsMap.get(i), billList[i]);
                 writer.write(newLine);
             }
             writer.close();
