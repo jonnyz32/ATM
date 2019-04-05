@@ -8,8 +8,8 @@ Connor William Ferwerda		TextInterface Interface
 
 When cloning our program, it needs to be setup such that group_0331 is the working directory. 
 Otherwise, our relative file paths will not work. ATM_machine is the top level module and it
-is where you should run the program from. You will interact will the console to use this 
-program. It will give you prompts of what to type in. 
+is where you should run the program from. You will interact with the GUI to use this
+program.
 
 When first running the program, you will need to login as bankManager using the 
 username: manager and password: password. From the bank manager's account you have the 
@@ -32,3 +32,7 @@ The first line is a 535 dollar deposit consisting of 3 fives, five tens, 6 twent
 7 fifties.
 The second line is a cheque deposit of 232 dollars. To do a deposit by file, you will need 
 update the deposits.txt file with your own file before running the program.
+
+This virtual ATM supports many activities. The various account types available include Chequing, Savings, Credit Card,
+Credit Line, Joint, and Stock. We have also included functionality such that foreign currency can be traded from any
+debt account.
