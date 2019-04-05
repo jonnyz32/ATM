@@ -36,3 +36,8 @@ update the deposits.txt file with your own file before running the program.
 This virtual ATM supports many activities. The various account types available include Chequing, Savings, Credit Card,
 Credit Line, Joint, and Stock. We have also included functionality such that foreign currency can be traded from any
 debt account.
+
+Some classes will have compile errors unless the library needed to run the code is imported from Maven.
+Import the following libraries from Maven:
+com.google.code.gson:gson:2.8.5
+org.mockito:mockito-all:1.10.19 
