@@ -1,10 +1,4 @@
 
-Jonathan Daniel Zak		File Manager Class
-Vladimir Dyagilev		TimeChecker & User Subclass
-Josiah Jon Friesen		ATM Class
-Ignacio Acosta Hennandez	Debt and Asset Accounts
-Philip Borui Cai		Account Superclass & BankManager subclass
-Connor William Ferwerda		TextInterface Interface
 
 When cloning our program, it needs to be setup such that group_0331 is the working directory. 
 Otherwise, our relative file paths will not work. ATM_machine is the top level module and it
@@ -40,4 +34,4 @@ debt account.
 Some classes will have compile errors unless the library needed to run the code is imported from Maven.
 Import the following libraries from Maven:
 com.google.code.gson:gson:2.8.5
-org.mockito:mockito-all:1.10.19 
+org.mockito:mockito-all:1.10.19
