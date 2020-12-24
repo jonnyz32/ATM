@@ -1,7 +1,5 @@
 
-
-When cloning our program, it needs to be setup such that group_0331 is the working directory. 
-Otherwise, our relative file paths will not work. ATM_machine is the top level module and it
+ATM_machine is the top level module and it
 is where you should run the program from. You will interact with the GUI to use this
 program.
 
